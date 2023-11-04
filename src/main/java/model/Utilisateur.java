@@ -14,7 +14,6 @@ public class Utilisateur{
 	//----------Constructeur
 	
 	public Utilisateur(String ip, String pseudo) { 				
-		
 		this.ip = ip;
 		this.pseudo = pseudo;
 	}

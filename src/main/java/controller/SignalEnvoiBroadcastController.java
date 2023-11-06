@@ -10,6 +10,7 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 import java.util.List;
 
 public class SignalEnvoiBroadcastController { // Singleton
@@ -67,16 +68,38 @@ public class SignalEnvoiBroadcastController { // Singleton
             	String bytesToString = new String(buf, 0, buf.length);
             	System.out.println("Envoie de broadcast au port " + generalPortReception + " avec le message : " + bytesToString);
             	
-            	NetworkInterface nif = NetworkInterface.getByIndex(1);   
+            	/*NetworkInterface nif = NetworkInterface.getByIndex(1);   
             	List<java.net.InterfaceAddress> list = nif.getInterfaceAddresses();   
         
+            	System.out.println("OKAY");
+            	
             	for (java.net.InterfaceAddress iaddr : list)    
             	{   
                    
                 	DatagramPacket outPacket = new DatagramPacket(buf, buf.length, iaddr.getBroadcast() , generalPortReception);
+                	System.out.println("AAA");
                 	socket.send(outPacket);
-            	}
+            	}*/
 
+            	Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            	while (interfaces.hasMoreElements()) 
+            	{
+            	    NetworkInterface networkInterface = interfaces.nextElement();
+            	    if (networkInterface.isLoopback())
+            	        continue;    // Do not want to use the loopback interface.
+            	    for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) 
+            	    {
+            	        InetAddress broadcast = interfaceAddress.getBroadcast();
+            	        if (broadcast == null)
+            	            continue;
+
+            	        DatagramPacket outPacket = new DatagramPacket(buf, buf.length, broadcast , generalPortReception);
+                    	System.out.println("AAA");
+                    	socket.send(outPacket);
+            	    }
+            	}
+            	
+            	
                 //InetAddress senderAddress = InetAddress.getByName("127.0.0.1");
                 //DatagramPacket outPacket = new DatagramPacket(buf, buf.length, senderAddress , generalPortReception);
             	//socket.send(outPacket);

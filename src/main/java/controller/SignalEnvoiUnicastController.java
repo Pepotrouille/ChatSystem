@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class SignalEnvoiUnicastController { // Singleton
@@ -13,13 +14,12 @@ public class SignalEnvoiUnicastController { // Singleton
 		//---------------------------Attributs-------------------------
 	
 		private String ipLocale;
-		private int specificPort;
 		
 		//---------------------------Méthodes-------------------------
 		
 		//----------Constructeur
 		
-		public SignalEnvoiUnicastController() { 				
+		public SignalEnvoiUnicastController(int specificPort ) { 				
 			
 			try {
 				this.ipLocale = InetAddress.getLocalHost().toString();
@@ -34,9 +34,6 @@ public class SignalEnvoiUnicastController { // Singleton
 			return this.ipLocale;
 		}
 
-		public int GetSpecificPort() {
-			return this.specificPort;
-		}
 		
 		//----------Setters
 		public void SetIPLocale(String ipLocale) {
@@ -47,20 +44,25 @@ public class SignalEnvoiUnicastController { // Singleton
 		//----------Autres Méthodes
 		
 		//---Template Envoi Signal
-		public void EnvoyerSignalUnicast(Signal signal, String ip,  int port) {
-			/*   A FAIRE
-			DatagramSocket socket = new DatagramSocket(Integer.parseInt(args[0]));
-			byte[] buf = new byte[256];
-			buf = args[1].getBytes();
-            System.out.println("Envoie de : " + args[1] + " du port " + Integer.parseInt(args[0]));
-            int senderPort = 4445;
+		public void EnvoyerSignalUnicast(Signal signal, String ip,  int portLocal, int portReceiver) {
+			
+			DatagramSocket socket;
+			try {
+				socket = new DatagramSocket(portReceiver);
+			byte[] buf = new byte[2048];
+			buf = signal.ToString().getBytes();
+            System.out.println("Envoie de : " + signal.toString() + " à l'adresse " + ip + " et au port " + portReceiver);
             
-            InetAddress senderAddress = InetAddress.getByName(ip);
+            InetAddress addressReceiver = InetAddress.getByName(ip);
             
-            DatagramPacket outPacket = new DatagramPacket(buf, buf.length, senderAddress, senderPort);
+            DatagramPacket outPacket = new DatagramPacket(buf, buf.length, addressReceiver, portReceiver);
             socket.send(outPacket);
             socket.close();
-            */
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
 	    }
 
 		//---Envoi Signal Spécifique

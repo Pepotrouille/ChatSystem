@@ -19,7 +19,7 @@ public class SignalEnvoiUnicastController { // Singleton
 		
 		//----------Constructeur
 		
-		public SignalEnvoiUnicastController(int specificPort ) { 				
+		public SignalEnvoiUnicastController() { 				
 			
 			try {
 				this.ipLocale = InetAddress.getLocalHost().toString();
@@ -44,7 +44,7 @@ public class SignalEnvoiUnicastController { // Singleton
 		//----------Autres Méthodes
 		
 		//---Template Envoi Signal
-		public void EnvoyerSignalUnicast(Signal signal, String ip,  int portLocal, int portReceiver) {
+		public void EnvoyerSignalUnicast(Signal signal, String ip, int portReceiver) {
 			
 			DatagramSocket socket;
 			try {

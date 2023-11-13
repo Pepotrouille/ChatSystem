@@ -1,14 +1,26 @@
 package test;
 
-import controller.SignalEnvoiBroadcastController;
-import controller.SignalEnvoiUnicastController;
+import controller.BroadcastController;
+//import controller.SignalEnvoiBroadcastController;
+//import controller.SignalEnvoiUnicastController;
 
 public class TestEnvoi {
     
     
     public static void main(String[] args){
     	
-    	SignalEnvoiBroadcastController sebc = new SignalEnvoiBroadcastController();
+    	BroadcastController broadcastController = new BroadcastController();
+    	
+    	broadcastController.Connexion("PseudoZero");
+    	
+    	broadcastController.ChangerPseudo("Robert");
+    	broadcastController.ChangerPseudo("JeanMichel");
+
+    	broadcastController.Deconnexion();
+    	
+    	
+    	/*
+    	SignalEnvoiBroadcastController sebc = new SignalEnvoiBroadcastController(5000,5001);
 
     	sebc.EnvoyerSignalConnexionBroadcast("PseudoZero");
     	
@@ -16,7 +28,7 @@ public class TestEnvoi {
     	sebc.EnvoyerSignalChangementPseudo("Jean Michel");
     	
     	sebc.EnvoyerSignalDeconnexionBroadcast();
-    	
+    	*/
     	/*
     	SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
 

@@ -25,7 +25,7 @@ public class SignalEnvoiBroadcastController { // Singleton
 		
 		//----------Constructeur
 		
-		public SignalEnvoiBroadcastController() { 				
+		public SignalEnvoiBroadcastController(int generalPortEnvoi, int generalPortReception) { 				
 			
 			try {
 				this.ipLocale = InetAddress.getLocalHost().toString();
@@ -33,8 +33,8 @@ public class SignalEnvoiBroadcastController { // Singleton
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			this.generalPortEnvoi = 5000;
-			this.generalPortReception = 5001;
+			this.generalPortEnvoi = generalPortEnvoi;
+			this.generalPortReception = generalPortReception;
 		}
 
 		//----------Getters
@@ -68,18 +68,6 @@ public class SignalEnvoiBroadcastController { // Singleton
             	String bytesToString = new String(buf, 0, buf.length);
             	System.out.println("Envoie de broadcast au port " + generalPortReception + " avec le message : " + bytesToString);
             	
-            	/*NetworkInterface nif = NetworkInterface.getByIndex(1);   
-            	List<java.net.InterfaceAddress> list = nif.getInterfaceAddresses();   
-        
-            	System.out.println("OKAY");
-            	
-            	for (java.net.InterfaceAddress iaddr : list)    
-            	{   
-                   
-                	DatagramPacket outPacket = new DatagramPacket(buf, buf.length, iaddr.getBroadcast() , generalPortReception);
-                	System.out.println("AAA");
-                	socket.send(outPacket);
-            	}*/
 
             	Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             	while (interfaces.hasMoreElements()) 
@@ -98,19 +86,10 @@ public class SignalEnvoiBroadcastController { // Singleton
                     	socket.send(outPacket);
             	    }
             	}
-            	
-            	
-                //InetAddress senderAddress = InetAddress.getByName("127.0.0.1");
-                //DatagramPacket outPacket = new DatagramPacket(buf, buf.length, senderAddress , generalPortReception);
-            	//socket.send(outPacket);
-            	
+            
                 socket.close();
             
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            
+			} catch (Exception e) {e.printStackTrace();}
 		}
 
 		//---Envoi Signal Spécifique

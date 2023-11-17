@@ -48,16 +48,35 @@ public class SignalEnvoiUnicastController { // Singleton
 			
 			DatagramSocket socket;
 			try {
-				socket = new DatagramSocket(portReceiver);
-			byte[] buf = new byte[2048];
-			buf = signal.ToString().getBytes();
-            System.out.println("Envoie de : " + signal.toString() + " à l'adresse " + ip + " et au port " + portReceiver);
-            
-            InetAddress addressReceiver = InetAddress.getByName(ip);
-            
-            DatagramPacket outPacket = new DatagramPacket(buf, buf.length, addressReceiver, portReceiver);
-            socket.send(outPacket);
-            socket.close();
+				if(portReceiver != BroadcastController.generalPortReception)
+				{
+					socket = new DatagramSocket(portReceiver);
+					byte[] buf = new byte[2048];
+					buf = signal.ToString().getBytes();
+					System.out.println("Envoie de : " + signal.ToString() + " à l'adresse " + ip.substring(1) + " et au port " + portReceiver);
+	            
+					InetAddress addressReceiver = InetAddress.getByName(ip.substring(1));
+	            
+					DatagramPacket outPacket = new DatagramPacket(buf, buf.length, addressReceiver, portReceiver);
+					socket.send(outPacket);
+					
+					socket.close();
+				}
+				else  //Port existant, pas d'ouverture ni de fermeture
+				{
+					socket = SignalReceptionBroadcastController.socket;
+					byte[] buf = new byte[2048];
+					buf = signal.ToString().getBytes();
+					System.out.println("Envoie de : " + signal.ToString() + " à l'adresse " + ip.substring(1) + " et au port " + portReceiver);
+	            
+					InetAddress addressReceiver = InetAddress.getByName(ip.substring(1));
+	            
+					DatagramPacket outPacket = new DatagramPacket(buf, buf.length, addressReceiver, portReceiver);
+					socket.send(outPacket);
+				}
+				
+				
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

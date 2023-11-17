@@ -19,17 +19,23 @@ public class SignalReceptionBroadcastController  extends Thread{
 	
 	private SignalEnvoiUnicastController seuc;
 	
+	private String adresseLocale;
+	
+	public static DatagramSocket socket ;
+	
 	//---------------------------Méthodes-------------------------
 	
 	//----------Constructeur
 	
-	public SignalReceptionBroadcastController(int generalPortEnvoi, int generalPortReception, TableUtilisateurs tableUtilisateurs) { 				
+	public SignalReceptionBroadcastController(TableUtilisateurs tableUtilisateurs, String adresseLocale) { 				
 
-		this.generalPortEnvoi = generalPortEnvoi;
+		this.generalPortEnvoi = BroadcastController.generalPortEnvoi;
 		
-		this.generalPortReception = generalPortReception;
+		this.generalPortReception = BroadcastController.generalPortReception;
 		
 		this.tableUtilisateurs = tableUtilisateurs;
+		
+		this.adresseLocale = adresseLocale;
 	}
 
 	//----------Getters
@@ -42,12 +48,11 @@ public class SignalReceptionBroadcastController  extends Thread{
 		return this.generalPortReception;
 	}
 	
-	
 	@Override
     public void run() {
         try{
           
-        DatagramSocket socket = new DatagramSocket(generalPortReception);
+        socket = new DatagramSocket(generalPortReception);
         boolean running = true;
         byte[] buf = new byte[256];
 
@@ -57,38 +62,50 @@ public class SignalReceptionBroadcastController  extends Thread{
             String receivedMessage = new String(inPacket.getData(), 0, inPacket.getLength());
 
             //-----------------------------------------Gestion des cas selon signal de réception
-            
-            if (receivedMessage.charAt(0) == 'C') { //Si connexion de l'utilisateur envoyant le message
-                tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString(), receivedMessage.substring(1));
+            if(!inPacket.getAddress().toString().contains(this.adresseLocale))
+            {
+            	if (receivedMessage.charAt(0) == 'C') { //Si connexion de l'utilisateur envoyant le message
                 
-                //Renvoi d'un signal pour remplir table d'utilisateurs !!! Si SignakEnvoi en Unicast, supprimer celui-ci
-                SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
-                seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(InetAddress.getLocalHost().toString()), inPacket.getAddress().toString(), generalPortReception);
-                
-            }
-            else if (receivedMessage.charAt(0) == 'P') { //Si changement de pseudo reçu
-                //Ajouter cas pseudo est le sien
-            	if(!tableUtilisateurs.SetPseudo(inPacket.getAddress().toString(), receivedMessage.substring(1)))
-            	{
+
             		tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString(), receivedMessage.substring(1));
+            		
+            		System.out.println("Reception du changement de pseudo de " + inPacket.getAddress().toString() + " en " + receivedMessage.substring(1));
+                    
+                    //Renvoi d'un signal pour remplir table d'utilisateurs !!! Si SignakEnvoi en Unicast, supprimer celui-ci
+                    SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
+                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(this.adresseLocale), inPacket.getAddress().toString(), generalPortReception);
+
+            		System.out.println("Reponse de connexion envoyée");
+            	
             	}
-            }
-            else if (receivedMessage.charAt(0) == 'D') { //Si déconnexion de l'utilisateur envoyant le message
+            	else if (receivedMessage.charAt(0) == 'P') { //Si changement de pseudo reçu
+                	//Ajouter cas pseudo est le sien
+            		if(!tableUtilisateurs.SetPseudo(inPacket.getAddress().toString(), receivedMessage.substring(1)))
+            		{
+            			tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString(), receivedMessage.substring(1));
+            		}
+                	System.out.println("Reception du changement de pseudo de " + inPacket.getAddress().toString() + " en " + receivedMessage.substring(1));
+            	}
+            	else if (receivedMessage.charAt(0) == 'D') { //Si déconnexion de l'utilisateur envoyant le message
 
-                tableUtilisateurs.SupprimerUtilisateur(inPacket.getAddress().toString());
-            }
-            else if (receivedMessage.charAt(0) == 'R') { //Si réception d'un acquittement de connexion avec pseudo
+                	tableUtilisateurs.SupprimerUtilisateur(inPacket.getAddress().toString());
+                	System.out.println("Reception de la déconnexion de " + inPacket.getAddress().toString() + " sur le réseau");
+            	}
+            	else if (receivedMessage.charAt(0) == 'R') { //Si réception d'un acquittement de connexion avec pseudo
 
-                tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString(), receivedMessage.substring(1));
-            }
-            else if (receivedMessage.charAt(0) == 'A') { //Si déconnexion d'un autre utilisateur envoyé
+                	tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString(), receivedMessage.substring(1));
+                	System.out.println("Reception de la présence de " + receivedMessage.substring(1) + " sur le réseau");
+            	}
+            	else if (receivedMessage.charAt(0) == 'A') { //Si déconnexion d'un autre utilisateur envoyé
 
-                tableUtilisateurs.SupprimerUtilisateur(receivedMessage.substring(1));
-            }
-            else{
+                	tableUtilisateurs.SupprimerUtilisateur(receivedMessage.substring(1));
+                	System.out.println("Reception de la déconnexion de " + receivedMessage.substring(1) + " sur le réseau");
+            	}
+            	else{
 
-                System.out.println("Message reçu: " + receivedMessage);
-                System.out.println("@IP source = " + inPacket.getAddress().toString());
+                	System.out.println("Message reçu: " + receivedMessage);
+                	System.out.println("@IP source = " + inPacket.getAddress().toString());
+            	}
             }
             
         }
@@ -97,7 +114,8 @@ public class SignalReceptionBroadcastController  extends Thread{
         }
         catch(Exception e)
         {
-            System.out.println("Exception raised");
+            System.out.println("Exception raised here");
+            e.printStackTrace();
         }
     }
 	

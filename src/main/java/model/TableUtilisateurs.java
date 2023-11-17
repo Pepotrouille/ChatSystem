@@ -112,7 +112,7 @@ public class TableUtilisateurs{
 	public boolean SupprimerUtilisateur(String ip) { 							// return false si absent dans la liste avant suppression
 																				
 		Utilisateur utilisateur = GetUtilisateur(ip);
-		boolean utilisateurExiste = (utilisateur == null);
+		boolean utilisateurExiste = (utilisateur != null);
 		if (utilisateurExiste)
 		{
 			SupprimerUtilisateur(utilisateur);
@@ -126,7 +126,7 @@ public class TableUtilisateurs{
 	
 	public boolean SetPseudo(String ip, String pseudo) { 		
 		Utilisateur utilisateur = GetUtilisateur(ip);
-		boolean utilisateurExiste = (utilisateur == null);
+		boolean utilisateurExiste = (utilisateur != null);
 		if (utilisateurExiste)
 		{
 			utilisateur.SetPseudo(pseudo);

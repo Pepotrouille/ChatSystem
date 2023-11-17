@@ -29,7 +29,6 @@ public class SignalReponseConnexion extends Signal{
 	
 	
 	//----------Autres Méthodes
-
 	
 	public String ToString() {
 		return "R" + this.pseudo;

@@ -22,7 +22,7 @@ public class PseudoController {
 	}
 	
 	//---------------------------Méthodes-------------------------
-	public void changePseudo(int generalPortEnvoi, int generalPortReception) {
+	public void changePseudo(int generalPortEnvoi, int generalPortReception, String Pseudo) {
 		
 		//Demander au utilisateur de saisir un pseudo
 		
@@ -37,7 +37,6 @@ public class PseudoController {
 		}*/
 
 		
-		String Pseudo = user.GetPseudo();
 		boolean exist = true;
 		
 	    while (exist) {

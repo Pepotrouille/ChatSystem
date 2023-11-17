@@ -25,7 +25,7 @@ public class SignalEnvoiBroadcastController { // Singleton
 		
 		//----------Constructeur
 		
-		public SignalEnvoiBroadcastController(int generalPortEnvoi, int generalPortReception) { 				
+		public SignalEnvoiBroadcastController() { 				
 			
 			try {
 				this.ipLocale = InetAddress.getLocalHost().toString();
@@ -33,8 +33,8 @@ public class SignalEnvoiBroadcastController { // Singleton
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			this.generalPortEnvoi = generalPortEnvoi;
-			this.generalPortReception = generalPortReception;
+			this.generalPortEnvoi = BroadcastController.generalPortEnvoi;
+			this.generalPortReception = BroadcastController.generalPortReception;
 		}
 
 		//----------Getters
@@ -82,7 +82,7 @@ public class SignalEnvoiBroadcastController { // Singleton
             	            continue;
 
             	        DatagramPacket outPacket = new DatagramPacket(buf, buf.length, broadcast , generalPortReception);
-                    	System.out.println("AAA");
+                    	System.out.println(" ");
                     	socket.send(outPacket);
             	    }
             	}

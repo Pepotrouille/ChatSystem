@@ -30,7 +30,6 @@ public class SignalConnexion extends Signal{
 	
 	//----------Autres Méthodes
 
-	
 	public String ToString() {
 		return "C" + this.pseudo;
 	}

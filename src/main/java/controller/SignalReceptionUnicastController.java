@@ -57,6 +57,7 @@ public class SignalReceptionUnicastController  extends Thread{
         catch(Exception e)
         {
             System.out.println("Exception raised");
+            e.printStackTrace();
         }
     }
 	

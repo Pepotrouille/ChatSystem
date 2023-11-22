@@ -22,7 +22,9 @@ public class TestEnvoi {
     	broadcastController.ChangerPseudo("Robert");
     	broadcastController.ChangerPseudo("JeanMichel");
 
-    	broadcastController.Deconnexion();
+    	broadcastController.DebugAfficherListe();
+    	
+    	//broadcastController.Deconnexion();
     	
     	
     	/*

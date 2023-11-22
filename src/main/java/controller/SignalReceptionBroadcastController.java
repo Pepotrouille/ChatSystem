@@ -67,13 +67,13 @@ public class SignalReceptionBroadcastController  extends Thread{
             	if (receivedMessage.charAt(0) == 'C') { //Si connexion de l'utilisateur envoyant le message
                 
 
-            		tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString(), receivedMessage.substring(1));
+            		tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString().substring(1), receivedMessage.substring(1));
             		
-            		System.out.println("Reception du changement de pseudo de " + inPacket.getAddress().toString() + " en " + receivedMessage.substring(1));
+            		System.out.println("Reception de connexion de " + inPacket.getAddress().toString().substring(1) + " en " + receivedMessage.substring(1));
                     
                     //Renvoi d'un signal pour remplir table d'utilisateurs !!! Si SignakEnvoi en Unicast, supprimer celui-ci
                     SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
-                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(this.adresseLocale), inPacket.getAddress().toString(), generalPortReception);
+                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(this.adresseLocale), inPacket.getAddress().toString().substring(1), generalPortReception);
 
             		System.out.println("Reponse de connexion envoyée");
             	
@@ -84,16 +84,16 @@ public class SignalReceptionBroadcastController  extends Thread{
             		{
             			tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString(), receivedMessage.substring(1));
             		}
-                	System.out.println("Reception du changement de pseudo de " + inPacket.getAddress().toString() + " en " + receivedMessage.substring(1));
+                	System.out.println("Reception du changement de pseudo de " + inPacket.getAddress().toString().substring(1) + " en " + receivedMessage.substring(1));
             	}
             	else if (receivedMessage.charAt(0) == 'D') { //Si déconnexion de l'utilisateur envoyant le message
 
-                	tableUtilisateurs.SupprimerUtilisateur(inPacket.getAddress().toString());
-                	System.out.println("Reception de la déconnexion de " + inPacket.getAddress().toString() + " sur le réseau");
+                	tableUtilisateurs.SupprimerUtilisateur(inPacket.getAddress().toString().substring(1));
+                	System.out.println("Reception de la déconnexion de " + inPacket.getAddress().toString().substring(1) + " sur le réseau");
             	}
             	else if (receivedMessage.charAt(0) == 'R') { //Si réception d'un acquittement de connexion avec pseudo
 
-                	tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString(), receivedMessage.substring(1));
+                	tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString().substring(1), receivedMessage.substring(1));
                 	System.out.println("Reception de la présence de " + receivedMessage.substring(1) + " sur le réseau");
             	}
             	else if (receivedMessage.charAt(0) == 'A') { //Si déconnexion d'un autre utilisateur envoyé
@@ -104,7 +104,7 @@ public class SignalReceptionBroadcastController  extends Thread{
             	else{
 
                 	System.out.println("Message reçu: " + receivedMessage);
-                	System.out.println("@IP source = " + inPacket.getAddress().toString());
+                	System.out.println("@IP source = " + inPacket.getAddress().toString().substring(1));
             	}
             }
             

@@ -56,7 +56,7 @@ public class SignalEnvoiController { // Singleton
             socket.close();
             */
 	        }
-		}
+		
 		
 		public void EnvoyerSignalBroadcast(Signal signal) {
 			

@@ -78,6 +78,14 @@ public class BroadcastController{ //---------Tout passer en statique
 	
 	
 	
+	//-------TEMP
+	
+	public void DebugAfficherListe() {
+		this.tableUtilisateurs.AfficherListe();
+	}
+	
+	
+	
 	
 	
 	

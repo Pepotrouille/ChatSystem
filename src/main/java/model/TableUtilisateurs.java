@@ -143,4 +143,19 @@ public class TableUtilisateurs{
 		return utilisateur.GetPseudo();
 	}
 	
+	//---ToString
+	
+	public void AfficherListe()
+	{
+		System.out.println("------LISTE ACTUELLE------");
+		int i = 1;
+		for(Utilisateur user : this.laListeUtilisateur)
+		{
+			System.out.println("Utilisateur " + i++ + " : " + user.GetIP() + " ; " + user.GetPseudo());
+			
+		}
+		System.out.println("--------------------------");
+		
+	}
+	
 }

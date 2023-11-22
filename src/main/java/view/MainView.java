@@ -24,7 +24,9 @@ public class MainView extends JFrame implements ActionListener{
     
     // constructor, to initialize the components
     // with default values.
-    public MainView() {
+    public MainView(BroadcastController bc) {
+    	
+    	this.bc = bc;
     	
     	setTitle("CHAT APPLICATION");
         setBounds(300, 90, 900, 600);
@@ -103,8 +105,8 @@ public class MainView extends JFrame implements ActionListener{
     		bc.Deconnexion();
     	}
     }
-    
+    /*
     public static void main(String[] args) throws Exception {
-        MainView f = new MainView();
-    }
+        MainView f = new MainView(bc);
+    }*/
 }

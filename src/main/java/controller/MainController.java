@@ -1,6 +1,6 @@
 package controller;
 
-//import view.MainView;
+import view.MainView;
 
 public class MainController {
 
@@ -17,19 +17,9 @@ public class MainController {
 		
     	BroadcastController broadcastController = new BroadcastController();
 
-		//MainView mainView = new Mainview(broadcastController);
-    	
-    	broadcastController.Connexion("PseudoZero");
-
-    	broadcastController.ChangerPseudo("Robert");
-    	broadcastController.ChangerPseudo("JeanMichel");
-
-    	broadcastController.DebugAfficherListe();
-    	
-    	broadcastController.Deconnexion();
+		MainView mainView = new MainView(broadcastController);
     	
     	
-
 
 
     }

@@ -95,7 +95,7 @@ public class SignalReceptionBroadcastController  extends Thread{
                     
                     //Renvoi d'un signal pour remplir table d'utilisateurs !!! Si SignakEnvoi en Unicast, supprimer celui-ci
                     SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
-                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(this.adresseLocale), inPacket.getAddress().toString(), generalPortReception);
+                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(BroadcastController.soiMeme.GetPseudo()), inPacket.getAddress().toString(), generalPortReception);
 
             		System.out.println("Reponse de connexion envoyée");
             	

@@ -9,9 +9,9 @@ import controller.BroadcastController;
 //import controller.SignalEnvoiBroadcastController;
 //import controller.SignalEnvoiUnicastController;
 
+
 public class TestEnvoi {
-    
-    
+	
     public static void main(String[] args){
     	
     	BroadcastController broadcastController = new BroadcastController();
@@ -20,7 +20,7 @@ public class TestEnvoi {
     	broadcastController.Connexion("PseudoZero");
 
     	broadcastController.ChangerPseudo("Robert");
-    	broadcastController.ChangerPseudo("JeanMichel");
+    	broadcastController.ChangerPseudo("JeanUuuuuMichel");
 
     	broadcastController.DebugAfficherListe();
     	

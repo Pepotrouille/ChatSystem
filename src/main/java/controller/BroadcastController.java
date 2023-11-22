@@ -46,7 +46,7 @@ public class BroadcastController{ //---------Tout passer en statique
 		
 		sebc = new SignalEnvoiBroadcastController();
 
-		srbc = new SignalReceptionBroadcastController(tableUtilisateurs, soiMeme.GetIP());
+		srbc = new SignalReceptionBroadcastController(tableUtilisateurs, soiMeme.GetIP(), pseudoController);
         srbc.start();
         System.out.println("Lancement du Thread de réception");
         

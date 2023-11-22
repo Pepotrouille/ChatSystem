@@ -15,6 +15,8 @@ public class SignalReceptionBroadcastController  extends Thread{
 
 	private int generalPortEnvoi;
 	
+	private PseudoController pseudoController;
+	
 	private TableUtilisateurs tableUtilisateurs;
 	
 	private SignalEnvoiUnicastController seuc;
@@ -27,7 +29,7 @@ public class SignalReceptionBroadcastController  extends Thread{
 	
 	//----------Constructeur
 	
-	public SignalReceptionBroadcastController(TableUtilisateurs tableUtilisateurs, String adresseLocale) { 				
+	public SignalReceptionBroadcastController(TableUtilisateurs tableUtilisateurs, String adresseLocale, PseudoController pseudoController) { 				
 
 		this.generalPortEnvoi = BroadcastController.generalPortEnvoi;
 		
@@ -36,6 +38,8 @@ public class SignalReceptionBroadcastController  extends Thread{
 		this.tableUtilisateurs = tableUtilisateurs;
 		
 		this.adresseLocale = adresseLocale;
+		
+		this.pseudoController = pseudoController;
 	}
 
 	//----------Getters
@@ -73,16 +77,24 @@ public class SignalReceptionBroadcastController  extends Thread{
                     
                     //Renvoi d'un signal pour remplir table d'utilisateurs !!! Si SignakEnvoi en Unicast, supprimer celui-ci
                     SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
-                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(this.adresseLocale), inPacket.getAddress().toString().substring(1), generalPortReception);
+                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(this.adresseLocale), inPacket.getAddress().toString(), generalPortReception);
 
             		System.out.println("Reponse de connexion envoyée");
             	
             	}
             	else if (receivedMessage.charAt(0) == 'P') { //Si changement de pseudo reçu
                 	//Ajouter cas pseudo est le sien
-            		if(!tableUtilisateurs.SetPseudo(inPacket.getAddress().toString(), receivedMessage.substring(1)))
+            		if(receivedMessage.substring(1).equals(BroadcastController.soiMeme.GetPseudo()))
             		{
-            			tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString(), receivedMessage.substring(1));
+            			//Faire la gestion de conflit de pseudo
+            			//SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
+                        //seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(this.adresseLocale), inPacket.getAddress().toString(), generalPortReception);
+            			System.out.println("Pseudo " + receivedMessage.substring(1) + " déja utilisé, notification envoyée.");
+            		}
+            		else if(!tableUtilisateurs.SetPseudo(inPacket.getAddress().toString().substring(1), receivedMessage.substring(1)))
+            		{
+            			tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString().substring(1), receivedMessage.substring(1));
+            			System.out.println("Ajout de " + inPacket.getAddress().toString().substring(1) + " ; " + receivedMessage.substring(1) + " à la table utilisateur");
             		}
                 	System.out.println("Reception du changement de pseudo de " + inPacket.getAddress().toString().substring(1) + " en " + receivedMessage.substring(1));
             	}
@@ -106,6 +118,9 @@ public class SignalReceptionBroadcastController  extends Thread{
                 	System.out.println("Message reçu: " + receivedMessage);
                 	System.out.println("@IP source = " + inPacket.getAddress().toString().substring(1));
             	}
+            	//--DEBUG
+            	this.tableUtilisateurs.AfficherListe();
+            	//--
             }
             
         }

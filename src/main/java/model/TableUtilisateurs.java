@@ -63,7 +63,7 @@ public class TableUtilisateurs{
 		
 		boolean utilisateurExiste = false;
 		for (Utilisateur utilisateur : this.laListeUtilisateur) {
-			if(utilisateur.GetIP() == ip) {
+			if(utilisateur.GetIP().equals(ip)) {
 				utilisateurExiste = true;
 				break;
 			}
@@ -75,7 +75,7 @@ public class TableUtilisateurs{
 		
 		boolean utilisateurExiste = false;
 		for (Utilisateur utilisateur : this.laListeUtilisateur) {
-			if(utilisateur.GetPseudo() == pseudo) {
+			if(utilisateur.GetPseudo().equals(pseudo)) {
 				utilisateurExiste = true;
 				break;
 			}
@@ -86,10 +86,11 @@ public class TableUtilisateurs{
 	//---Récupérer Utilisateur
 	
 	public Utilisateur GetUtilisateur(String ip) {
+
 		
 		Utilisateur utilisateurRecupere = null;
 		for (Utilisateur utilisateur : this.laListeUtilisateur) {
-			if(utilisateur.GetIP() == ip) {
+			if(utilisateur.GetIP().equals(ip)) {
 				utilisateurRecupere = utilisateur;
 				break;
 			}

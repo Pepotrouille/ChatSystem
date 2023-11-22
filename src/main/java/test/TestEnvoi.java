@@ -26,7 +26,6 @@ public class TestEnvoi {
     	
     	//broadcastController.Deconnexion();
     	
-    	
     	/*
     	SignalEnvoiBroadcastController sebc = new SignalEnvoiBroadcastController(5000,5001);
 

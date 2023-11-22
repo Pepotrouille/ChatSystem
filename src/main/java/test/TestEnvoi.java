@@ -24,26 +24,8 @@ public class TestEnvoi {
 
     	broadcastController.DebugAfficherListe();
     	
-    	//broadcastController.Deconnexion();
+    	broadcastController.Deconnexion();
     	
-    	/*
-    	SignalEnvoiBroadcastController sebc = new SignalEnvoiBroadcastController(5000,5001);
-
-    	sebc.EnvoyerSignalConnexionBroadcast("PseudoZero");
-    	
-    	sebc.EnvoyerSignalChangementPseudo("Robert");
-    	sebc.EnvoyerSignalChangementPseudo("Jean Michel");
-    	
-    	sebc.EnvoyerSignalDeconnexionBroadcast();
-    	*/
-    	/*
-    	SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
-
-    	seuc.EnvoyerSignalUnicast("Message 1", "127.0.0.1", 6000, 6001);
-    	
-    	seuc.EnvoyerSignalChangementPseudo("Robert");
-    	seuc.EnvoyerSignalChangementPseudo("Jean Michel");
-    	*/
     	
 
 

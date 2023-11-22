@@ -22,20 +22,7 @@ public class PseudoController {
 	}
 	
 	//---------------------------Méthodes-------------------------
-	public void changePseudo(int generalPortEnvoi, int generalPortReception, String Pseudo) {
-		
-		//Demander au utilisateur de saisir un pseudo
-		
-		/*Scanner myObj = new Scanner(System.in); 
-		System.out.println("Veuillez saisir un pseudo : ");
-
-	    String newPseudo = myObj.nextLine();
-	    boolean exist = true;
-		
-		if (newPseudo == null) {
-			System.out.println("On n'accepte pas les espaces.Veuillez saisir un pseudo : ");
-		}*/
-
+	public void changePseudo(String Pseudo) {
 		
 		boolean exist = true;
 		

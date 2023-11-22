@@ -30,7 +30,6 @@ public class SignalEnvoiBroadcastController { // Singleton
 			try {
 				this.ipLocale = InetAddress.getLocalHost().toString();
 			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			this.generalPortEnvoi = BroadcastController.generalPortEnvoi;

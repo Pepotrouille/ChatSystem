@@ -27,8 +27,8 @@ public class BroadcastController{ //---------Tout passer en statique
 	
 	public BroadcastController() {
 
-		generalPortEnvoi = 5000;
-		generalPortReception = 5001;
+		generalPortEnvoi = 5080;
+		generalPortReception = 5081;
 
 		tableUtilisateurs = new TableUtilisateurs();
 		
@@ -57,34 +57,31 @@ public class BroadcastController{ //---------Tout passer en statique
 		
 	}
 	
-	public boolean Connexion(String pseudo) // return true si le pseudo est okay
+	public void Connexion(String pseudo) 
 	{
-		//Utiliser le pseudoController pour vérifier
 		sebc.EnvoyerSignalConnexionBroadcast(pseudo);
-		return true;
 	}
 
 
-	public void ChangerPseudo(String pseudo) // return true si le pseudo est okay
+	public void ChangerPseudo(String pseudo) 
 	{
-		//Utiliser le pseudoController pour vérifier
-		pseudoController.changePseudo(generalPortEnvoi, generalPortReception, pseudo);
+		pseudoController.changePseudo(pseudo);
 	}
+	
 	
 	public void Deconnexion()
 	{
 		sebc.EnvoyerSignalDeconnexionBroadcast();
+		srbc.CloreReception();
 	}
 	
 	
 	
 	//-------TEMP
-	
 	public void DebugAfficherListe() {
 		this.tableUtilisateurs.AfficherListe();
 	}
-	
-	
+	//---------
 	
 	
 	

@@ -3,6 +3,7 @@ package controller;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Random;
 
 import model.TableUtilisateurs;
 
@@ -25,6 +26,8 @@ public class SignalReceptionBroadcastController  extends Thread{
 	
 	public static DatagramSocket socket ;
 	
+    private boolean running;
+	
 	//---------------------------Méthodes-------------------------
 	
 	//----------Constructeur
@@ -40,6 +43,8 @@ public class SignalReceptionBroadcastController  extends Thread{
 		this.adresseLocale = adresseLocale;
 		
 		this.pseudoController = pseudoController;
+		
+		this.running = true;
 	}
 
 	//----------Getters
@@ -54,10 +59,23 @@ public class SignalReceptionBroadcastController  extends Thread{
 	
 	@Override
     public void run() {
+		try {
+			socket = new DatagramSocket(generalPortReception);
+		}
+		catch(java.net.BindException e)
+		{
+			System.out.println("Port déjà ouvert");
+			
+            e.printStackTrace();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Autre Type d'erreur");
+            e.printStackTrace();
+		}
+		
+		
         try{
-          
-        socket = new DatagramSocket(generalPortReception);
-        boolean running = true;
         byte[] buf = new byte[256];
 
         while (running) {
@@ -89,6 +107,7 @@ public class SignalReceptionBroadcastController  extends Thread{
             			//Faire la gestion de conflit de pseudo
             			//SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
                         //seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(this.adresseLocale), inPacket.getAddress().toString(), generalPortReception);
+            			
             			System.out.println("Pseudo " + receivedMessage.substring(1) + " déja utilisé, notification envoyée.");
             		}
             		else if(!tableUtilisateurs.SetPseudo(inPacket.getAddress().toString().substring(1), receivedMessage.substring(1)))
@@ -113,6 +132,18 @@ public class SignalReceptionBroadcastController  extends Thread{
                 	tableUtilisateurs.SupprimerUtilisateur(receivedMessage.substring(1));
                 	System.out.println("Reception de la déconnexion de " + receivedMessage.substring(1) + " sur le réseau");
             	}
+            	else if (receivedMessage.charAt(0) == 'O') { //Si conflit de pseudo détecté
+            		Random rand = new Random();
+            		String newPseudo = "Utilisateur" + rand.nextInt(5000);
+            		System.out.println("Conflit sur le pseudo " + BroadcastController.soiMeme.GetPseudo() + ". Nouveau pseudo réassigné : " + newPseudo + ". Veuillez changer de pseudo.");
+            		pseudoController.changePseudo(newPseudo);
+            		if(!tableUtilisateurs.SetPseudo(inPacket.getAddress().toString().substring(1), receivedMessage.substring(1)))
+            		{
+            			tableUtilisateurs.AjouterUtilisateur(inPacket.getAddress().toString().substring(1), receivedMessage.substring(1));
+            			System.out.println("Ajout de " + inPacket.getAddress().toString().substring(1) + " ; " + receivedMessage.substring(1) + " à la table utilisateur");
+            		}
+                	
+            	}
             	else{
 
                 	System.out.println("Message reçu: " + receivedMessage);
@@ -133,6 +164,11 @@ public class SignalReceptionBroadcastController  extends Thread{
             e.printStackTrace();
         }
     }
+	
+	public void CloreReception()
+	{
+		this.running = false;
+	}
 	
 	
 	

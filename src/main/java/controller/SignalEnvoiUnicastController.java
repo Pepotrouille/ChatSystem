@@ -8,18 +8,30 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class SignalEnvoiUnicastController { // Singleton
 		
+		public static SignalEnvoiUnicastController self;
+	
 		//---------------------------Attributs-------------------------
 	
 		private String ipLocale;
 		
 		//---------------------------Méthodes-------------------------
-		
+		public static SignalEnvoiUnicastController GetInstance()
+	    {
+	    	if(SignalEnvoiUnicastController.self == null)
+	    	{
+	    		SignalEnvoiUnicastController.self = new SignalEnvoiUnicastController();
+	    	}
+	    	return SignalEnvoiUnicastController.self;
+	    }
+
 		//----------Constructeur
 		
-		public SignalEnvoiUnicastController() { 				
+		
+		private SignalEnvoiUnicastController() { 				
 			
 			try {
 				this.ipLocale = InetAddress.getLocalHost().toString();

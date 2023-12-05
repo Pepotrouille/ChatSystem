@@ -1,5 +1,9 @@
 /META-INF/
-/model/
 /controller/
-/test/
+/MainController.class
+/Main.class
+/model/
 /view/
+/exceptions/
+/modele/
+/exception/

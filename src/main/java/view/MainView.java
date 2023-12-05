@@ -20,6 +20,7 @@ public class MainView extends JFrame implements ActionListener{
 	private JButton connect;
 	private JButton change_pseudo;
     private JButton disconnect;
+    private JButton clavardageSoiMeme;
    
     
     // constructor, to initialize the components
@@ -86,6 +87,14 @@ public class MainView extends JFrame implements ActionListener{
         disconnect.addActionListener(this);
         c.add(disconnect);
         
+
+        clavardageSoiMeme = new JButton("Changer mon pseudo");
+        clavardageSoiMeme.setFont(new Font("Arial", Font.PLAIN, 15));
+        clavardageSoiMeme.setSize(300, 20);
+        clavardageSoiMeme.setLocation(300, 550);
+        clavardageSoiMeme.addActionListener(this);
+        c.add(clavardageSoiMeme);
+        
         setVisible(true);
         
     }
@@ -103,6 +112,10 @@ public class MainView extends JFrame implements ActionListener{
     	}
     	else if (e.getSource() == disconnect) {
     		bc.Deconnexion();
+    	}
+    	else if(e.getSource() == clavardageSoiMeme)
+    	{
+    		
     	}
     }
     /*

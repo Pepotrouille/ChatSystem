@@ -1,8 +1,7 @@
-package controller;
-
 import view.MainView;
+import controller.BroadcastController;
 
-public class MainController {
+public class Main {
 
 	//---------------------------Attributs-------------------------
 

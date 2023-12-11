@@ -8,7 +8,18 @@ public class TableUtilisateurs{
 	
 	private ArrayList<Utilisateur> laListeUtilisateur;
 	
+	public static TableUtilisateurs self;
+	
 	//---------------------------Méthodes-------------------------
+	
+	public static TableUtilisateurs GetInstance()
+	{
+		if(self == null)
+		{
+			self = new TableUtilisateurs();
+		}
+		return self;
+	}
 	
 	//----------Constructeur
 	

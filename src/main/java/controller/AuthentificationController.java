@@ -11,11 +11,6 @@ public class AuthentificationController {
 	
 	private BDDAuthentificationController bdd_auth_controller;
 	
-	private String pseudo_conv;
-	
-	private String ip;
-	
-	private int port;
 	
 	public static AuthentificationController GetInstance()
 	{
@@ -26,27 +21,19 @@ public class AuthentificationController {
 		return self;
 	}
 	
-	// Constructeur
-	public AuthentificationController(String pseudo_conv, String ip, int port) {
-		this.bdd_auth_controller = BDDAuthentificationController.GetInstance();
-		this.pseudo_conv = pseudo_conv;
-		this.ip = ip;
-		this.port = port;
-	}
-	
 	// S'authentifier
-	public void Authentifier(String nom, String mdp)
+	public void Authentifier(String login, String mdp)
 	{
-		if (this.bdd_auth_controller.VerifierAuthentification(nom, mdp))
+		//if (this.bdd_auth_controller.VerifierAuthentification(nom, mdp))
 		{
 			// A FAIRE!
 		}
 	}
 	
 	// Créer un nouveau compte
-	public void CreerCompte(String nom, String mdp)
+	public void CreerCompte(String login, String mdp)
 	{
-		if (this.bdd_auth_controller.AjouterAuthentification(nom, mdp))
+		// if (this.bdd_auth_controller.AjouterAuthentification(nom, mdp))
 		{
 			// A FAIRE!
 		}

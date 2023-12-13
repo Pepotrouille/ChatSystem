@@ -77,7 +77,7 @@ public class BDDAuthentificationController {
 	}
 	
 	/* Ajouter une authentification */
-	public boolean AjouterAuthentification(String ip, String password) throws SQLException 
+	public boolean AjouterAuthentification(String login, String password) throws SQLException 
 	{
 		Utilisateur user;
 		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -86,7 +86,7 @@ public class BDDAuthentificationController {
 				
 		String sql;
 		//Add the ' around the String in argument !!
-		sql = "INSERT INTO BaseAuthentification VALUES ('" + ip +"', '" + password + ")";
+		sql = "INSERT INTO BaseAuthentification VALUES ('" + login +"', '" + password + ")";
 		//user = new Utilisateur(login,password,foreName,lastName,localisation,phone, accountType);
 				
 				
@@ -100,7 +100,7 @@ public class BDDAuthentificationController {
 	}
 	
 	/* Supprimer une authentification */
-	private boolean SupprimerAuthentification(String ip) throws SQLException
+	private boolean SupprimerAuthentification(String login) throws SQLException
 	{
 		Utilisateur user;
 		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -109,7 +109,7 @@ public class BDDAuthentificationController {
 				
 		String sql;
 		//Add the ' around the String in argument !!
-		sql = "DELETE FROM BaseAuthentification" + "WHERE login = " + ip;
+		sql = "DELETE FROM BaseAuthentification" + "WHERE login = " + login;
 				
 				
 		stmt.executeUpdate(sql);
@@ -122,14 +122,14 @@ public class BDDAuthentificationController {
 	}
 	
 	/* Vérifier si une authentification est bonne */
-	public boolean VerifierAuthentification(String ip, String password) throws SQLException
+	public boolean VerifierAuthentification(String login, String password) throws SQLException
 	{
 		boolean authIsInTable = false;
 		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		
 			
 		PreparedStatement preparedStatement = conn.prepareStatement("SELECT login FROM BaseAuthentification WHERE login = ? AND password = ?");
-		preparedStatement.setString (1, ip);
+		preparedStatement.setString (1, login);
 		preparedStatement.setString (2, password);
 		ResultSet resultSet = preparedStatement.executeQuery();	
 			

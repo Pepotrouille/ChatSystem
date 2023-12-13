@@ -2,9 +2,13 @@ package view;
 
 import java.awt.*;
 import javax.swing.*;
-
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.util.Random;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
+import model.Utilisateur;
 import controller.AuthentificationController;
 import exceptions.ErreurConnexionException;
 
@@ -83,7 +87,23 @@ public class AuthentificationView extends Container implements ActionListener{
     			// La connexion a réussi
     			auth_controller.Authentifier(tlogin.getText(), tpwd.getText());
     			annonce.setEditable(false);
+    			
     			//Aller aux menu clavardages
+    			
+    			//Pour l'instant : aller aux paramètres du compte
+    			try  {
+    				final DatagramSocket datagramSocket = new DatagramSocket();
+                	datagramSocket.connect(InetAddress.getByName("8.8.8.8"), 12345);
+                	Random random = new Random();
+                	
+                	// On initialise le nouvel utilisateur avec son @IP et un pseudo random
+        			Utilisateur u = new Utilisateur(datagramSocket.getLocalAddress().getHostAddress().toString(), random.toString());
+        			model.Utilisateur.SetCurrentUser(u);
+        			MainView.AfficherParametresDuCompte(model.Utilisateur.GetCurrentUser());
+    			}
+    			catch (Exception ex) {
+    				ex.printStackTrace();
+    			}
     		}
     		catch (ErreurConnexionException exc)
     		{

@@ -138,8 +138,5 @@ public class BDDAuthentificationController {
 			// Quest not completed yet
 			throw new ErreurConnexionException();
 		}
-
 	}
-	
-	
 }

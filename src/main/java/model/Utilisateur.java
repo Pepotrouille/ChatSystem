@@ -5,6 +5,12 @@ public class Utilisateur{
 	
 	//---------------------------Attributs-------------------------
 	
+	public static Utilisateur current_user;
+	
+	public static void SetCurrentUser(Utilisateur newUser) {current_user = newUser;};
+	
+	public static Utilisateur GetCurrentUser() {return current_user;};
+	
 	private String ip;
 	
 	private String pseudo;

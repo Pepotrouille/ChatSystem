@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import java.awt.event.*;
 import java.sql.SQLException;
+import controller.AuthentificationController;
+import exceptions.ErreurConnexionException;
 
 public class AuthentificationView extends Container implements ActionListener{
 	
@@ -15,13 +17,8 @@ public class AuthentificationView extends Container implements ActionListener{
     private JTextField tlogin;
     private JTextField tpwd;
     private JTextArea annonce;
-
     private JButton buttonConnect;
-    private JButton buttonCreateAccount;
-    private JButton buttonResetTables;
-    private JButton buttonResetTablesEmpty;
 
-	
 	public AuthentificationView()
 	{
 		JLabel title = new JLabel("Chat System");
@@ -61,13 +58,6 @@ public class AuthentificationView extends Container implements ActionListener{
         buttonConnect.addActionListener(this);
         add(buttonConnect);
         
-        buttonCreateAccount = new JButton("Creer un compte");
-        buttonCreateAccount.setFont(new Font("Arial", Font.PLAIN, 15));
-        buttonCreateAccount.setSize(180, 20);
-        buttonCreateAccount.setLocation(450, 250);
-        buttonCreateAccount.addActionListener(this);
-        add(buttonCreateAccount);
-        
         annonce = new JTextArea();
         annonce.setFont(new Font("Arial", Font.PLAIN, 15));
         annonce.setSize(500, 100);
@@ -75,21 +65,6 @@ public class AuthentificationView extends Container implements ActionListener{
         annonce.setLineWrap(true);
         annonce.setEditable(false);
         add(annonce);
-        
-
-        buttonResetTables = new JButton("Tables de test");
-        buttonResetTables.setFont(new Font("Arial", Font.PLAIN, 15));
-        buttonResetTables.setSize(250, 20);
-        buttonResetTables.setLocation(600, 600);
-        buttonResetTables.addActionListener(this);
-        add(buttonResetTables);
-
-        buttonResetTablesEmpty = new JButton("Reinitialiser les Tables");
-        buttonResetTablesEmpty.setFont(new Font("Arial", Font.PLAIN, 15));
-        buttonResetTablesEmpty.setSize(250, 20);
-        buttonResetTablesEmpty.setLocation(200, 600);
-        buttonResetTablesEmpty.addActionListener(this);
-        add(buttonResetTablesEmpty);
         
         setVisible(true);
 	}
@@ -99,5 +74,31 @@ public class AuthentificationView extends Container implements ActionListener{
     // by the user and act accordingly
     public void actionPerformed(ActionEvent e) {
     	
+    	AuthentificationController auth_controller = AuthentificationController.GetInstance();
+    	
+    	// Verifier si l'authentification existe
+    	if (e.getSource() == buttonConnect) {
+    		try 
+    		{
+    			// La connexion a réussi
+    			auth_controller.Authentifier(tlogin.getText(), tpwd.getText());
+    			annonce.setEditable(false);
+    		}
+    		catch (ErreurConnexionException exc)
+    		{
+    			// La connexion a échoué
+    			String def = "";
+    			tlogin.setText(def);
+    			tpwd.setText(def);
+    			annonce.setText("Le login et/ou le mot de passe est incorrect. Veuillez réeesayer.");
+    			annonce.setEditable(false);
+    		}
+    		catch(SQLException exc)
+    		{
+    			// Erreur de la BDD
+    			exc.printStackTrace();
+    			annonce.setText("Il y a eu une erreur lors de la connexion avec la base de donnée. Veuillez réessayer.");
+    		}
+    	}
     }
 }

@@ -1,6 +1,8 @@
 package controller;
 
+import java.sql.SQLException;
 import controller.BDDAuthentificationController;
+import exceptions.ErreurConnexionException;
 
 public class AuthentificationController {
 	
@@ -9,7 +11,7 @@ public class AuthentificationController {
 	
 	public static AuthentificationController self;
 	
-	private BDDAuthentificationController bdd_auth_controller;
+	private BDDAuthentificationController bdd_auth_controller = BDDAuthentificationController.GetInstance();
 	
 	
 	public static AuthentificationController GetInstance()
@@ -22,20 +24,33 @@ public class AuthentificationController {
 	}
 	
 	// S'authentifier
-	public void Authentifier(String login, String mdp)
+	public void Authentifier(String login, String mdp) throws SQLException, ErreurConnexionException
 	{
-		//if (this.bdd_auth_controller.VerifierAuthentification(nom, mdp))
-		{
-			// A FAIRE!
+		try  {
+			boolean res = this.bdd_auth_controller.VerifierAuthentification(login, mdp);
+			if (res)
+			{
+				// La connexion a réussi
+				System.out.println("Authentification OK - Bienvenue " + login + "!");
+			}
+			else {
+				// La connexion a échoué
+				System.out.println("Le login et/ou le mot de passe est incorrect. Veuillez réeesayer.");
+			}
 		}
+		catch (Exception e) {
+			throw e;
+		}
+		
 	}
 	
-	// Créer un nouveau compte
-	public void CreerCompte(String login, String mdp)
+	// Créer un nouveau compte - Que pour le compte "admin"!
+	public void CreerCompte(String login, String mdp) throws SQLException
 	{
-		// if (this.bdd_auth_controller.AjouterAuthentification(nom, mdp))
+		if (this.bdd_auth_controller.AjouterAuthentification(login, mdp))
 		{
 			// A FAIRE!
+			System.out.println("Création du nouveau compte OK - Bienvenue " + login + "!");
 		}
 	}
 }

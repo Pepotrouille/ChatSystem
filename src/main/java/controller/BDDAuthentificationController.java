@@ -126,18 +126,18 @@ public class BDDAuthentificationController {
 	{
 		boolean authIsInTable = false;
 		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-		
+			
 			
 		PreparedStatement preparedStatement = conn.prepareStatement("SELECT login FROM BaseAuthentification WHERE login = ? AND password = ?");
 		preparedStatement.setString (1, login);
 		preparedStatement.setString (2, password);
 		ResultSet resultSet = preparedStatement.executeQuery();	
-			
+				
 		if (resultSet.next()) {
-			    // Quest already completed
+			// Quest already completed
 			authIsInTable = true;
 		} else {
-			    // Quest not completed yet
+			// Quest not completed yet
 			authIsInTable = false;
 		}
 

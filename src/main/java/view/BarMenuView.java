@@ -68,7 +68,7 @@ public class BarMenuView extends JMenuBar implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
         if (e.getSource() == optionDisconnect) {
-            MainView.ShowAnthentification();
+            //MainView.ShowAnthentification();
             /* Réinitialiser l'utilisateur */
             // model.User.SetCurrentUser(null);
         }

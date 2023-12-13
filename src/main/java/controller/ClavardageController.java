@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import exceptions.ClavardageNonExistantException;
+import model.Clavardage;
 import model.TableUtilisateurs;
 
 public class ClavardageController {
@@ -11,7 +12,7 @@ public class ClavardageController {
 	
 	//---------------------------Attributs-------------------------
 
-	ArrayList<String> clavardagesEnCours;
+	ArrayList<Clavardage> clavardagesEnCours;
 	
 	
 	
@@ -31,12 +32,12 @@ public class ClavardageController {
 	
 	private ClavardageController()
 	{
-		clavardagesEnCours = new ArrayList<String>();
+		clavardagesEnCours = new ArrayList<Clavardage>();
 	}
 
 	//----------Getters
 	
-	public ArrayList<String> GetClavardageEnCours()
+	public ArrayList<Clavardage> GetClavardageEnCours()
 	{
 		return this.clavardagesEnCours;
 	}
@@ -45,21 +46,40 @@ public class ClavardageController {
 	
 	//----------Autres Méthodes
 	
-	public void NouveauClavardage(String ipDestination)
+	public Clavardage NouveauClavardage(String ipDestination)
 	{
 		System.out.println("Création d'un clavardage avec " + ipDestination);
-		clavardagesEnCours.add(ipDestination);
+		Clavardage newClavardage = new Clavardage(ipDestination);
+		clavardagesEnCours.add(newClavardage);
+		return newClavardage;
 	}
 	
 	public void FermerClavardage(String ipDestination) throws ClavardageNonExistantException
 	{
 		
 		System.out.println("Fin du clavardage avec " + ipDestination);
-		if(!clavardagesEnCours.remove(ipDestination))
+		this.clavardagesEnCours.remove(GetClavardage(ipDestination));
+		
+	}
+	
+	public Clavardage GetClavardage(String ipDestination) throws ClavardageNonExistantException 
+	{
+		Clavardage clavardageARecuperer = null;
+		
+		for(Clavardage clavardage : this.clavardagesEnCours)
+		{
+			if(clavardage.GetIPDestination().equals(ipDestination))
+			{
+				clavardageARecuperer = clavardage;
+			}
+			
+		}
+		if(clavardageARecuperer == null)
 		{
 			throw new ClavardageNonExistantException();
 		}
 		
+		return clavardageARecuperer;
 	}
 	
 	

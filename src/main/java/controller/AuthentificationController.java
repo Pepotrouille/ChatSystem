@@ -26,16 +26,11 @@ public class AuthentificationController {
 	// S'authentifier
 	public void Authentifier(String login, String mdp) throws SQLException, ErreurConnexionException
 	{
-		try  {
-			this.bdd_auth_controller.VerifierAuthentification(login, mdp);
+		this.bdd_auth_controller.VerifierAuthentification(login, mdp);
 			
-			// La connexion a réussi
-			System.out.println("Authentification OK - Bienvenue " + login + "!");
+		// La connexion a réussi
+		System.out.println("Authentification OK - Bienvenue " + login + "!");
 			
-		}
-		catch (Exception e) {
-			throw e;
-		}
 		
 	}
 	

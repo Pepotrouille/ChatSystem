@@ -27,16 +27,11 @@ public class AuthentificationController {
 	public void Authentifier(String login, String mdp) throws SQLException, ErreurConnexionException
 	{
 		try  {
-			boolean res = this.bdd_auth_controller.VerifierAuthentification(login, mdp);
-			if (res)
-			{
-				// La connexion a réussi
-				System.out.println("Authentification OK - Bienvenue " + login + "!");
-			}
-			else {
-				// La connexion a échoué
-				System.out.println("Le login et/ou le mot de passe est incorrect. Veuillez réeesayer.");
-			}
+			this.bdd_auth_controller.VerifierAuthentification(login, mdp);
+			
+			// La connexion a réussi
+			System.out.println("Authentification OK - Bienvenue " + login + "!");
+			
 		}
 		catch (Exception e) {
 			throw e;

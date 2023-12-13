@@ -83,6 +83,7 @@ public class AuthentificationView extends Container implements ActionListener{
     			// La connexion a réussi
     			auth_controller.Authentifier(tlogin.getText(), tpwd.getText());
     			annonce.setEditable(false);
+    			//Aller aux menu clavardages
     		}
     		catch (ErreurConnexionException exc)
     		{
@@ -90,8 +91,8 @@ public class AuthentificationView extends Container implements ActionListener{
     			String def = "";
     			tlogin.setText(def);
     			tpwd.setText(def);
+    			exc.printStackTrace();
     			annonce.setText("Le login et/ou le mot de passe est incorrect. Veuillez réeesayer.");
-    			annonce.setEditable(false);
     		}
     		catch(SQLException exc)
     		{

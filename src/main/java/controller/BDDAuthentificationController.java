@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import exceptions.ErreurConnexionException;
 import model.Utilisateur;
 
 public class BDDAuthentificationController {
@@ -30,7 +31,7 @@ public class BDDAuthentificationController {
 	}
 	
 	/* Créer une base d'authentification */
-	private boolean CreerBaseAuthentification()
+	public boolean CreerBaseAuthentification()
 	{
 		boolean baseIsCreated = true;
 		try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -122,9 +123,9 @@ public class BDDAuthentificationController {
 	}
 	
 	/* Vérifier si une authentification est bonne */
-	public boolean VerifierAuthentification(String login, String password) throws SQLException
+	public void VerifierAuthentification(String login, String password) throws SQLException, ErreurConnexionException
 	{
-		boolean authIsInTable = false;
+		
 		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			
 			
@@ -133,15 +134,11 @@ public class BDDAuthentificationController {
 		preparedStatement.setString (2, password);
 		ResultSet resultSet = preparedStatement.executeQuery();	
 				
-		if (resultSet.next()) {
-			// Quest already completed
-			authIsInTable = true;
-		} else {
+		if (!resultSet.next()) {
 			// Quest not completed yet
-			authIsInTable = false;
+			throw new ErreurConnexionException();
 		}
 
-		return authIsInTable;
 	}
 	
 	

@@ -1,4 +1,6 @@
 import view.MainView;
+import controller.AuthentificationController;
+import controller.BDDAuthentificationController;
 import controller.BroadcastController;
 
 public class Main {
@@ -14,11 +16,8 @@ public class Main {
 	
 	public static void main(String[] args){
 		
-    	BroadcastController broadcastController = new BroadcastController();
-
-		MainView mainView = new MainView(broadcastController);
     	
-    	
+		MainView.AfficherAuthentification();
 
 
     }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import exceptions.ClavardageNonExistantException;
 import model.Clavardage;
 import model.TableUtilisateurs;
+import model.Utilisateur;
 
 public class ClavardageController {
 
@@ -46,10 +47,10 @@ public class ClavardageController {
 	
 	//----------Autres Méthodes
 	
-	public Clavardage NouveauClavardage(String ipDestination)
+	public Clavardage NouveauClavardage(Utilisateur utilisateur)
 	{
-		System.out.println("Création d'un clavardage avec " + ipDestination);
-		Clavardage newClavardage = new Clavardage(ipDestination);
+		System.out.println("Création d'un clavardage avec " + utilisateur.GetPseudo());
+		Clavardage newClavardage = new Clavardage(utilisateur);
 		clavardagesEnCours.add(newClavardage);
 		return newClavardage;
 	}

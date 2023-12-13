@@ -51,7 +51,7 @@ public class BarMenuView extends JMenuBar implements ActionListener {
 		optionCreateDiscussion.addActionListener(this);
 		menuPostes.add(optionCreateDiscussion);
 		//--
-		optionConsultDiscussions = new JButton("Consulter les clavardages");
+		optionConsultDiscussions = new JButton("Utilisateurs en ligne");
 		optionConsultDiscussions.setFont(new Font("Arial", Font.PLAIN, fontSize));
 		optionConsultDiscussions.setSize(buttonLength,buttonHeight);
 		optionConsultDiscussions.addActionListener(this);
@@ -80,10 +80,12 @@ public class BarMenuView extends JMenuBar implements ActionListener {
         else if (e.getSource() == optionCreateDiscussion) {
         	/* Céer une discussion */
             // MainView.ShowCreateDiscussion();
+        	MainView.AfficherUtilisateursEnLigne())
         }
         else if (e.getSource() == optionConsultDiscussions) {
         	/* Afficher la liste des utilisateurs en ligne */
             // MainView.ShowSeeAllUsers();
+        	MainView.AfficherClavardagesEnCours()
         }
     }
 	

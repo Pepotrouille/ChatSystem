@@ -7,17 +7,18 @@ import javax.swing.JButton;
 
 import controller.ClavardageController;
 import model.Clavardage;
+import model.Utilisateur;
 
 public class CreerClavardageButton extends JButton implements ActionListener{
 	
 	private static final long serialVersionUID = 7977849812532563837L;
 	
-	private String ipDestination;
+	private Utilisateur utilisateur;
 	
-	public CreerClavardageButton(String text, String ipDestination)
+	public CreerClavardageButton(String text, Utilisateur utilisateur)
 	{
 		super(text);
-		this.ipDestination = ipDestination;
+		this.utilisateur = utilisateur;
 		this.addActionListener(this);
 	}
 	
@@ -25,7 +26,7 @@ public class CreerClavardageButton extends JButton implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this)
 			{
-				Clavardage newClavardage = ClavardageController.GetInstance().NouveauClavardage(this.ipDestination);
+				Clavardage newClavardage = ClavardageController.GetInstance().NouveauClavardage(this.utilisateur);
 				MainView.AfficherClavardage(newClavardage);
 			}
 	}

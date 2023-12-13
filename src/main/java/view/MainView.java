@@ -6,8 +6,11 @@ import javax.swing.table.*;
 import java.awt.event.*; 
 import view.TableUtilisateursView;
 import controller.BroadcastController;
+import controller.ClavardageController;
 import model.Clavardage;
 import model.Utilisateur;
+import model.TableUtilisateurs;
+import java.util.ArrayList;
 
 public class MainView {
 
@@ -19,9 +22,6 @@ public class MainView {
 		//UpdateGUI(new ClavardageView(), true);
 	}
 
-	
-
-
 	public static void AfficherParametresDuCompte(Utilisateur utilisateur)
 	{
 		UpdateGUI(new AccountParameterView(utilisateur), true);
@@ -29,12 +29,14 @@ public class MainView {
 
 	public static void AfficherClavardagesEnCours()
 	{
-		//UpdateGUITable(Container currentContainer, true)
+		ArrayList<Object> listeGenerique = new ArrayList<Object>(ClavardageController.GetInstance().GetClavardageEnCours());
+		UpdateGUITable(new DataTable(listeGenerique, DataTable.TypeDataTable.Clavardage), true);
 	}
 	
 	public static void AfficherUtilisateursEnLigne()
 	{
-		//UpdateGUITable(Container currentContainer, true)
+		ArrayList<Object> listeGenerique = new ArrayList<Object>(TableUtilisateurs.GetInstance().GetListeUtilisateurs());
+		UpdateGUITable(new DataTable(listeGenerique, DataTable.TypeDataTable.Utilisateur), true);
 	}
 
 	public static void AfficherCreerCompte()
@@ -62,21 +64,21 @@ public class MainView {
 		
 	}
 	
-	private static void UpdateGUITable(Container currentContainer, boolean withMenuBar)
+	private static void UpdateGUITable(DataTable dataTable, boolean withMenuBar)
 	{
-		/*
+		
 		CreateGUI(withMenuBar);
 				
 		//Creation of the table 
-		//Container containerTable = TableModelToContainer.JTableModelToContainer(new JTableModel());
+		Container containerTable = TableToContainer.GetInstance().DataTableToContainer(dataTable);
 		JScrollPane scrollPane;
-		//scrollPane = new JScrollPane(containerTable);
+		scrollPane = new JScrollPane(containerTable);
 				
 		//Frame Layout
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		frame.setSize(1000,600);
-		frame.setVisible(true);//making the frame visible  */
+		frame.setVisible(true);//making the frame visible  
 		
 	}
 	

@@ -14,17 +14,16 @@ public class TableToContainer {
 	public int lengthCell = 190;
 	public int heightCell = 50;
 	
-	public static enum TypeButton {NONE, CREER, OUVRIR};
 	
 	public Container mainContainer;
 	
 	
-	private TableToContainer tableToContainer;
+	private static TableToContainer tableToContainer;
 	
 	private TableToContainer()
 	{	}
 	
-	public TableToContainer GetInstance()
+	public static TableToContainer GetInstance()
 	{
 		if(tableToContainer == null)
 		{
@@ -34,26 +33,29 @@ public class TableToContainer {
 	}
 	
 	
-	public Container DataTableToContainer(String[] nomColonnes, Object[][] contenu, TypeButton typeButton)
+	public Container DataTableToContainer(DataTable dataTable)
 	{
 		mainContainer = new Container();
 		
-		GetContainerTitleRow(nomColonnes);
+		GetContainerTitleRow(dataTable.GetNomsColonnes());
 		
-		Object[][] rows = contenu;
+		Object[][] rows = dataTable.GetContenu();
 		for(int i =0; i < rows.length; i++)
 		{
-			GetContainerRow(rows[i], heightCell*(i+1), typeButton);
+			GetContainerRow(rows[i], heightCell*(i+1));
 		}
 		
 		return mainContainer;
 	}
 	
-	private void GetContainerRow(Object[] row, int positionY, TypeButton typeButton)
+	
+	
+	
+	private void GetContainerRow(Object[] row, int positionY)
 	{
 		int tailleTab = row.length-1;
 
-		for(int i = 0; i<tailleTab; i++)
+		for(int i = 0; i<tailleTab-1; i++)
 		{
 	        JLabel label = MakeFormattedJLabel((String)row[i],lengthCell, heightCell, i*lengthCell, positionY);
 			label.setBackground(Color.getHSBColor(0, 0, 0.90f - 0.05f*(i%2)));
@@ -61,22 +63,14 @@ public class TableToContainer {
 	        mainContainer.add(label);
 		}
 		
-		switch(typeButton)
-		{
-		case CREER:
-			FormatButton(new CreerClavardageButton(" ", (String)row[tailleTab-1]), lengthCell, (int)(heightCell*0.6), lengthCell*(tailleTab + 1), (int)(positionY+heightCell*0.1));
-			break;
-		case OUVRIR:
-			FormatButton(new OuvrirClavardageButton(" ", (Clavardage)row[tailleTab-1]), lengthCell, (int)(heightCell*0.6), lengthCell*(tailleTab + 1), (int)(positionY+heightCell*0.1));
-			break;
-			
-		}
 		
+		FormatButton((JButton)row[tailleTab-1], lengthCell, (int)(heightCell*0.6), lengthCell*(tailleTab + 1), (int)(positionY+heightCell*0.1));
 		
-        
        
-        	
 	}
+	
+	
+	
 	
 	private void GetContainerTitleRow(String[] titleRow)
 	{

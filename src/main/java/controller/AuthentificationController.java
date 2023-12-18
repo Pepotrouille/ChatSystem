@@ -23,6 +23,11 @@ public class AuthentificationController {
 		return self;
 	}
 	
+	public BDDAuthentificationController GetBDDAuthentificationController()
+	{
+		return this.bdd_auth_controller;
+	}
+	
 	// S'authentifier
 	public void Authentifier(String login, String mdp) throws SQLException, ErreurConnexionException
 	{

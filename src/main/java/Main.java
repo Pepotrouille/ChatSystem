@@ -16,9 +16,14 @@ public class Main {
 	
 	public static void main(String[] args){
 		
-
-		BDDAuthentificationController.GetInstance().SupprimerBaseAuthentification();
-		BDDAuthentificationController.GetInstance().CreerBaseAuthentification();
+		try {
+			BDDAuthentificationController.GetInstance().SupprimerBaseAuthentification();
+			BDDAuthentificationController.GetInstance().CreerBaseAuthentification();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 		MainView.AfficherAuthentification();
 

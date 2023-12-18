@@ -95,9 +95,11 @@ public class AuthentificationView extends Container implements ActionListener{
     				final DatagramSocket datagramSocket = new DatagramSocket();
                 	datagramSocket.connect(InetAddress.getByName("8.8.8.8"), 12345);
                 	Random random = new Random();
+                	int id = random.nextInt(2147483646);
+                	String id_string = new String("" + id + "");
                 	
                 	// On initialise le nouvel utilisateur avec son @IP et un pseudo random
-        			Utilisateur u = new Utilisateur(datagramSocket.getLocalAddress().getHostAddress().toString(), random.toString());
+        			Utilisateur u = new Utilisateur(datagramSocket.getLocalAddress().getHostAddress().toString(), id_string);
         			model.Utilisateur.SetCurrentUser(u);
         			MainView.AfficherParametresDuCompte(model.Utilisateur.GetCurrentUser());
     			}

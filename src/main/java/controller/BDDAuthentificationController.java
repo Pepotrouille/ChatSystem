@@ -14,6 +14,8 @@ public class BDDAuthentificationController extends AbstractTableManager {
 	
 	// Singleton
 	// Permettre d'accéder à la BDD pour s'authentifier
+	/* A FAIRE : Utiliser PreparedStatement et n'utiliser pas directement les paramètres dans les queries
+	pour éviter le problème de SQLInjection */
 	
 	public static BDDAuthentificationController self;
 	
@@ -27,51 +29,35 @@ public class BDDAuthentificationController extends AbstractTableManager {
 	}
 	
 	/* Créer une base d'authentification */
-	public boolean CreerBaseAuthentification()
+	public boolean CreerBaseAuthentification() throws SQLException
 	{
 		boolean baseIsCreated = true;
-		try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-				Statement stmt = conn.createStatement();
-				) {	
-			String sql;
-			
-			
-			sql = "CREATE TABLE BaseAuthentification " +
-					"(login VARCHAR(255) not NULL, " +
-					" password VARCHAR(255), " + 
-					" PRIMARY KEY ( login ))"; 
-			stmt.executeUpdate(sql);
-			System.out.println("Created the BaseAuthentification in the database...");  
-			AjouterAuthentification("admin", "admin");
-		}
-		catch(Exception e)
-		{
-			baseIsCreated = false;
-			e.printStackTrace();
-		}
+		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		Statement stmt = conn.createStatement();
+		String sql;
+		sql = "CREATE TABLE BaseAuthentification " +
+				"(login VARCHAR(255) not NULL, " +
+				" password VARCHAR(255), " + 
+				" PRIMARY KEY ( login ))"; 
+		stmt.executeUpdate(sql);
+		
+		System.out.println("Created the BaseAuthentification in the database...");  
+		AjouterAuthentification("admin", "admin");
 		
 		return baseIsCreated;
 	}
 	
 	/* Supprimer une base d'authentification */
-	public boolean SupprimerBaseAuthentification()
+	public boolean SupprimerBaseAuthentification() throws SQLException
 	{
 		boolean baseIsDeleted = true;
-		try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-				Statement stmt = conn.createStatement();
-				) {	
-			String sql;
-			
-			sql = "DROP TABLE BaseAuthentification";
-	        stmt.executeUpdate(sql);
+		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		Statement stmt = conn.createStatement();
+		String sql;
+		sql = "DROP TABLE BaseAuthentification";
+	    stmt.executeUpdate(sql);
 	        
-			System.out.println("Delete BaseAuthentification in the database..."); 
-		}
-		catch(Exception e)
-		{
-			baseIsDeleted = false;
-			System.out.println("La BaseAuthentification n'existe pas");
-		}
+		System.out.println("Delete BaseAuthentification in the database..."); 
 		return baseIsDeleted;
 	}
 	
@@ -85,21 +71,24 @@ public class BDDAuthentificationController extends AbstractTableManager {
 				
 		String sql;
 		//Add the ' around the String in argument !!
-		sql = "INSERT INTO BaseAuthentification VALUES ('" + login +"', '" + password + ")";
+		sql = "INSERT INTO BaseAuthentification VALUES ('" + login +"', '" + password + "')";
+		// sql = "INSERT INTO UserTable VALUES ('" + login +"', '" + password +"', '" + foreName +"', '" + lastName + "', '" + localisation + "', '" + phone + "', " + accountType + ")";
 		//user = new Utilisateur(login,password,foreName,lastName,localisation,phone, accountType);
 				
 				
-		stmt.executeUpdate(sql);
-		if (stmt.getMoreResults()) {
+		int i = stmt.executeUpdate(sql);
+		if (i > 0) {
+			System.out.println("Add a new authentification successfully! New login : " + login + ", new password : " + password);
 			return true;
 		}
 		else {
+			System.out.println("Failed to add a new authentification");
 			return false;
 		}
 	}
 	
 	/* Supprimer une authentification */
-	private boolean SupprimerAuthentification(String login) throws SQLException
+	public boolean SupprimerAuthentification(String login) throws SQLException
 	{
 		Utilisateur user;
 		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -108,16 +97,18 @@ public class BDDAuthentificationController extends AbstractTableManager {
 				
 		String sql;
 		//Add the ' around the String in argument !!
-		sql = "DELETE FROM BaseAuthentification" + "WHERE login = " + login;
+		sql = "DELETE FROM BaseAuthentification WHERE login = '" + login + "' ";
 				
-				
-		stmt.executeUpdate(sql);
-		if (stmt.getMoreResults()) {
+		int i = stmt.executeUpdate(sql);
+		if (i > 0) {
+			System.out.println("Delete the authentification " + login + " successfully!");
 			return true;
 		}
 		else {
+			System.out.println("Failed to delete an authentification");
 			return false;
-		}
+		}		
+		
 	}
 	
 	/* Vérifier si une authentification est bonne */

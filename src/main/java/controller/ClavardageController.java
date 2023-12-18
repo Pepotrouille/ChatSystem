@@ -50,9 +50,10 @@ public class ClavardageController {
 	public Clavardage NouveauClavardage(Utilisateur utilisateur)
 	{
 		System.out.println("Création d'un clavardage avec " + utilisateur.GetPseudo());
-		Clavardage newClavardage = new Clavardage(utilisateur);
-		clavardagesEnCours.add(newClavardage);
-		return newClavardage;
+		//Clavardage newClavardage = new Clavardage(utilisateur);
+		//clavardagesEnCours.add(newClavardage);
+		//return newClavardage;
+		return null;
 	}
 	
 	public void FermerClavardage(String ipDestination) throws ClavardageNonExistantException

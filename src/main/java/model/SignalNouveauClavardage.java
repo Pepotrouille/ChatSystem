@@ -12,7 +12,7 @@ public class SignalNouveauClavardage extends Signal{
 	//----------Constructeur
 	
 	public SignalNouveauClavardage(int port) { 				
-		
+		this.port = port;
 	}
 
 

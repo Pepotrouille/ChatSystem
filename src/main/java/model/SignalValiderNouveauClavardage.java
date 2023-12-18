@@ -28,7 +28,7 @@ public class SignalValiderNouveauClavardage extends Signal{
 	//----------Autres Méthodes
 	
 	public String ToString() {
-		return "V";
+		return "V"+this.port;
 	}
 	
 }

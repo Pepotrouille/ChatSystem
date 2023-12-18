@@ -10,16 +10,12 @@ import java.sql.Statement;
 import exceptions.ErreurConnexionException;
 import model.Utilisateur;
 
-public class BDDAuthentificationController {
+public class BDDAuthentificationController extends AbstractTableManager {
 	
 	// Singleton
 	// Permettre d'accéder à la BDD pour s'authentifier
 	
 	public static BDDAuthentificationController self;
-	
-	static final String DB_URL = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/projet_gei_010";
-	static final String USER = "projet_gei_010";
-	static final String PASS = "eeP9nuha";
 	
 	public static BDDAuthentificationController GetInstance()
 	{
@@ -46,17 +42,19 @@ public class BDDAuthentificationController {
 					" PRIMARY KEY ( login ))"; 
 			stmt.executeUpdate(sql);
 			System.out.println("Created the BaseAuthentification in the database...");  
+			AjouterAuthentification("admin", "admin");
 		}
 		catch(Exception e)
 		{
 			baseIsCreated = false;
 			e.printStackTrace();
 		}
+		
 		return baseIsCreated;
 	}
 	
 	/* Supprimer une base d'authentification */
-	private boolean SupprimerBaseAuthentification()
+	public boolean SupprimerBaseAuthentification()
 	{
 		boolean baseIsDeleted = true;
 		try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);

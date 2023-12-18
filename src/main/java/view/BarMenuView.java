@@ -80,12 +80,12 @@ public class BarMenuView extends JMenuBar implements ActionListener {
         else if (e.getSource() == optionCreateDiscussion) {
         	/* Céer une discussion */
             // MainView.ShowCreateDiscussion();
-        	MainView.AfficherUtilisateursEnLigne())
+        	MainView.AfficherUtilisateursEnLigne();
         }
         else if (e.getSource() == optionConsultDiscussions) {
         	/* Afficher la liste des utilisateurs en ligne */
             // MainView.ShowSeeAllUsers();
-        	MainView.AfficherClavardagesEnCours()
+        	MainView.AfficherClavardagesEnCours();
         }
     }
 	

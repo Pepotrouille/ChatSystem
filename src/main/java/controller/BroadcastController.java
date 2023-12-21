@@ -9,6 +9,8 @@ import model.Utilisateur;
 
 public class BroadcastController{ //---------Tout passer en statique
 	
+	//---SINGLETON--//
+	
 	private SignalReceptionBroadcastController srbc;
 	
 	private SignalEnvoiBroadcastController sebc;

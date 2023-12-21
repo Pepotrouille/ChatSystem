@@ -16,7 +16,7 @@ public class BarMenuView extends JMenuBar implements ActionListener {
 	
 	private JButton optionDisconnect;
 	private JButton optionAccountParameters;
-	private JButton optionCreateDiscussion;
+	private JButton optionOnlineUsers;
 	private JButton optionConsultDiscussions;
 	
 	public BarMenuView() {
@@ -45,13 +45,13 @@ public class BarMenuView extends JMenuBar implements ActionListener {
 
 		//Second Menu : Clavardage
 		JMenu menuPostes = new JMenu("Clavardage");
-		optionCreateDiscussion = new JButton("Créer un clavardage");
-		optionCreateDiscussion.setFont(new Font("Arial", Font.PLAIN, fontSize));
-		optionCreateDiscussion.setSize(buttonLength,buttonHeight);
-		optionCreateDiscussion.addActionListener(this);
-		menuPostes.add(optionCreateDiscussion);
+		optionOnlineUsers = new JButton("Utilisateurs en ligne");
+		optionOnlineUsers.setFont(new Font("Arial", Font.PLAIN, fontSize));
+		optionOnlineUsers.setSize(buttonLength,buttonHeight);
+		optionOnlineUsers.addActionListener(this);
+		menuPostes.add(optionOnlineUsers);
 		//--
-		optionConsultDiscussions = new JButton("Utilisateurs en ligne");
+		optionConsultDiscussions = new JButton("Afficher clavardages en cours");
 		optionConsultDiscussions.setFont(new Font("Arial", Font.PLAIN, fontSize));
 		optionConsultDiscussions.setSize(buttonLength,buttonHeight);
 		optionConsultDiscussions.addActionListener(this);
@@ -70,20 +70,21 @@ public class BarMenuView extends JMenuBar implements ActionListener {
         if (e.getSource() == optionDisconnect) {
             //MainView.ShowAnthentification();
             /* Réinitialiser l'utilisateur */
-            // model.User.SetCurrentUser(null);
+        	model.Utilisateur.SetUtilisateurActuel(null);
+        	MainView.AfficherAuthentification();
         }
         else if (e.getSource() == optionAccountParameters) {
         	/* Afficher les paramètres de compte de l'utilisateur */
-            // MainView.ShowAccountParameter(model.User.GetCurrentUser());
+        	MainView.AfficherParametresDuCompte(model.Utilisateur.GetUtilisateurActuel());
             
         }
-        else if (e.getSource() == optionCreateDiscussion) {
-        	/* Céer une discussion */
+        else if (e.getSource() == optionOnlineUsers) {
+        	/* Afficher la liste des utilisateurs en ligne */
             // MainView.ShowCreateDiscussion();
         	MainView.AfficherUtilisateursEnLigne();
         }
         else if (e.getSource() == optionConsultDiscussions) {
-        	/* Afficher la liste des utilisateurs en ligne */
+        	/* Affiche les discussions en cours */
             // MainView.ShowSeeAllUsers();
         	MainView.AfficherClavardagesEnCours();
         }

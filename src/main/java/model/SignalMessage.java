@@ -5,6 +5,10 @@ public class SignalMessage extends Signal{
 	
 	//---------------------------Attributs-------------------------
 	
+	private static int noSequence;
+	
+	private int noSequenceLocal;
+	
 	private String message;
 	
 	//---------------------------Méthodes-------------------------
@@ -12,13 +16,21 @@ public class SignalMessage extends Signal{
 	//----------Constructeur
 	
 	public SignalMessage(String message) { 				
-		
+		if(noSequence >99 || noSequence<10)
+		{
+			noSequence = 10;
+		}
+		noSequenceLocal = noSequence++;
 		this.message = message;
 	}
 
 	//----------Getters
 	public String GetMessage() {
 		return this.message;
+	}
+
+	public int GetNumeroSequence() {
+		return this.noSequenceLocal;
 	}
 	
 	//----------Setters
@@ -31,6 +43,7 @@ public class SignalMessage extends Signal{
 
 	
 	public String ToString() {
-		return "M" + this.message;
+		return "M" + noSequenceLocal + this.message;
 	}
+
 }

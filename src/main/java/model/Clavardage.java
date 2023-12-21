@@ -10,10 +10,13 @@ public class Clavardage {
 	
 	Historique historique;
 	
+	boolean estValide;
+	
 	
 	public Clavardage(Utilisateur utilisateur, int portSource, int portDest, Historique historique)
 	{
 		
+		this.estValide = false;
 	}
 	
 	public String GetIPDestination() 

@@ -5,11 +5,11 @@ public class Utilisateur{
 	
 	//---------------------------Attributs-------------------------
 	
-	public static Utilisateur current_user;
+	public static Utilisateur utilisateurActuel;
 	
-	public static void SetCurrentUser(Utilisateur newUser) {current_user = newUser;};
+	public static void SetUtilisateurActuel(Utilisateur newUser) {utilisateurActuel = newUser;};
 	
-	public static Utilisateur GetCurrentUser() {return current_user;};
+	public static Utilisateur GetUtilisateurActuel() {return utilisateurActuel;};
 	
 	private String ip;
 	

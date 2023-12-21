@@ -7,7 +7,7 @@ import exceptions.DateInvalideException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class MaDate {
+public class MaDate implements Comparable<MaDate> {
 
 	//---------------------------Attributs-------------------------
 	
@@ -45,10 +45,21 @@ public class MaDate {
 		}
 		this.SetAnnee(annee);
 		this.SetMois(mois);
-		this.jour = jour;
+		this.SetJour(jour);
 		this.SetHeure(heure);
 		this.SetMinute(minute);
 		this.SetSeconde(seconde);
+	}
+	
+	
+	public MaDate() { 				
+		Date date = new Date();;
+		this.SetAnnee(date.getYear());
+		this.SetMois(date.getMonth());
+		this.SetJour(date.getDay());
+		this.SetHeure(date.getHours());
+		this.SetMinute(date.getMinutes());
+		this.SetSeconde(date.getSeconds());
 	}
 
 	//----------Getters
@@ -129,6 +140,34 @@ public class MaDate {
 	private static MaDate DateToMaDate(Date date) throws DateInvalideException
 	{
 		return new MaDate(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes(), date.getSeconds());
+	}
+
+
+	@Override
+	public int compareTo(MaDate autreDate) {
+		int valeurComparaison;
+		valeurComparaison = Integer.compare(this.annee, autreDate.GetAnnee());
+		if (valeurComparaison == 0)
+		{
+			valeurComparaison = Integer.compare(this.mois, autreDate.GetMois());
+			if (valeurComparaison == 0)
+			{
+				valeurComparaison = Integer.compare(this.jour, autreDate.GetJour());
+				if (valeurComparaison == 0)
+				{
+					valeurComparaison = Integer.compare(this.heure, autreDate.GetHeure());
+					if (valeurComparaison == 0)
+					{
+						valeurComparaison = Integer.compare(this.minute, autreDate.GetMinute());
+						if (valeurComparaison == 0)
+						{
+							valeurComparaison = Integer.compare(this.seconde, autreDate.GetSeconde());
+						}
+					}
+				}
+			}
+		}
+		return valeurComparaison;
 	}
 
 	

@@ -5,7 +5,7 @@ import model.Utilisateur;
 
 import javax.swing.*;
 
-import controller.PseudoController;
+import controller.BroadcastController;
 import controller.SignalEnvoiBroadcastController;
 
 import java.awt.*;
@@ -18,7 +18,7 @@ public class AccountParameterView extends Container implements ActionListener{
 	
 	private JButton buttonChangerPseudo;
 	
-	private PseudoController pseudo_controller;
+	private BroadcastController broadcast_controller;
 	
 	private JLabel field, tfield;
 	
@@ -65,8 +65,8 @@ public class AccountParameterView extends Container implements ActionListener{
 	    buttonChangerPseudo.addActionListener(this);
 	    this.add(buttonChangerPseudo);
 	    
-	    this.pseudo_controller = new PseudoController(TableUtilisateurs.GetInstance(), utilisateur, new SignalEnvoiBroadcastController());
-		 
+	    //this.pseudo_controller = new PseudoController(TableUtilisateurs.GetInstance(), utilisateur, new SignalEnvoiBroadcastController());
+		this.broadcast_controller = new BroadcastController();
 	}
 	
 	private void AddJLabelWithFormat(String FieldName, String FieldString, int positionY)
@@ -98,14 +98,16 @@ public class AccountParameterView extends Container implements ActionListener{
 		
 		if (e.getSource() == buttonChangerPseudo) {
 			
-			Utilisateur utilisateur = pseudo_controller.getUtilisateur();
+			//Utilisateur utilisateur = pseudo_controller.getUtilisateur();
+			Utilisateur utilisateur = broadcast_controller.soiMeme;
 			
 			JFrame jFrame = new JFrame();
 		    String NouveauPseudo = JOptionPane.showInputDialog(jFrame, "Entrez votre nouveau pseudo");
 		    
 		    
 		    // Mettre à jour le pseudo 
-		    this.pseudo_controller.changePseudo(NouveauPseudo);
+		    //this.pseudo_controller.changePseudo(NouveauPseudo);
+		    this.broadcast_controller.ChangerPseudo(NouveauPseudo);
 		    utilisateur.SetPseudo(NouveauPseudo);
 		    
 		    // Reset le label

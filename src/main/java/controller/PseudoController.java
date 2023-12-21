@@ -9,6 +9,8 @@ import controller.SignalReceptionBroadcastController;
 
 public class PseudoController {
 	
+	//---SINGLETON--//
+	
 	//---------------------------Attributs-------------------------
 	private TableUtilisateurs table;
 	private Utilisateur user;

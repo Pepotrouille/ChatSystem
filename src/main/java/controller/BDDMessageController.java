@@ -39,7 +39,7 @@ public class BDDMessageController extends AbstractTableManager {
 				" message VARCHAR(25555) not NULL, " +
 				" ipsrc VARCHAR(255) not NULL, " +
 				" ipdst VARCHAR(255) not NULL, " +
-				" date VARCHAR(255) not NULL, " +
+				" date DATE not NULL, " +
 				" PRIMARY KEY ( id ))"; 
 		stmt.executeUpdate(sql);
 		
@@ -94,7 +94,7 @@ public class BDDMessageController extends AbstractTableManager {
 
 		
 		while(rs.next()){
-			Message message = new Message(rs.getString("message"), MaDate.StringToMaDate(rs.getString("date")),false);
+			Message message = new Message(rs.getString("message"), MaDate.DateToMaDate(rs.getDate("date")),false);
 			messages.add(message);
 		}
 			

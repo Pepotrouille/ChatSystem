@@ -120,24 +120,43 @@ public class MaDate implements Comparable<MaDate> {
 	public static String MaDateToString(MaDate date) throws DateInvalideException
 	{
 		
-		return (date.GetJour() + "-" + date.GetMois() + "-" + date.GetAnnee() + " " + date.GetHeure() + ":" + date.GetMinute() + ":" + date.GetSeconde()) ;
+		//Adapter les int pour faire en sortent qu'ils prennent exactement deux caractères.
+		String mois = Integer.toString(date.GetMois());
+		mois = (mois.length() == 1) ? "0"+mois:mois;
+		
+		String jour = Integer.toString(date.GetJour());
+		jour = (jour.length() == 1) ? "0"+jour:jour;
+
+		String heure = Integer.toString(date.GetHeure());
+		heure = (heure.length() == 1) ? "0"+heure:heure;
+
+		String minute = Integer.toString(date.GetMinute());
+		minute = (minute.length() == 1) ? "0"+minute:minute;
+
+		String seconde = Integer.toString(date.GetSeconde());
+		seconde = (seconde.length() == 1) ? "0"+seconde:seconde;
+		
+		return (date.GetAnnee() + "-" + mois + "-" + jour + " " + heure + ":" + minute + ":" + seconde) ;
 	}
 	
 	
 	
 	public static MaDate StringToMaDate(String dateString) throws DateInvalideException
 	{
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-		MaDate maDate= null;
-		try {
-			maDate = DateToMaDate(sdf.parse(dateString));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return maDate;
+		//Format : "yyyy-MM-dd hh:mm:ss"
+
+		int annee = Integer.parseInt(dateString.substring(0, 4));
+		int mois = Integer.parseInt(dateString.substring(5, 7));
+		int jour = Integer.parseInt(dateString.substring(8, 10));
+		int heure = Integer.parseInt(dateString.substring(11, 13));
+		int minute = Integer.parseInt(dateString.substring(14, 16));
+		int seconde = Integer.parseInt(dateString.substring(17, 19));
+		
+		
+		return new MaDate(annee, mois, jour, heure, minute, seconde);
 	}
 	
-	private static MaDate DateToMaDate(Date date) throws DateInvalideException
+	public static MaDate DateToMaDate(Date date) throws DateInvalideException
 	{
 		return new MaDate(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes(), date.getSeconds());
 	}

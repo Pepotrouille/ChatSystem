@@ -18,8 +18,7 @@ public class MainView {
 	
 	public static void AfficherClavardage(Clavardage clavardage)
 	{
-		
-		//UpdateGUI(new ClavardageView(), true);
+		UpdateGUI(new ClavardageView(clavardage), true);
 	}
 
 	public static void AfficherParametresDuCompte(Utilisateur utilisateur)

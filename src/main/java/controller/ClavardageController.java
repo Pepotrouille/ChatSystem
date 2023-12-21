@@ -1,8 +1,11 @@
 package controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import exceptions.ClavardageNonExistantException;
+import exceptions.DateInvalideException;
+import exceptions.MessageInvalideException;
 import model.Clavardage;
 import model.TableUtilisateurs;
 import model.Utilisateur;
@@ -47,10 +50,10 @@ public class ClavardageController {
 	
 	//----------Autres Méthodes
 	
-	public Clavardage NouveauClavardage(Utilisateur utilisateur)
+	public Clavardage NouveauClavardage(Utilisateur utilisateur) throws SQLException, MessageInvalideException, DateInvalideException
 	{
 		System.out.println("Création d'un clavardage avec " + utilisateur.GetPseudo());
-		//Clavardage newClavardage = new Clavardage(utilisateur);
+		Clavardage newClavardage = new Clavardage(utilisateur);
 		//clavardagesEnCours.add(newClavardage);
 		//return newClavardage;
 		return null;

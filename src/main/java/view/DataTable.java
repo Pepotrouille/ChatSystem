@@ -33,16 +33,16 @@ public class DataTable {
 		case Clavardage:
 			nomsColonnes = new String[2];
 			nomsColonnes[0] = "Utilisateur";
-			nomsColonnes[1] = "Clavarder";
+			nomsColonnes[1] = "Accéder Clavardage";
 			
 
-			contenu = new Object[2][listeObjets.size()];
+			contenu = new Object[listeObjets.size()][2];
 			
 			
 			for (Object objet : listeObjets)
 			{
-				contenu[0][i] = ((Clavardage)objet).GetUserPseudo();
-				contenu[1][i] = new OuvrirClavardageButton(" ", ((Clavardage)objet));
+				contenu[i][0] = ((Clavardage)objet).GetUserPseudo();
+				contenu[i][1] = new OuvrirClavardageButton(" ", ((Clavardage)objet));
 				
 				i++;
 			}
@@ -54,19 +54,25 @@ public class DataTable {
 		case Utilisateur:
 			nomsColonnes = new String[2];
 			nomsColonnes[0] = "Utilisateur";
-			nomsColonnes[1] = "Clavarder";
+			nomsColonnes[1] = "Créer Clavardage";
 			
 
-			contenu = new Object[2][listeObjets.size()];
+			contenu = new Object[listeObjets.size()+1][2];
+			
+			contenu[i][0] = "Moi même";
+			contenu[i][1] = new CreerClavardageButton("Clavarder avec moi-même", (Utilisateur.GetUtilisateurActuel()));
+			i++;
 			
 			for (Object objet : listeObjets)
 			{
-				contenu[0][i] = ((Utilisateur)objet).GetPseudo();
-				contenu[1][i] = new CreerClavardageButton(" ", ((Utilisateur)objet));
+				contenu[i][0] = ((Utilisateur)objet).GetPseudo();
+				contenu[i][1] = new CreerClavardageButton("Nouveau Clavardage", ((Utilisateur)objet));
 				
 				i++;
 			}
 			break;
+			
+			
 		}
 		//------------------Fin Switch
 	}

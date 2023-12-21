@@ -42,7 +42,7 @@ public class MainView {
 	public static void AfficherCreerCompte()
 	{
 		
-		//UpdateGUI(new CreateAccountView(), true);
+		UpdateGUI(new CreerCompteView(), true);
 	}
 	
 	

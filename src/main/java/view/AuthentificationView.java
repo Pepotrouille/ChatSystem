@@ -100,8 +100,8 @@ public class AuthentificationView extends Container implements ActionListener{
                 	
                 	// On initialise le nouvel utilisateur avec son @IP et un pseudo random
         			Utilisateur u = new Utilisateur(datagramSocket.getLocalAddress().getHostAddress().toString(), id_string);
-        			model.Utilisateur.SetCurrentUser(u);
-        			MainView.AfficherParametresDuCompte(model.Utilisateur.GetCurrentUser());
+        			model.Utilisateur.SetUtilisateurActuel(u);
+        			MainView.AfficherParametresDuCompte(model.Utilisateur.GetUtilisateurActuel());
     			}
     			catch (Exception ex) {
     				ex.printStackTrace();

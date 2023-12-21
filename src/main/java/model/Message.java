@@ -1,15 +1,13 @@
 package model;
 
-import java.util.Date;
-
 import exceptions.MessageInvalideException;
 
-public class Message {
+public class Message implements Comparable<Message>{
 	//---------------------------Attributs-------------------------
 	
 	private String contenu;
 	
-	private Date date;
+	private MaDate date;
 	
 	private boolean deLUtilisateurActuel;
 	
@@ -17,7 +15,7 @@ public class Message {
 		
 	//----------Constructeur
 		
-	public Message(String contenu, Date date, boolean deLUtilisateurActuel) throws MessageInvalideException{ 		
+	public Message(String contenu, MaDate date, boolean deLUtilisateurActuel) throws MessageInvalideException{ 		
 			if(contenu == null || contenu.equals("") || date == null )
 			{
 				throw new MessageInvalideException();
@@ -34,7 +32,7 @@ public class Message {
 		return this.contenu;
 	}
 	
-	public Date GetDate()
+	public MaDate GetDate()
 	{
 		return this.date;
 	}
@@ -44,10 +42,16 @@ public class Message {
 		return this.deLUtilisateurActuel;
 	}
 	//----------Setters
+
 		
 	//Pas de raison de modifier les informations d'un message après envoi
 	
 	//----------Autres Méthodes
 		
-
+	@Override
+	public int compareTo(Message autreMessage) {
+		return date.compareTo(autreMessage.GetDate());
+	}
+	
+	
 }

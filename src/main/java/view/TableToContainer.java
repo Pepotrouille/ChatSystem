@@ -11,7 +11,7 @@ import model.Clavardage;
 
 public class TableToContainer {
 	
-	public int lengthCell = 190;
+	public int lengthCell = 450;
 	public int heightCell = 50;
 	
 	
@@ -38,7 +38,7 @@ public class TableToContainer {
 		mainContainer = new Container();
 		
 		GetContainerTitleRow(dataTable.GetNomsColonnes());
-		
+
 		Object[][] rows = dataTable.GetContenu();
 		for(int i =0; i < rows.length; i++)
 		{
@@ -53,7 +53,7 @@ public class TableToContainer {
 	
 	private void GetContainerRow(Object[] row, int positionY)
 	{
-		int tailleTab = row.length-1;
+		int tailleTab = row.length;
 
 		for(int i = 0; i<tailleTab-1; i++)
 		{
@@ -62,9 +62,15 @@ public class TableToContainer {
 	        label.setOpaque(true);
 	        mainContainer.add(label);
 		}
-		
-		
-		FormatButton((JButton)row[tailleTab-1], lengthCell, (int)(heightCell*0.6), lengthCell*(tailleTab + 1), (int)(positionY+heightCell*0.1));
+
+		if(tailleTab != 0)
+		{
+			System.out.println(row[tailleTab-1]);
+			System.out.println(row[tailleTab-1].getClass());
+			
+			JButton bouton = (JButton)row[tailleTab-1];
+			FormatButton(bouton, lengthCell, (int)(heightCell*0.6), lengthCell*(tailleTab -1), (int)(positionY+heightCell*0.1));
+		}
 		
        
 	}

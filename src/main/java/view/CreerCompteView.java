@@ -25,7 +25,7 @@ public class CreerCompteView extends Container implements ActionListener{
 	private JTextField inputLogin;
 	private JTextField inputPassword;
 	private JLabel informationBox;
-	private JButton buttonCreate;
+	private JButton buttonCreate, buttonReturn;
 
 	//Local Constantes
     int widthBoxes = 150;
@@ -38,8 +38,8 @@ public class CreerCompteView extends Container implements ActionListener{
     public CreerCompteView() {
 		JLabel labelTitle = new JLabel("CREER UN NOUVEAU COMPTE(admin)");
 		labelTitle.setFont(new Font("Arial", Font.PLAIN, 30));
-		labelTitle.setSize(350, 30);
-		labelTitle.setLocation(300, 30);
+		labelTitle.setSize(700, 30);
+		labelTitle.setLocation(200, 30);
 	    this.add(labelTitle);
 	
 	    
@@ -64,9 +64,16 @@ public class CreerCompteView extends Container implements ActionListener{
 	
 	    informationBox = new JLabel("");
 	    informationBox.setFont(new Font("Arial", Font.PLAIN, 20));
-	    informationBox.setSize(300, 500);
-	    informationBox.setLocation(400, 50);
+	    informationBox.setSize(900, 500);
+	    informationBox.setLocation(100, 50);
 	    this.add(informationBox); 
+	    
+	    buttonReturn = new JButton("Retourner");
+	    buttonReturn.setFont(new Font("Arial", Font.PLAIN, 15));
+	    buttonReturn.setSize(120, 20);
+	    buttonReturn.setLocation(500, 450);
+	    buttonReturn.addActionListener(this);
+	    this.add(buttonReturn);
 
     }
 
@@ -74,6 +81,8 @@ public class CreerCompteView extends Container implements ActionListener{
 // to get the action performed
 // by the user and act accordingly
 	public void actionPerformed(ActionEvent e) {
+		
+		// Button créer un noveau compte
 	    if (e.getSource() == buttonCreate) {
 	        	if(inputLogin.getText() != "" && inputPassword.getText() != "")
 	        	{
@@ -95,6 +104,12 @@ public class CreerCompteView extends Container implements ActionListener{
 	        		informationBox.setText("Veuillez au moins remplir les cases login et mot de passe.");
 	        	}
 	   }
+	    
+	   // Button retourner aux paramètres du compte
+	   else if (e.getSource() == buttonReturn) {
+	    	MainView.AfficherParametresDuCompteAdmin(model.Utilisateur.GetUtilisateurActuel());
+	   }
+	    
 	}
 
 	private void ResetFields()

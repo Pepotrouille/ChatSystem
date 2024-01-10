@@ -50,10 +50,10 @@ public class ClavardageController {
 	
 	//----------Autres Méthodes
 	
-	public Clavardage NouveauClavardage(Utilisateur utilisateur) throws SQLException, MessageInvalideException, DateInvalideException
+	public Clavardage NouveauClavardage(Utilisateur utilisateur, int portEnvoi) throws SQLException, MessageInvalideException, DateInvalideException
 	{
 		System.out.println("Création d'un clavardage avec " + utilisateur.GetPseudo());
-		Clavardage newClavardage = new Clavardage(utilisateur);
+		Clavardage newClavardage = new Clavardage(utilisateur, portEnvoi);
 		//clavardagesEnCours.add(newClavardage);
 		//return newClavardage;
 		return null;

@@ -120,7 +120,7 @@ public class SignalReceptionBroadcastController  extends Thread{
             	}
             	else if (receivedMessage.charAt(0) == 'P') { //Si changement de pseudo reçu
                 	//Ajouter cas pseudo est le sien
-            		if(messageRecu.equals(BroadcastController.soiMeme.GetPseudo()))
+            		if(messageRecu.equals(Utilisateur.utilisateurActuel.GetPseudo()))
             		{
             			//Faire la gestion de conflit de pseudo
             			//SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();

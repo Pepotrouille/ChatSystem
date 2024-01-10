@@ -38,12 +38,7 @@ public class AccountParameterView extends Container implements ActionListener{
         int widthBoxes = 150;
         int leftAlignementBoxes = 180;
         //--------
-		
-        
-        // Metre à jour le pseudo pour éviter le problème de référence
-        // utilisateur.SetPseudo(utilisateur.GetPseudo());
-        // System.out.println("le pseudo initial est : " + utilisateur.GetPseudo());
-        
+      
 		field = new JLabel("Pseudo : ");
 		field.setFont(new Font("Arial", Font.PLAIN, 20));
 		field.setSize(150, 20);

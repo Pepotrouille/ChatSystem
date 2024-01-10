@@ -3,6 +3,7 @@ package model;
 import java.sql.SQLException;
 
 import controller.ClavardageController;
+import controller.SignalEnvoiUnicastController;
 import controller.SignalReceptionUnicastController;
 import exceptions.ClavardageNonExistantException;
 import exceptions.DateInvalideException;
@@ -68,5 +69,10 @@ public class Clavardage {
 	public void CloreClavardage() throws ClavardageNonExistantException
 	{
 		ClavardageController.GetInstance().FermerClavardage(GetIPDestination());
+	}
+	
+	public void EnvoyerMessage(String message)
+	{
+		SignalEnvoiUnicastController.GetInstance().EnvoyerSignalUnicast(new SignalMessage(message), utilisateur.GetIP(), portEnvoi);
 	}
 }

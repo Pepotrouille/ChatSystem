@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import model.Clavardage;
@@ -14,11 +15,15 @@ public class ClavardageView extends Container implements ActionListener{
 	
 	private JButton boutonEnvoyer;
     private JTextField messageAEnvoyer;
+    
+    Clavardage clavardage;
 	
 	public ClavardageView(Clavardage clavardage)
 	{
+		messageAEnvoyer = new JTextField();
 		AjouterChampsDeSaisieAvecFormat(messageAEnvoyer, 50 ,450, 600, 20);
 		AjouterBoutonAvecFormat(boutonEnvoyer,700,450,180,20);
+		this.clavardage = clavardage;
 		
 	}
 
@@ -26,7 +31,17 @@ public class ClavardageView extends Container implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == boutonEnvoyer)
 		{
-			///oui
+			if(clavardage.EstValide())
+			{
+				clavardage.EnvoyerMessage(messageAEnvoyer.getText());
+				messageAEnvoyer.setText("");
+			}
+			else 
+			{
+				JOptionPane.showMessageDialog(this,"Conversation invalide. Attente de liaison avec l'interlocuteur");
+				
+			}
+			
 		}
 		
 	}

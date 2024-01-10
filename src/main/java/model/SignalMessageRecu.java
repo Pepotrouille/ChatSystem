@@ -12,7 +12,7 @@ public class SignalMessageRecu  extends Signal{
 	
 	//----------Constructeur
 	
-	public SignalMessageRecu(int noSequence) {
+	public SignalMessageRecu(int noSequence, String message) {
 		noSequenceLocal = noSequence;
 		this.message = message;
 	}
@@ -33,6 +33,6 @@ public class SignalMessageRecu  extends Signal{
 
 	
 	public String ToString() {
-		return "W" + noSequenceLocal;
+		return "W" + noSequenceLocal + message;
 	}
 }

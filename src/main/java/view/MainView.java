@@ -26,12 +26,15 @@ public class MainView {
 		if (Utilisateur.GetUtilisateurActuel().GetAdmin().equals(1))
 		{
 			UpdateGUI(new AccountParameterViewAdmin(utilisateur), true);
+			
+			// Mettre à jour les valeurs pour éviter le problème de référence
 			Utilisateur.GetUtilisateurActuel().SetAdmin(1); 
 			Utilisateur.GetUtilisateurActuel().SetPseudo(utilisateur.GetPseudo());
 		}
 		else 
 		{
 			UpdateGUI(new AccountParameterView(utilisateur), true);
+			Utilisateur.GetUtilisateurActuel().SetPseudo(utilisateur.GetPseudo());
 		}
 	}
 
@@ -44,6 +47,7 @@ public class MainView {
 	public static void AfficherUtilisateursEnLigne()
 	{
 		ArrayList<Object> listeGenerique = new ArrayList<Object>(TableUtilisateurs.GetInstance().GetListeUtilisateurs());
+		System.out.println("Liste des utilisateurs en ligne : " + TableUtilisateurs.GetInstance().GetListeUtilisateurs().toString());
 		UpdateGUITable(new DataTable(listeGenerique, DataTable.TypeDataTable.Utilisateur), true);
 	}
 
@@ -69,7 +73,7 @@ public class MainView {
 		frame.setSize(1000,600);//400 width and 500 height  
 		frame.setVisible(true);//making the frame visible  
 		
-		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	private static void UpdateGUITable(DataTable dataTable, boolean withMenuBar)

@@ -23,12 +23,16 @@ public class MainView {
 
 	public static void AfficherParametresDuCompte(Utilisateur utilisateur)
 	{
-		UpdateGUI(new AccountParameterView(utilisateur), true);
-	}
-	
-	public static void AfficherParametresDuCompteAdmin(Utilisateur utilisateur)
-	{
-		UpdateGUI(new AccountParameterViewAdmin(utilisateur), true);
+		if (Utilisateur.GetUtilisateurActuel().GetAdmin().equals(1))
+		{
+			UpdateGUI(new AccountParameterViewAdmin(utilisateur), true);
+			Utilisateur.GetUtilisateurActuel().SetAdmin(1); 
+			Utilisateur.GetUtilisateurActuel().SetPseudo(utilisateur.GetPseudo());
+		}
+		else 
+		{
+			UpdateGUI(new AccountParameterView(utilisateur), true);
+		}
 	}
 
 	public static void AfficherClavardagesEnCours()

@@ -104,13 +104,13 @@ public class AuthentificationView extends Container implements ActionListener{
         			
         			// Cas 1 : Utilisateur admin
         			if (tlogin.getText().equals("admin")) {
-        				MainView.AfficherParametresDuCompteAdmin(model.Utilisateur.GetUtilisateurActuel());
-        			}
-        			// Cas 2 : Utilisateur normal
-        			else {
+        				model.Utilisateur.GetUtilisateurActuel().SetAdmin(1);
         				MainView.AfficherParametresDuCompte(model.Utilisateur.GetUtilisateurActuel());
         			}
-        			
+        			// Cas 2 : Utilisateur normal
+        			else { 
+        				MainView.AfficherParametresDuCompte(model.Utilisateur.GetUtilisateurActuel());	
+        			}
     			}
     			catch (Exception ex) {
     				ex.printStackTrace();

@@ -107,7 +107,7 @@ public class CreerCompteView extends Container implements ActionListener{
 	    
 	   // Button retourner aux paramètres du compte
 	   else if (e.getSource() == buttonReturn) {
-	    	MainView.AfficherParametresDuCompteAdmin(model.Utilisateur.GetUtilisateurActuel());
+	    	MainView.AfficherParametresDuCompte(model.Utilisateur.GetUtilisateurActuel());
 	   }
 	    
 	}

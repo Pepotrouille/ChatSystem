@@ -15,6 +15,8 @@ public class Utilisateur{
 	
 	private String pseudo;
 	
+	private Integer admin; // Si utilisateur "admin" alors "true", sinon "false"
+	
 	//---------------------------Méthodes-------------------------
 	
 	//----------Constructeur
@@ -23,6 +25,7 @@ public class Utilisateur{
 		
 		this.ip = ip;
 		this.pseudo = pseudo;
+		this.admin = 0;
 	}
 
 	//----------Getters
@@ -34,10 +37,18 @@ public class Utilisateur{
 		return this.pseudo;
 	}
 	
+	public Integer GetAdmin() {
+		return this.admin;
+	}
+	
 	//----------Setters
 	
 	public void SetPseudo (String newPseudo) {
 		this.pseudo = newPseudo;
+	}
+	
+	public void SetAdmin(Integer status) { 
+		this.admin = status;
 	}
 
 	//----------Autres Méthodes

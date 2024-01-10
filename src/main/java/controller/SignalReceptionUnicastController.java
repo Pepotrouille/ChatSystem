@@ -56,7 +56,7 @@ public class SignalReceptionUnicastController  extends Thread{
             
             String receivedMessage = new String(inPacket.getData(), 0, inPacket.getLength());
         	String messageRecu = receivedMessage.substring(1);
-        	
+            System.out.println("Message reçu: " + receivedMessage);
         	
             if (receivedMessage.charAt(0) == 'M') { //Reception d'un message
             	SignalEnvoiUnicastController seuc = SignalEnvoiUnicastController.GetInstance();
@@ -76,15 +76,19 @@ public class SignalReceptionUnicastController  extends Thread{
                 		noSequenceAttendu = 10;
                 	}
             	}
+            	else
+            	{
+            		
+            	}
 
             	
             	//Envoi de la validation de réception
-            	seuc.EnvoyerSignalUnicast(new SignalMessageRecu(noSequenceRecu), clavardage.GetIPDestination(), clavardage.GetPortEnvoi());
+            	seuc.EnvoyerSignalUnicast(new SignalMessageRecu(noSequenceRecu, messageRecu.substring(2)), clavardage.GetIPDestination(), clavardage.GetPortEnvoi());
             	
             }
             else if (receivedMessage.charAt(0) == 'W') {//Reception Validation message Recu
             	//Ajout du message à l'historique local
-            	if(SignalMessage.GetNumeroSequenceActuel()-1 == Integer.parseInt(messageRecu))
+            	if(SignalMessage.GetNumeroSequenceActuel()-1 == Integer.parseInt(messageRecu.substring(0,2)))
             	{
                 	Message newMessage = new Message(messageRecu.substring(2), false);
                 	clavardage.GetHistorique().AjouterMessage(newMessage);
@@ -94,7 +98,6 @@ public class SignalReceptionUnicastController  extends Thread{
             else if (receivedMessage.charAt(0) == 'F') {//Reception Fermer Clavardage
             	ArretReception();
             }
-            System.out.println("Message reçu: " + receivedMessage);
             
             
         }

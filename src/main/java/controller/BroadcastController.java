@@ -44,7 +44,7 @@ public class BroadcastController{ //---------Tout passer en statique
 			e.printStackTrace();
 		}
 		
-		sebc = new SignalEnvoiBroadcastController();
+		sebc = SignalEnvoiBroadcastController.GetInstance();
 
 		srbc = SignalReceptionBroadcastController.GetInstance(tableUtilisateurs, Utilisateur.utilisateurActuel.GetIP(), pseudoController);
 		

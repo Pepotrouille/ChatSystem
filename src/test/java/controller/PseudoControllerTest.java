@@ -32,7 +32,7 @@ public class PseudoControllerTest {
 		}
 		
 		TableUtilisateurs table_user = TableUtilisateurs.GetInstance();
-		PseudoController pseudo_controller = new PseudoController(table_user, user_test, new SignalEnvoiBroadcastController());
+		PseudoController pseudo_controller = new PseudoController(table_user, user_test, SignalEnvoiBroadcastController.GetInstance());
 		
 		// Créer quelques utilisateurs pour tester
 		Utilisateur user_1 = new Utilisateur("ip_user_1", "charlie");

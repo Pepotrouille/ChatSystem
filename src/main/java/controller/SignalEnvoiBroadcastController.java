@@ -15,6 +15,8 @@ import java.util.List;
 
 public class SignalEnvoiBroadcastController { // Singleton
 		
+		private static SignalEnvoiBroadcastController self;
+	
 		//---------------------------Attributs-------------------------
 	
 		private String ipLocale;
@@ -25,7 +27,7 @@ public class SignalEnvoiBroadcastController { // Singleton
 		
 		//----------Constructeur
 		
-		public SignalEnvoiBroadcastController() { 				
+		private SignalEnvoiBroadcastController() { 				
 			
 			try {
 				this.ipLocale = InetAddress.getLocalHost().toString();
@@ -34,6 +36,15 @@ public class SignalEnvoiBroadcastController { // Singleton
 			}
 			this.generalPortEnvoi = BroadcastController.generalPortEnvoi;
 			this.generalPortReception = BroadcastController.generalPortReception;
+		}
+		
+		public static SignalEnvoiBroadcastController GetInstance()
+		{
+			if(SignalEnvoiBroadcastController.self == null)
+	    	{
+				SignalEnvoiBroadcastController.self = new SignalEnvoiBroadcastController();
+	    	}
+	    	return SignalEnvoiBroadcastController.self;
 		}
 
 		//----------Getters

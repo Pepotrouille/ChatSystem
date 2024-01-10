@@ -8,6 +8,7 @@ import exceptions.ClavardageNonExistantException;
 import exceptions.DateInvalideException;
 import exceptions.MessageInvalideException;
 import model.Clavardage;
+import model.SignalNouveauClavardage;
 import model.TableUtilisateurs;
 import model.Utilisateur;
 
@@ -64,6 +65,7 @@ public class ClavardageController {
 		{
 			System.out.println("Création d'un clavardage avec " + utilisateur.GetPseudo());
 			newClavardage = new Clavardage(utilisateur, portEnvoi);
+			SignalEnvoiUnicastController.GetInstance().EnvoyerSignalUnicast(new SignalNouveauClavardage(portEnvoi), utilisateur.GetIP(), BroadcastController.generalPortReception);;
 			this.clavardagesEnCours.add(newClavardage);
 		}
 		
@@ -80,6 +82,16 @@ public class ClavardageController {
 		
 		System.out.println("Fin du clavardage avec " + ipDestination);
 		this.clavardagesEnCours.remove(GetClavardage(ipDestination));
+		
+	}
+	
+	public void FermerClavardages() throws ClavardageNonExistantException
+	{
+		for(Clavardage clavardage : clavardagesEnCours)
+		{
+			this.clavardagesEnCours.remove(clavardage);
+		}
+		System.out.println("Fin des clavardages" );
 		
 	}
 	

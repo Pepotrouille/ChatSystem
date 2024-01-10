@@ -101,7 +101,16 @@ public class AuthentificationView extends Container implements ActionListener{
                 	// On initialise le nouvel utilisateur avec son @IP et un pseudo random
         			Utilisateur u = new Utilisateur(datagramSocket.getLocalAddress().getHostAddress().toString(), id_string);
         			model.Utilisateur.SetUtilisateurActuel(u);
-        			MainView.AfficherParametresDuCompte(model.Utilisateur.GetUtilisateurActuel());
+        			
+        			// Cas 1 : Utilisateur admin
+        			if (tlogin.getText().equals("admin")) {
+        				MainView.AfficherParametresDuCompteAdmin(model.Utilisateur.GetUtilisateurActuel());
+        			}
+        			// Cas 2 : Utilisateur normal
+        			else {
+        				MainView.AfficherParametresDuCompte(model.Utilisateur.GetUtilisateurActuel());
+        			}
+        			
     			}
     			catch (Exception ex) {
     				ex.printStackTrace();

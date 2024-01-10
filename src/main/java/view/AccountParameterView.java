@@ -16,9 +16,9 @@ public class AccountParameterView extends Container implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	
-	private JButton buttonChangerPseudo;
+	protected JButton buttonChangerPseudo;
 	
-	private BroadcastController broadcast_controller;
+	protected BroadcastController broadcast_controller;
 	
 	private JLabel field, tfield;
 	
@@ -116,5 +116,10 @@ public class AccountParameterView extends Container implements ActionListener{
 		    JOptionPane.showMessageDialog(jFrame, "Votre nouveau pseudo est : " + NouveauPseudo);
 			
 		}
+	}
+	
+	public JLabel getTfield()
+	{
+		return this.tfield;
 	}
 }

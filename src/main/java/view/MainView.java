@@ -9,6 +9,7 @@ import controller.BroadcastController;
 import controller.ClavardageController;
 import model.Clavardage;
 import model.Utilisateur;
+import view.AccountParameterViewAdmin;
 import model.TableUtilisateurs;
 import java.util.ArrayList;
 
@@ -24,6 +25,11 @@ public class MainView {
 	public static void AfficherParametresDuCompte(Utilisateur utilisateur)
 	{
 		UpdateGUI(new AccountParameterView(utilisateur), true);
+	}
+	
+	public static void AfficherParametresDuCompteAdmin(Utilisateur utilisateur)
+	{
+		UpdateGUI(new AccountParameterViewAdmin(utilisateur), true);
 	}
 
 	public static void AfficherClavardagesEnCours()

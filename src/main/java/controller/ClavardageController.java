@@ -16,9 +16,9 @@ public class ClavardageController {
 	
 	//---------------------------Attributs-------------------------
 
-	ArrayList<Clavardage> clavardagesEnCours;
+	private ArrayList<Clavardage> clavardagesEnCours;
 	
-	
+	private int prochainPortValide = 60000;
 	
 	
 	//---------------------------Méthodes-------------------------
@@ -85,6 +85,17 @@ public class ClavardageController {
 		}
 		
 		return clavardageARecuperer;
+	}
+	
+	public void ValiderClavardage(String ipDestination, int portReception) throws ClavardageNonExistantException
+	{
+		GetClavardage(ipDestination).ValiderClavardage(portReception);
+	}
+	
+	
+	public int GetProchainPortValide()
+	{
+		return prochainPortValide++;
 	}
 	
 	

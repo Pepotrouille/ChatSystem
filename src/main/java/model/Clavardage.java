@@ -2,6 +2,7 @@ package model;
 
 import java.sql.SQLException;
 
+import controller.SignalReceptionUnicastController;
 import exceptions.DateInvalideException;
 import exceptions.MessageInvalideException;
 
@@ -9,19 +10,20 @@ public class Clavardage {
 
 	Utilisateur utilisateur;
 	
-	int portSource;
+	int portReception;
 	
-	int portDest;
+	int portEnvoi;
 	
 	Historique historique;
 	
-	boolean estValide;
+	SignalReceptionUnicastController sruc;
 	
 	
-	public Clavardage(Utilisateur utilisateur) throws SQLException, MessageInvalideException, DateInvalideException
+	public Clavardage(Utilisateur utilisateur, int portEnvoi) throws SQLException, MessageInvalideException, DateInvalideException
 	{
 		this.utilisateur = utilisateur;
-		this.estValide = false;
+		this.portEnvoi = portEnvoi;
+		this.sruc = null;
 		this.historique = new Historique(Utilisateur.GetUtilisateurActuel().GetIP(), utilisateur.GetIP());
 	}
 	
@@ -33,5 +35,16 @@ public class Clavardage {
 	public String GetUserPseudo() 
 	{
 		return "Test";
+	}
+	
+	public boolean EstValide()
+	{
+		return sruc != null;
+	}
+	
+	public void ValiderClavardage(int portReception)
+	{
+		this.portReception = portReception; 
+		sruc = new SignalReceptionUnicastController(portReception);
 	}
 }

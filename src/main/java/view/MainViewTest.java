@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.event.*; 
-import view.TableUtilisateursView;
 import controller.BroadcastController;
 
 public class MainViewTest extends JFrame implements ActionListener{

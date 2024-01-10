@@ -24,18 +24,21 @@ public class ClavardageView extends Container implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getSource() == boutonEnvoyer)
+		{
+			///oui
+		}
 		
 	}
 	
 	private void AjouterBoutonAvecFormat(JButton bouton, int posX, int posY, int longueur, int hauteur) {
 
-        bouton = new JButton("Envoyer");
-        bouton.setFont(new Font("Arial", Font.PLAIN, 15));
-        bouton.setSize(longueur, hauteur);
-        bouton.setLocation(posX, posY);
-        bouton.addActionListener(this);
-        add(bouton);
+        boutonEnvoyer = new JButton("Envoyer");
+        boutonEnvoyer.setFont(new Font("Arial", Font.PLAIN, 15));
+        boutonEnvoyer.setSize(longueur, hauteur);
+        boutonEnvoyer.setLocation(posX, posY);
+        boutonEnvoyer.addActionListener(this);
+        add(boutonEnvoyer);
 	}
 	
 	private void AjouterChampsDeSaisieAvecFormat(JTextField champsSaisie, int posX, int posY, int longueur, int hauteur) {

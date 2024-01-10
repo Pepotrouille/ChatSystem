@@ -5,7 +5,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Random;
 
+import model.Clavardage;
 import model.TableUtilisateurs;
+import model.Utilisateur;
 
 
 public class SignalReceptionBroadcastController  extends Thread{
@@ -97,40 +99,41 @@ public class SignalReceptionBroadcastController  extends Thread{
             String receivedMessage = new String(inPacket.getData(), 0, inPacket.getLength());
 
             //-----------------------------------------Gestion des cas selon signal de réception
-            if(!inPacket.getAddress().toString().contains(this.adresseLocale))
+            //if(!inPacket.getAddress().toString().contains(this.adresseLocale))
             {
             	String adresseSource = inPacket.getAddress().toString().substring(1);
+            	String messageRecu = receivedMessage.substring(1);
             	
             	if (receivedMessage.charAt(0) == 'C') { //Si connexion de l'utilisateur envoyant le message
                 
 
-            		tableUtilisateurs.AjouterUtilisateur(adresseSource, receivedMessage.substring(1));
+            		tableUtilisateurs.AjouterUtilisateur(adresseSource, messageRecu);
             		
-            		System.out.println("Reception de connexion de " + adresseSource + " en " + receivedMessage.substring(1));
+            		System.out.println("Reception de connexion de " + adresseSource + " en " + messageRecu);
                     
                     //Renvoi d'un signal pour remplir table d'utilisateurs !!! Si SignakEnvoi en Unicast, supprimer celui-ci
                     SignalEnvoiUnicastController seuc = SignalEnvoiUnicastController.GetInstance();
-                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(BroadcastController.soiMeme.GetPseudo()), inPacket.getAddress().toString(), generalPortReception);
+                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(Utilisateur.utilisateurActuel.GetPseudo()), inPacket.getAddress().toString(), generalPortReception);
 
             		System.out.println("Reponse de connexion envoyée");
             	
             	}
             	else if (receivedMessage.charAt(0) == 'P') { //Si changement de pseudo reçu
                 	//Ajouter cas pseudo est le sien
-            		if(receivedMessage.substring(1).equals(BroadcastController.soiMeme.GetPseudo()))
+            		if(messageRecu.equals(BroadcastController.soiMeme.GetPseudo()))
             		{
             			//Faire la gestion de conflit de pseudo
             			//SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
                         //seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(this.adresseLocale), inPacket.getAddress().toString(), generalPortReception);
             			
-            			System.out.println("Pseudo " + receivedMessage.substring(1) + " déja utilisé, notification envoyée.");
+            			System.out.println("Pseudo " + messageRecu + " déja utilisé, notification envoyée.");
             		}
-            		else if(!tableUtilisateurs.SetPseudo(adresseSource, receivedMessage.substring(1)))
+            		else if(!tableUtilisateurs.SetPseudo(adresseSource, messageRecu))
             		{
-            			tableUtilisateurs.AjouterUtilisateur(adresseSource, receivedMessage.substring(1));
-            			System.out.println("Ajout de " + adresseSource + " ; " + receivedMessage.substring(1) + " à la table utilisateur");
+            			tableUtilisateurs.AjouterUtilisateur(adresseSource, messageRecu);
+            			System.out.println("Ajout de " + adresseSource + " ; " + messageRecu + " à la table utilisateur");
             		}
-                	System.out.println("Reception du changement de pseudo de " + adresseSource + " en " + receivedMessage.substring(1));
+                	System.out.println("Reception du changement de pseudo de " + adresseSource + " en " + messageRecu);
             	}
             	else if (receivedMessage.charAt(0) == 'D') { //Si déconnexion de l'utilisateur envoyant le message
 
@@ -139,35 +142,48 @@ public class SignalReceptionBroadcastController  extends Thread{
             	}
             	else if (receivedMessage.charAt(0) == 'R') { //Si réception d'un acquittement de connexion avec pseudo
 
-                	tableUtilisateurs.AjouterUtilisateur(adresseSource, receivedMessage.substring(1));
-                	System.out.println("Reception de la présence de " + receivedMessage.substring(1) + " sur le réseau");
+                	tableUtilisateurs.AjouterUtilisateur(adresseSource, messageRecu);
+                	System.out.println("Reception de la présence de " + messageRecu + " sur le réseau");
             	}
             	else if (receivedMessage.charAt(0) == 'A') { //Si déconnexion d'un autre utilisateur envoyé
 
-                	tableUtilisateurs.SupprimerUtilisateur(receivedMessage.substring(1));
-                	System.out.println("Reception de la déconnexion de " + receivedMessage.substring(1) + " sur le réseau");
+                	tableUtilisateurs.SupprimerUtilisateur(messageRecu);
+                	System.out.println("Reception de la déconnexion de " + messageRecu + " sur le réseau");
             	}
             	else if (receivedMessage.charAt(0) == 'O') { //Si conflit de pseudo détecté
             		Random rand = new Random();
             		String newPseudo = "Utilisateur" + rand.nextInt(5000);
-            		System.out.println("Conflit sur le pseudo " + BroadcastController.soiMeme.GetPseudo() + ". Nouveau pseudo réassigné : " + newPseudo + ". Veuillez changer de pseudo.");
+            		System.out.println("Conflit sur le pseudo " + Utilisateur.utilisateurActuel.GetPseudo() + ". Nouveau pseudo réassigné : " + newPseudo + ". Veuillez changer de pseudo.");
             		pseudoController.changePseudo(newPseudo);
-            		if(!tableUtilisateurs.SetPseudo(adresseSource, receivedMessage.substring(1)))
+            		if(!tableUtilisateurs.SetPseudo(adresseSource, messageRecu))
             		{
-            			tableUtilisateurs.AjouterUtilisateur(adresseSource, receivedMessage.substring(1));
-            			System.out.println("Ajout de " + adresseSource + " ; " + receivedMessage.substring(1) + " à la table utilisateur");
+            			tableUtilisateurs.AjouterUtilisateur(adresseSource, messageRecu);
+            			System.out.println("Ajout de " + adresseSource + " ; " + messageRecu + " à la table utilisateur");
             		}
                 	
             	}
             	else if (receivedMessage.charAt(0) == 'N') { //Si clavardage créé
+            		//Recuperation d'un port d'envoi valide
+            		ClavardageController clavardageController = ClavardageController.GetInstance();
+            		int newPortEnvoi = clavardageController.GetProchainPortValide();
+            		
+            		//Envoi d'un message de création de clavardage
             		SignalEnvoiUnicastController seuc = SignalEnvoiUnicastController.GetInstance();
-                    seuc.EnvoyerSignalUnicast(new model.SignalValiderNouveauClavardage(2048), inPacket.getAddress().toString(), generalPortReception);//Gestion Port
+                    seuc.EnvoyerSignalUnicast(new model.SignalValiderNouveauClavardage(newPortEnvoi), inPacket.getAddress().toString(), generalPortReception);//Gestion Port
+                    
+                    
             		//Créer boîte clavardage avec adresseSource
-
+                    Clavardage newClavardage = clavardageController.NouveauClavardage(tableUtilisateurs.GetUtilisateur(adresseSource));
+                    newClavardage.ValiderClavardage(Integer.parseInt(messageRecu));
+                    
+                    
                 	
             	}
             	else if (receivedMessage.charAt(0) == 'V') { //Si confirmation de clavardage créé
             		//Créer boîte clavardage avec adresseSource
+            		ClavardageController clavardageController = ClavardageController.GetInstance();
+            		Clavardage clavardage = clavardageController.GetClavardage(adresseSource);
+            		clavardage.ValiderClavardage(Integer.parseInt(messageRecu));
                 	
             	}
             	else{

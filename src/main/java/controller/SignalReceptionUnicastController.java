@@ -15,9 +15,9 @@ public class SignalReceptionUnicastController  extends Thread{
 	
 	//----------Constructeur
 	
-	public SignalReceptionUnicastController() { 				
+	public SignalReceptionUnicastController(int portReception) { 				
 		
-		this.specificPortLocal = 5000;
+		this.specificPortLocal = portReception;
 	}
 
 	//----------Getters

@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
+import model.Utilisateur;
+
 public class BarMenuView extends JMenuBar implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
@@ -76,7 +78,6 @@ public class BarMenuView extends JMenuBar implements ActionListener {
         else if (e.getSource() == optionAccountParameters) {
         	/* Afficher les paramètres de compte de l'utilisateur */
         	MainView.AfficherParametresDuCompte(model.Utilisateur.GetUtilisateurActuel());
-            
         }
         else if (e.getSource() == optionOnlineUsers) {
         	/* Afficher la liste des utilisateurs en ligne */

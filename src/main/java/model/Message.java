@@ -24,6 +24,17 @@ public class Message implements Comparable<Message>{
 			this.date = date;
 			this.deLUtilisateurActuel = deLUtilisateurActuel;
 	}
+	
+	
+	public Message(String contenu, boolean deLUtilisateurActuel) throws MessageInvalideException{ 		
+			if(contenu == null || contenu.equals(""))
+			{
+				throw new MessageInvalideException();
+			}
+			this.contenu=contenu;
+			this.date = new MaDate();
+			this.deLUtilisateurActuel = deLUtilisateurActuel;
+	}
 
 	//----------Getters
 		

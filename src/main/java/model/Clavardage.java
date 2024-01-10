@@ -2,7 +2,9 @@ package model;
 
 import java.sql.SQLException;
 
+import controller.ClavardageController;
 import controller.SignalReceptionUnicastController;
+import exceptions.ClavardageNonExistantException;
 import exceptions.DateInvalideException;
 import exceptions.MessageInvalideException;
 
@@ -29,12 +31,27 @@ public class Clavardage {
 	
 	public String GetIPDestination() 
 	{
-		return "Test";
+		return utilisateur.GetIP();
 	}
 	
 	public String GetUserPseudo() 
 	{
-		return "Test";
+		return utilisateur.GetPseudo();
+	}
+
+	public int GetPortReception() 
+	{
+		return portReception;
+	}
+
+	public int GetPortEnvoi() 
+	{
+		return portEnvoi;
+	}
+	
+	public Historique GetHistorique()
+	{
+		return historique;
 	}
 	
 	public boolean EstValide()
@@ -45,6 +62,11 @@ public class Clavardage {
 	public void ValiderClavardage(int portReception)
 	{
 		this.portReception = portReception; 
-		sruc = new SignalReceptionUnicastController(portReception);
+		sruc = new SignalReceptionUnicastController(this);
+	}
+	
+	public void CloreClavardage() throws ClavardageNonExistantException
+	{
+		ClavardageController.GetInstance().FermerClavardage(GetIPDestination());
 	}
 }

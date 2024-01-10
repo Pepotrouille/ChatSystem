@@ -42,7 +42,7 @@ public class DataTable {
 			for (Object objet : listeObjets)
 			{
 				contenu[i][0] = ((Clavardage)objet).GetUserPseudo();
-				contenu[i][1] = new OuvrirClavardageButton(" ", ((Clavardage)objet));
+				contenu[i][1] = new OuvrirClavardageButton("Accéder au Clavardage", ((Clavardage)objet));
 				
 				i++;
 			}

@@ -65,8 +65,6 @@ public class TableToContainer {
 
 		if(tailleTab != 0)
 		{
-			System.out.println(row[tailleTab-1]);
-			System.out.println(row[tailleTab-1].getClass());
 			
 			JButton bouton = (JButton)row[tailleTab-1];
 			FormatButton(bouton, lengthCell, (int)(heightCell*0.6), lengthCell*(tailleTab -1), (int)(positionY+heightCell*0.1));

@@ -99,7 +99,7 @@ public class SignalReceptionBroadcastController  extends Thread{
             String receivedMessage = new String(inPacket.getData(), 0, inPacket.getLength());
 
             //-----------------------------------------Gestion des cas selon signal de réception
-            //if(!inPacket.getAddress().toString().contains(this.adresseLocale))
+            if(!inPacket.getAddress().toString().contains(this.adresseLocale))
             {
             	String adresseSource = inPacket.getAddress().toString().substring(1);
             	String messageRecu = receivedMessage.substring(1);
@@ -173,7 +173,7 @@ public class SignalReceptionBroadcastController  extends Thread{
                     
                     
             		//Créer boîte clavardage avec adresseSource
-                    Clavardage newClavardage = clavardageController.NouveauClavardage(tableUtilisateurs.GetUtilisateur(adresseSource));
+                    Clavardage newClavardage = clavardageController.NouveauClavardage(tableUtilisateurs.GetUtilisateur(adresseSource), newPortEnvoi);
                     newClavardage.ValiderClavardage(Integer.parseInt(messageRecu));
                     
                     

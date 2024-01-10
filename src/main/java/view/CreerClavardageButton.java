@@ -5,8 +5,11 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import controller.ClavardageController;
+import exceptions.ClavardageDejaCree;
+import exceptions.ClavardageNonExistantException;
 import exceptions.DateInvalideException;
 import exceptions.MessageInvalideException;
 import model.Clavardage;
@@ -32,11 +35,23 @@ public class CreerClavardageButton extends JButton implements ActionListener{
 				Clavardage newClavardage = null;
 				try {
 					newClavardage = ClavardageController.GetInstance().NouveauClavardage(this.utilisateur);
-				} catch (SQLException | MessageInvalideException | DateInvalideException e1) {
-					// TODO Auto-generated catch block
+				} 
+				//
+				catch (SQLException | MessageInvalideException | DateInvalideException e1) {
+					JOptionPane.showMessageDialog(this,"Problème lors de la création de l'historique. Veuillez réessayer.");
 					e1.printStackTrace();
-					
-					//Ajouter Pop up
+				}
+				//Cas où le clavardage est déjà existant
+				catch(ClavardageDejaCree e4)
+				{
+					Clavardage clavardageExistant;
+					try {
+						clavardageExistant = ClavardageController.GetInstance().GetClavardage(utilisateur.GetIP());
+						MainView.AfficherClavardage(clavardageExistant);
+					} catch (ClavardageNonExistantException e41) {
+						JOptionPane.showMessageDialog(this,"Problème lors de l'accès au clavardage. Veuillez réessayer.");
+						e41.printStackTrace();
+					}
 				}
 				MainView.AfficherClavardage(newClavardage);
 			}

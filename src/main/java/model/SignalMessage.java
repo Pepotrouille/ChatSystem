@@ -32,6 +32,10 @@ public class SignalMessage extends Signal{
 	public int GetNumeroSequence() {
 		return this.noSequenceLocal;
 	}
+
+	public static int GetNumeroSequenceActuel() {
+		return noSequence;
+	}
 	
 	//----------Setters
 	public void SetMessage(String message) {

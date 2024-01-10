@@ -3,6 +3,7 @@ package controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import exceptions.ClavardageDejaCree;
 import exceptions.ClavardageNonExistantException;
 import exceptions.DateInvalideException;
 import exceptions.MessageInvalideException;
@@ -50,13 +51,28 @@ public class ClavardageController {
 	
 	//----------Autres Méthodes
 	
-	public Clavardage NouveauClavardage(Utilisateur utilisateur, int portEnvoi) throws SQLException, MessageInvalideException, DateInvalideException
+	public Clavardage NouveauClavardage(Utilisateur utilisateur, int portEnvoi) throws SQLException, MessageInvalideException, DateInvalideException, ClavardageDejaCree
 	{
-		System.out.println("Création d'un clavardage avec " + utilisateur.GetPseudo());
-		Clavardage newClavardage = new Clavardage(utilisateur, portEnvoi);
-		//clavardagesEnCours.add(newClavardage);
-		//return newClavardage;
-		return null;
+		Clavardage newClavardage = null;
+		try
+		{
+			GetClavardage(utilisateur.GetIP());
+			throw new ClavardageDejaCree();
+			
+		}
+		catch(ClavardageNonExistantException e)
+		{
+			System.out.println("Création d'un clavardage avec " + utilisateur.GetPseudo());
+			newClavardage = new Clavardage(utilisateur, portEnvoi);
+			this.clavardagesEnCours.add(newClavardage);
+		}
+		
+		return newClavardage;
+	}
+
+	public Clavardage NouveauClavardage(Utilisateur utilisateur) throws SQLException, MessageInvalideException, DateInvalideException, ClavardageDejaCree
+	{
+		return NouveauClavardage(utilisateur, GetProchainPortValide());
 	}
 	
 	public void FermerClavardage(String ipDestination) throws ClavardageNonExistantException

@@ -4,55 +4,101 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import exceptions.ClavardageNonExistantException;
+import model.Clavardage;
+import model.Message;
+import model.SignalMessage;
+import model.SignalMessageRecu;
+
 
 public class SignalReceptionUnicastController  extends Thread{
 
 	//---------------------------Attributs-------------------------
-
-	private int specificPortLocal;
+	
+	private DatagramSocket socket;
+	
+	private boolean running;
+	
+	private Clavardage clavardage;
+	
+	private int noSequenceAttendu;
+	
 	
 	//---------------------------Méthodes-------------------------
 	
 	//----------Constructeur
 	
-	public SignalReceptionUnicastController(int portReception) { 				
+	public SignalReceptionUnicastController(Clavardage clavardage) { 				
 		
-		this.specificPortLocal = portReception;
+		this.clavardage = clavardage;
+		
+		this.running = true;
+		
+		this.noSequenceAttendu = 10;
+
 	}
 
 	//----------Getters
 
-	public int GetSpecificPortLocal() {
-		return this.specificPortLocal;
-	}
 	
 	
 	@Override
     public void run() {
         try{
           
-        DatagramSocket socket = new DatagramSocket(specificPortLocal);
+        socket = new DatagramSocket(clavardage.GetPortReception());
         boolean running = true;
         byte[] buf = new byte[256];
 
         while (running) {
             DatagramPacket inPacket  = new DatagramPacket(buf, buf.length);
             socket.receive(inPacket);
+            
             String receivedMessage = new String(inPacket.getData(), 0, inPacket.getLength());
+        	String messageRecu = receivedMessage.substring(1);
+        	
+        	
+            if (receivedMessage.charAt(0) == 'M') { //Reception d'un message
+            	SignalEnvoiUnicastController seuc = SignalEnvoiUnicastController.GetInstance();
+            	int noSequenceRecu = Integer.parseInt(messageRecu.substring(0,2));
+            	
+            	//Verification numero de séquence pour éviter doublons
+            	if(noSequenceRecu == noSequenceAttendu)
+            	{
+                	//Ajout du message à la base de données et à l'historique local
+                	Message newMessage = new Message(messageRecu.substring(2), false);
+                	BDDMessageController.GetInstance().AjouterMessage(newMessage, clavardage.GetHistorique());
+                	clavardage.GetHistorique().AjouterMessage(newMessage);
+                	
+                	//Incremente noSequence
+                	if(noSequenceAttendu >99 || noSequenceAttendu<10)
+                	{
+                		noSequenceAttendu = 10;
+                	}
+            	}
 
-            if (0!=0 ) {//Reception Bouton quitter
-                running = false;
-                continue;
+            	
+            	//Envoi de la validation de réception
+            	seuc.EnvoyerSignalUnicast(new SignalMessageRecu(noSequenceRecu), clavardage.GetIPDestination(), clavardage.GetPortEnvoi());
+            	
             }
-            else{
-
-                System.out.println("Message reçu: " + receivedMessage);
-                System.out.println("@IP source = " + inPacket.getAddress().toString());
+            else if (receivedMessage.charAt(0) == 'W') {//Reception Validation message Recu
+            	//Ajout du message à l'historique local
+            	if(SignalMessage.GetNumeroSequenceActuel()-1 == Integer.parseInt(messageRecu))
+            	{
+                	Message newMessage = new Message(messageRecu.substring(2), false);
+                	clavardage.GetHistorique().AjouterMessage(newMessage);
+            	}
+            	
             }
+            else if (receivedMessage.charAt(0) == 'F') {//Reception Fermer Clavardage
+            	ArretReception();
+            }
+            System.out.println("Message reçu: " + receivedMessage);
+            
             
         }
-        socket.close();  
-        System.out.println("Déconnexion");
+        CloreReception();
         }
         catch(Exception e)
         {
@@ -60,6 +106,19 @@ public class SignalReceptionUnicastController  extends Thread{
             e.printStackTrace();
         }
     }
+	
+	private void ArretReception() {
+
+		this.running = false;
+	}
+	
+	private void CloreReception() throws ClavardageNonExistantException {
+
+        socket.close();  
+        System.out.println("Fermeture clavardage avec " + clavardage.GetUserPseudo());
+        clavardage.CloreClavardage();
+	}
+
 	
 	
 	

@@ -13,9 +13,9 @@ public class Clavardage {
 
 	Utilisateur utilisateur;
 	
-	int portReception;
+	int portReceptionMoi;
 	
-	int portEnvoi;
+	int portReceptionAutre;
 	
 	Historique historique;
 	
@@ -25,9 +25,12 @@ public class Clavardage {
 	public Clavardage(Utilisateur utilisateur, int portReception) throws SQLException, MessageInvalideException, DateInvalideException
 	{
 		this.utilisateur = utilisateur;
-		this.portReception = portReception;
-		this.sruc = null;
+		this.portReceptionMoi = portReception;
+		this.portReceptionAutre = -1;
 		this.historique = new Historique(Utilisateur.GetUtilisateurActuel().GetIP(), utilisateur.GetIP());
+		System.out.println("AAAA");
+		this.sruc = new SignalReceptionUnicastController(this);
+		this.sruc.start();
 	}
 	
 	public String GetIPDestination() 
@@ -42,12 +45,12 @@ public class Clavardage {
 
 	public int GetPortReception() 
 	{
-		return portReception;
+		return portReceptionMoi;
 	}
 
 	public int GetPortEnvoi() 
 	{
-		return portEnvoi;
+		return portReceptionAutre;
 	}
 	
 	public Historique GetHistorique()
@@ -57,13 +60,13 @@ public class Clavardage {
 	
 	public boolean EstValide()
 	{
-		return sruc != null;
+		return portReceptionAutre != -1;
 	}
 	
-	public void ValiderClavardage(int portEnvoi)
+	public void ValiderClavardage(int portReceptionAutre)
 	{
-		this.portEnvoi = portEnvoi; 
-		sruc = new SignalReceptionUnicastController(this);
+		this.portReceptionAutre = portReceptionAutre; 
+		System.out.println("Validation du clavardage. Port réception interlocuteur : " + portReceptionAutre + ", et mon port de réception : " + portReceptionMoi);
 	}
 	
 	public void CloreClavardage() throws ClavardageNonExistantException
@@ -73,6 +76,6 @@ public class Clavardage {
 	
 	public void EnvoyerMessage(String message)
 	{
-		SignalEnvoiUnicastController.GetInstance().EnvoyerSignalUnicast(new SignalMessage(message), utilisateur.GetIP(), portEnvoi);
+		SignalEnvoiUnicastController.GetInstance().EnvoyerSignalUnicast(new SignalMessage(message), utilisateur.GetIP(), portReceptionAutre);
 	}
 }

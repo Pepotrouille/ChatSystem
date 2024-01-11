@@ -62,7 +62,7 @@ public class SignalEnvoiUnicastController { // Singleton
 			try {
 				if(portReceiver != BroadcastController.generalPortReception)
 				{
-					socket = new DatagramSocket(portReceiver);
+					socket = new DatagramSocket(BroadcastController.generalPortEnvoi);
 					byte[] buf = new byte[2048];
 					buf = signal.ToString().getBytes();
 					System.out.println("Envoie de : " + signal.ToString() + " à l'adresse " + ip + " et au port " + portReceiver);

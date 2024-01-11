@@ -64,7 +64,7 @@ public class ClavardageController {
 		}
 		catch(ClavardageNonExistantException e)
 		{
-			System.out.println("Création d'un clavardage avec " + utilisateur.GetPseudo());
+			System.out.println("Création d'un clavardage avec l'utilisateur : " + utilisateur.GetPseudo());
 			newClavardage = new Clavardage(utilisateur, portEnvoi);
 			SignalEnvoiUnicastController.GetInstance().EnvoyerSignalUnicast(new SignalNouveauClavardage(portEnvoi), utilisateur.GetIP(), BroadcastController.generalPortReception);;
 			this.clavardagesEnCours.add(newClavardage);
@@ -76,6 +76,36 @@ public class ClavardageController {
 	public Clavardage NouveauClavardage(Utilisateur utilisateur) throws SQLException, MessageInvalideException, DateInvalideException, ClavardageDejaCree
 	{
 		return NouveauClavardage(utilisateur, GetProchainPortValide());
+	}
+
+	public Clavardage NouveauClavardageValide(Utilisateur utilisateur, int portEnvoi, int portReception) throws SQLException, MessageInvalideException, DateInvalideException, ClavardageDejaCree {
+		Clavardage newClavardage = null;
+		try
+		{
+			newClavardage = GetClavardage(utilisateur.GetIP());
+			
+			if(utilisateur.GetIP().equals("127.0.0.1"))
+			{
+				System.out.println("Création d'un clavardage avec moi même.");
+				newClavardage = new Clavardage(utilisateur, portEnvoi);
+				newClavardage.ValiderClavardage(portReception);
+				this.clavardagesEnCours.add(newClavardage);
+			}
+			else {
+				throw new ClavardageDejaCree();
+			}
+			
+			
+			
+		}
+		catch(ClavardageNonExistantException e)
+		{
+			System.out.println("Création d'un clavardage avec utilisateur : " + utilisateur.GetPseudo());
+			newClavardage = new Clavardage(utilisateur, portEnvoi);
+			newClavardage.ValiderClavardage(portReception);
+			this.clavardagesEnCours.add(newClavardage);
+		}
+		return newClavardage;
 	}
 	
 	public void FermerClavardage(String ipDestination) throws ClavardageNonExistantException
@@ -120,7 +150,6 @@ public class ClavardageController {
 	{
 		GetClavardage(ipDestination).ValiderClavardage(portReception);
 	}
-	
 	
 	public int GetProchainPortValide()
 	{

@@ -98,14 +98,14 @@ public class SignalReceptionBroadcastController  extends Thread{
         while (running) {
             DatagramPacket inPacket  = new DatagramPacket(buf, buf.length);
             socket.receive(inPacket);
-            String receivedMessage = new String(inPacket.getData(), 0, inPacket.getLength());
+            String signalRecu = new String(inPacket.getData(), 0, inPacket.getLength());
 
             //-----------------------------------------Gestion des cas selon signal de réception
             if(!inPacket.getAddress().toString().contains(this.adresseLocale))
             {
             	String adresseSource = inPacket.getAddress().toString().substring(1);
-            	String messageRecu = receivedMessage.substring(1);
-            	switch(receivedMessage.charAt(0))
+            	String messageRecu = signalRecu.substring(1);
+            	switch(signalRecu.charAt(0))
             	{
             	case 'C' : //Si connexion de l'utilisateur envoyant le message
             		tableUtilisateurs.AjouterUtilisateur(adresseSource, messageRecu);
@@ -174,14 +174,14 @@ public class SignalReceptionBroadcastController  extends Thread{
             	case 'N': //Si clavardage créé
             		//Recuperation d'un port d'envoi valide
             		ClavardageController clavardageController = ClavardageController.GetInstance();
-            		int newPortEnvoi = clavardageController.GetProchainPortValide();
+            		int newPortReception = clavardageController.GetProchainPortValide();
 
                     System.out.println("Reception du nouveau clavardage de " + adresseSource);
                     
             		//Envoi d'un message de création de clavardage
-                    seuc.EnvoyerSignalUnicast(new model.SignalValiderNouveauClavardage(newPortEnvoi), adresseSource, generalPortReception);//Gestion Port
+                    seuc.EnvoyerSignalUnicast(new model.SignalValiderNouveauClavardage(newPortReception), adresseSource, Integer.parseInt(messageRecu));//Gestion Port
 
-                    System.out.println("Envoi du message d'acquittement à " + adresseSource);
+                    System.out.println("Envoi du message d'acquittement à " + adresseSource +" au port : " + Integer.parseInt(messageRecu) + " avec signal : V" + newPortReception);
                     
             		//Créer boîte clavardage avec adresseSource
                     Utilisateur utilisateurInterlocuteur;
@@ -194,16 +194,15 @@ public class SignalReceptionBroadcastController  extends Thread{
                     	utilisateurInterlocuteur = tableUtilisateurs.GetUtilisateur(adresseSource);
                     }
                     
-                    Clavardage newClavardage = clavardageController.NouveauClavardage(utilisateurInterlocuteur, newPortEnvoi);
+                    Clavardage newClavardage = clavardageController.NouveauClavardageValide(utilisateurInterlocuteur, newPortReception, Integer.parseInt(messageRecu));
                     
-                    newClavardage.ValiderClavardage(Integer.parseInt(messageRecu));
 
                     System.out.println("Création de la boîte de clavardage avec " + adresseSource);
                 	break;
                 	
                 	
                 default:
-                	System.out.println("Message reçu: " + receivedMessage);
+                	System.out.println("Message reçu: " + signalRecu);
                     System.out.println("@IP source = " + adresseSource);
             	}
             	//--DEBUG

@@ -5,7 +5,7 @@ public class Utilisateur{
 	
 	//---------------------------Attributs-------------------------
 	
-	public static Utilisateur utilisateurActuel;
+	private static Utilisateur utilisateurActuel;
 	
 	public static void SetUtilisateurActuel(Utilisateur newUser) 
 	{

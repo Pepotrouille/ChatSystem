@@ -99,7 +99,7 @@ public class AccountParameterView extends Container implements ActionListener{
 		if (e.getSource() == buttonChangerPseudo) {
 			
 			//Utilisateur utilisateur = pseudo_controller.getUtilisateur();
-			Utilisateur utilisateur = Utilisateur.utilisateurActuel;
+			Utilisateur utilisateur = Utilisateur.GetUtilisateurActuel();
 			
 			JFrame jFrame = new JFrame();
 		    String NouveauPseudo = JOptionPane.showInputDialog(jFrame, "Entrez votre nouveau pseudo");

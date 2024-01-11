@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
+import controller.BroadcastController;
 import model.Utilisateur;
 
 public class BarMenuView extends JMenuBar implements ActionListener {
@@ -70,9 +71,10 @@ public class BarMenuView extends JMenuBar implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
         if (e.getSource() == optionDisconnect) {
-            //MainView.ShowAnthentification();
-            /* Réinitialiser l'utilisateur */
+            /* Déconnexion de l'utilisateur */
+        	System.out.println("Déconnexion");
         	model.Utilisateur.SetUtilisateurActuel(null);
+        	BroadcastController.GetInstance().Deconnexion();
         	MainView.AfficherAuthentification();
         }
         else if (e.getSource() == optionAccountParameters) {

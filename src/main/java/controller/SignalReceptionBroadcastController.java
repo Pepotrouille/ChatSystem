@@ -113,14 +113,14 @@ public class SignalReceptionBroadcastController  extends Thread{
                     
                     //Renvoi d'un signal pour remplir table d'utilisateurs !!! Si SignakEnvoi en Unicast, supprimer celui-ci
                     SignalEnvoiUnicastController seuc = SignalEnvoiUnicastController.GetInstance();
-                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(Utilisateur.utilisateurActuel.GetPseudo()), inPacket.getAddress().toString(), generalPortReception);
+                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(Utilisateur.GetUtilisateurActuel().GetPseudo()), inPacket.getAddress().toString(), generalPortReception);
 
             		System.out.println("Reponse de connexion envoyée");
             	
             	}
             	else if (receivedMessage.charAt(0) == 'P') { //Si changement de pseudo reçu
                 	//Ajouter cas pseudo est le sien
-            		if(messageRecu.equals(Utilisateur.utilisateurActuel.GetPseudo()))
+            		if(messageRecu.equals(Utilisateur.GetUtilisateurActuel().GetPseudo()))
             		{
             			//Faire la gestion de conflit de pseudo
             			//SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
@@ -153,7 +153,7 @@ public class SignalReceptionBroadcastController  extends Thread{
             	else if (receivedMessage.charAt(0) == 'O') { //Si conflit de pseudo détecté
             		Random rand = new Random();
             		String newPseudo = "Utilisateur" + rand.nextInt(5000);
-            		System.out.println("Conflit sur le pseudo " + Utilisateur.utilisateurActuel.GetPseudo() + ". Nouveau pseudo réassigné : " + newPseudo + ". Veuillez changer de pseudo.");
+            		System.out.println("Conflit sur le pseudo " + Utilisateur.GetUtilisateurActuel().GetPseudo() + ". Nouveau pseudo réassigné : " + newPseudo + ". Veuillez changer de pseudo.");
             		pseudoController.changePseudo(newPseudo);
             		if(!tableUtilisateurs.SetPseudo(adresseSource, messageRecu))
             		{

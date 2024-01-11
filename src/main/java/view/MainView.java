@@ -26,15 +26,10 @@ public class MainView {
 		if (Utilisateur.GetUtilisateurActuel().GetAdmin().equals(1))
 		{
 			UpdateGUI(new AccountParameterViewAdmin(utilisateur), true);
-			
-			// Mettre à jour les valeurs pour éviter le problème de référence
-			Utilisateur.GetUtilisateurActuel().SetAdmin(1); 
-			Utilisateur.GetUtilisateurActuel().SetPseudo(utilisateur.GetPseudo());
 		}
 		else 
 		{
 			UpdateGUI(new AccountParameterView(utilisateur), true);
-			Utilisateur.GetUtilisateurActuel().SetPseudo(utilisateur.GetPseudo());
 		}
 	}
 
@@ -47,7 +42,7 @@ public class MainView {
 	public static void AfficherUtilisateursEnLigne()
 	{
 		ArrayList<Object> listeGenerique = new ArrayList<Object>(TableUtilisateurs.GetInstance().GetListeUtilisateurs());
-		System.out.println("Liste des utilisateurs en ligne : " + TableUtilisateurs.GetInstance().GetListeUtilisateurs().toString());
+		TableUtilisateurs.GetInstance().AfficherListe();
 		UpdateGUITable(new DataTable(listeGenerique, DataTable.TypeDataTable.Utilisateur), true);
 	}
 

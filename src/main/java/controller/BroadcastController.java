@@ -43,7 +43,6 @@ public class BroadcastController{ //---------Tout passer en statique
         	datagramSocket.connect(InetAddress.getByName("8.8.8.8"), 12345);
         	System.out.println(datagramSocket.getLocalAddress().getHostAddress().toString());
         	
-			Utilisateur.utilisateurActuel = new Utilisateur (datagramSocket.getLocalAddress().getHostAddress().toString(),"null");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,12 +50,12 @@ public class BroadcastController{ //---------Tout passer en statique
 		
 		sebc = SignalEnvoiBroadcastController.GetInstance();
 
-		srbc = SignalReceptionBroadcastController.GetInstance(tableUtilisateurs, Utilisateur.utilisateurActuel.GetIP(), pseudoController);
+		srbc = SignalReceptionBroadcastController.GetInstance(tableUtilisateurs, Utilisateur.GetUtilisateurActuel().GetIP(), pseudoController);
 		
         System.out.println("Lancement du Thread de réception");
         
         
-        pseudoController = new PseudoController(tableUtilisateurs, Utilisateur.utilisateurActuel, sebc);//Utilisateur temporaire
+        pseudoController = new PseudoController(tableUtilisateurs, Utilisateur.GetUtilisateurActuel(), sebc);//Utilisateur temporaire
 
         //this.pseudoController = pseudoController;
 		

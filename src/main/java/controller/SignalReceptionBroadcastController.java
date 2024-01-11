@@ -166,17 +166,20 @@ public class SignalReceptionBroadcastController  extends Thread{
             		//Recuperation d'un port d'envoi valide
             		ClavardageController clavardageController = ClavardageController.GetInstance();
             		int newPortEnvoi = clavardageController.GetProchainPortValide();
-            		
+
+                    System.out.println("Reception du nouveau clavardage de " + adresseSource);
+                    
             		//Envoi d'un message de création de clavardage
             		SignalEnvoiUnicastController seuc = SignalEnvoiUnicastController.GetInstance();
-                    seuc.EnvoyerSignalUnicast(new model.SignalValiderNouveauClavardage(newPortEnvoi), inPacket.getAddress().toString(), generalPortReception);//Gestion Port
-                    
+                    seuc.EnvoyerSignalUnicast(new model.SignalValiderNouveauClavardage(newPortEnvoi), adresseSource, generalPortReception);//Gestion Port
+
+                    System.out.println("Envoi du message d'acquittement à " + adresseSource);
                     
             		//Créer boîte clavardage avec adresseSource
                     Clavardage newClavardage = clavardageController.NouveauClavardage(tableUtilisateurs.GetUtilisateur(adresseSource), newPortEnvoi);
                     newClavardage.ValiderClavardage(Integer.parseInt(messageRecu));
-                    
-                    
+
+                    System.out.println("Création de la boîte de clavardage avec " + adresseSource);
                 	
             	}
             	else if (receivedMessage.charAt(0) == 'V') { //Si confirmation de clavardage créé
@@ -184,6 +187,8 @@ public class SignalReceptionBroadcastController  extends Thread{
             		ClavardageController clavardageController = ClavardageController.GetInstance();
             		Clavardage clavardage = clavardageController.GetClavardage(adresseSource);
             		clavardage.ValiderClavardage(Integer.parseInt(messageRecu));
+
+                    System.out.println("Validation de la création du clavardage avec " + adresseSource);
                 	
             	}
             	else{

@@ -79,9 +79,9 @@ public class SignalEnvoiUnicastController { // Singleton
 					socket = SignalReceptionBroadcastController.socket;
 					byte[] buf = new byte[2048];
 					buf = signal.ToString().getBytes();
-					System.out.println("Envoie de : " + signal.ToString() + " à l'adresse " + ip.substring(1) + " et au port " + portReceiver);
+					System.out.println("Envoie de : " + signal.ToString() + " à l'adresse " + ip + " et au port " + portReceiver);
 	            
-					InetAddress addressReceiver = InetAddress.getByName(ip.substring(1));
+					InetAddress addressReceiver = InetAddress.getByName(ip);
 	            
 					DatagramPacket outPacket = new DatagramPacket(buf, buf.length, addressReceiver, portReceiver);
 					socket.send(outPacket);

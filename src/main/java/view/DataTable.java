@@ -59,8 +59,10 @@ public class DataTable {
 
 			contenu = new Object[listeObjets.size()+1][2];
 			
+			Utilisateur utilisateurLocal = new Utilisateur("127.0.0.1", "Moi-même");
+			
 			contenu[i][0] = "Moi même";
-			contenu[i][1] = new CreerClavardageButton("Clavarder avec moi-même", (Utilisateur.GetUtilisateurActuel()));
+			contenu[i][1] = new CreerClavardageButton("Clavarder avec moi-même", (utilisateurLocal));
 			i++;
 			
 			for (Object objet : listeObjets)

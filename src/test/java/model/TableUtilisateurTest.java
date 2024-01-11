@@ -8,7 +8,7 @@ public class TableUtilisateurTest {
 	@Test
 	public void TestTableUtilisateurs() {
 		
-		TableUtilisateurs table_utilisateurs = new TableUtilisateurs();
+		TableUtilisateurs table_utilisateurs = TableUtilisateurs.GetInstance();
 		Utilisateur u1 = new Utilisateur("10.1.12.14", "alpha");
 		Utilisateur u2 = new Utilisateur("10.1.12.192", "bravo");
 		

@@ -8,7 +8,7 @@ public class TableUtilisateurs{
 	
 	private ArrayList<Utilisateur> laListeUtilisateur;
 	
-	public static TableUtilisateurs self;
+	private static TableUtilisateurs self;
 	
 	//---------------------------Méthodes-------------------------
 	
@@ -23,7 +23,7 @@ public class TableUtilisateurs{
 	
 	//----------Constructeur
 	
-	public TableUtilisateurs() { 				
+	private TableUtilisateurs() { 				
 		
 		this.laListeUtilisateur = new ArrayList<Utilisateur>();
 	}

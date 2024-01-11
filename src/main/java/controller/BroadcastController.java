@@ -35,7 +35,7 @@ public class BroadcastController{ //---------Tout passer en statique
 		generalPortEnvoi = 5080;
 		generalPortReception = 5081;
 
-		tableUtilisateurs = new TableUtilisateurs();
+		tableUtilisateurs = TableUtilisateurs.GetInstance();
 		
         try {
 

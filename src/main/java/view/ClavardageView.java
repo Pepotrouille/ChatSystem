@@ -9,11 +9,13 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import exceptions.ClavardageNonExistantException;
 import model.Clavardage;
 
 public class ClavardageView extends Container implements ActionListener{
 	
 	private JButton boutonEnvoyer;
+	private JButton boutonClore;
     private JTextField messageAEnvoyer;
     
     Clavardage clavardage;
@@ -22,7 +24,10 @@ public class ClavardageView extends Container implements ActionListener{
 	{
 		messageAEnvoyer = new JTextField();
 		AjouterChampsDeSaisieAvecFormat(messageAEnvoyer, 50 ,450, 600, 20);
-		AjouterBoutonAvecFormat(boutonEnvoyer,700,450,180,20);
+        boutonEnvoyer = new JButton("Envoyer");
+		AjouterBoutonAvecFormat(boutonEnvoyer, 700,450,180,20);
+        boutonClore = new JButton("Clore Clavardage");
+		AjouterBoutonAvecFormat(boutonClore, 700,30,180,20);
 		this.clavardage = clavardage;
 		
 	}
@@ -43,17 +48,26 @@ public class ClavardageView extends Container implements ActionListener{
 			}
 			
 		}
+		else if(e.getSource() == boutonClore)
+		{
+			try {
+				clavardage.CloreClavardage();
+			} catch (ClavardageNonExistantException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(this,"Cloture invalide. Clavardage non existant");
+			}
+			MainView.AfficherUtilisateursEnLigne();
+		}
 		
 	}
 	
 	private void AjouterBoutonAvecFormat(JButton bouton, int posX, int posY, int longueur, int hauteur) {
 
-        boutonEnvoyer = new JButton("Envoyer");
-        boutonEnvoyer.setFont(new Font("Arial", Font.PLAIN, 15));
-        boutonEnvoyer.setSize(longueur, hauteur);
-        boutonEnvoyer.setLocation(posX, posY);
-        boutonEnvoyer.addActionListener(this);
-        add(boutonEnvoyer);
+        bouton.setFont(new Font("Arial", Font.PLAIN, 15));
+        bouton.setSize(longueur, hauteur);
+        bouton.setLocation(posX, posY);
+        bouton.addActionListener(this);
+        add(bouton);
 	}
 	
 	private void AjouterChampsDeSaisieAvecFormat(JTextField champsSaisie, int posX, int posY, int longueur, int hauteur) {

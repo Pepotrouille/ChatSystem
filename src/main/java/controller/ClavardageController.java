@@ -58,6 +58,8 @@ public class ClavardageController {
 		try
 		{
 			GetClavardage(utilisateur.GetIP());
+			
+			//Cas discussion avec soi-même
 			throw new ClavardageDejaCree();
 			
 		}

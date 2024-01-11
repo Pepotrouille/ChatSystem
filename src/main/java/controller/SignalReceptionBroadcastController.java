@@ -176,7 +176,18 @@ public class SignalReceptionBroadcastController  extends Thread{
                     System.out.println("Envoi du message d'acquittement à " + adresseSource);
                     
             		//Créer boîte clavardage avec adresseSource
-                    Clavardage newClavardage = clavardageController.NouveauClavardage(tableUtilisateurs.GetUtilisateur(adresseSource), newPortEnvoi);
+                    Utilisateur utilisateurInterlocuteur;
+                    if(adresseSource.equals("127.0.0.1"))
+                    {
+                    	utilisateurInterlocuteur = new Utilisateur(adresseSource, "Soi-même");
+                    }
+                    else
+                    {
+                    	utilisateurInterlocuteur = tableUtilisateurs.GetUtilisateur(adresseSource);
+                    }
+                    
+                    Clavardage newClavardage = clavardageController.NouveauClavardage(utilisateurInterlocuteur, newPortEnvoi);
+                    
                     newClavardage.ValiderClavardage(Integer.parseInt(messageRecu));
 
                     System.out.println("Création de la boîte de clavardage avec " + adresseSource);

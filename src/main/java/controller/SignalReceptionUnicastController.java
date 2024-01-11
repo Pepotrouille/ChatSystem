@@ -49,6 +49,7 @@ public class SignalReceptionUnicastController  extends Thread{
         socket = new DatagramSocket(clavardage.GetPortReception());
         boolean running = true;
         byte[] buf = new byte[256];
+        System.out.println("Nouvelle réception unicast sur port : " + clavardage.GetPortReception());
 
         while (running) {
             DatagramPacket inPacket  = new DatagramPacket(buf, buf.length);

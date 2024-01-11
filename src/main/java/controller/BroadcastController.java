@@ -8,6 +8,8 @@ import model.TableUtilisateurs;
 import model.Utilisateur;
 
 public class BroadcastController{ //---------Tout passer en statique
+
+	private static BroadcastController self;
 	
 	//---SINGLETON--//
 	
@@ -25,7 +27,10 @@ public class BroadcastController{ //---------Tout passer en statique
 	
 	public static int generalPortReception;
 	
-	public BroadcastController() {
+	
+	
+	
+	private BroadcastController() {
 
 		generalPortEnvoi = 5080;
 		generalPortReception = 5081;
@@ -56,6 +61,18 @@ public class BroadcastController{ //---------Tout passer en statique
         //this.pseudoController = pseudoController;
 		
 	}
+	
+	public static BroadcastController GetInstance()
+	{
+		if(BroadcastController.self == null)
+    	{
+			BroadcastController.self = new BroadcastController();
+    	}
+    	return BroadcastController.self;
+	}
+	
+	
+	//----------
 	
 	public void Connexion(String pseudo) 
 	{

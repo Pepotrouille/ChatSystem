@@ -8,8 +8,11 @@ import java.util.Random;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import model.SignalConnexion;
 import model.Utilisateur;
 import controller.AuthentificationController;
+import controller.BroadcastController;
+import controller.SignalEnvoiBroadcastController;
 import exceptions.ErreurConnexionException;
 
 public class AuthentificationView extends Container implements ActionListener{
@@ -20,55 +23,34 @@ public class AuthentificationView extends Container implements ActionListener{
 	// Composants de l'interface
     private JTextField tlogin;
     private JTextField tpwd;
-    private JTextArea annonce;
+    private JTextField tpseudo;
     private JButton buttonConnect;
 
 	public AuthentificationView()
 	{
 		JLabel title = new JLabel("Chat System");
-        title.setFont(new Font("Arial", Font.PLAIN, 30));
-        title.setSize(350, 30);
-        title.setLocation(300, 30);
-        add(title);
+		AjouterLabelAvecFormat(title, 30, 300, 30, 350, 30);
         
         JLabel login = new JLabel("Login");
-        login.setFont(new Font("Arial", Font.PLAIN, 20));
-        login.setSize(150, 40);
-        login.setLocation(200, 100);
-        add(login);
+		AjouterLabelAvecFormat(login, 20, 200, 100, 150, 40);
 
         tlogin = new JTextField();
-        tlogin.setFont(new Font("Arial", Font.PLAIN, 15));
-        tlogin.setSize(250, 30);
-        tlogin.setLocation(350, 100);
-        add(tlogin);
+		AjouterChampsDeSaisieAvecFormat(tlogin, 15, 350, 100, 250, 30);
         
         JLabel pwd = new JLabel("Mot de passe");
-        pwd.setFont(new Font("Arial", Font.PLAIN, 20));
-        pwd.setSize(150, 40);
-        pwd.setLocation(200, 150);
-        add(pwd);
+		AjouterLabelAvecFormat(pwd, 20, 200, 150, 150, 40);
 
         tpwd = new JTextField();
-        tpwd.setFont(new Font("Arial", Font.PLAIN, 15));
-        tpwd.setSize(250, 30);
-        tpwd.setLocation(350, 150);
-        add(tpwd);
-        
+		AjouterChampsDeSaisieAvecFormat(tpwd, 15, 350, 150, 250, 30);
+
+        JLabel pseudo = new JLabel("Pseudo");
+		AjouterLabelAvecFormat(pseudo, 20, 200, 250, 150, 40);
+		
+        tpseudo = new JTextField();
+		AjouterChampsDeSaisieAvecFormat(tpseudo, 15, 350, 250, 250, 30);
+
         buttonConnect = new JButton("Se connecter");
-        buttonConnect.setFont(new Font("Arial", Font.PLAIN, 15));
-        buttonConnect.setSize(180, 20);
-        buttonConnect.setLocation(250, 250);
-        buttonConnect.addActionListener(this);
-        add(buttonConnect);
-        
-        annonce = new JTextArea();
-        annonce.setFont(new Font("Arial", Font.PLAIN, 15));
-        annonce.setSize(500, 100);
-        annonce.setLocation(200, 300);
-        annonce.setLineWrap(true);
-        annonce.setEditable(false);
-        add(annonce);
+        AjouterBoutonAvecFormat(buttonConnect, 250, 300, 180, 20);
         
         setVisible(true);
 	}
@@ -86,7 +68,6 @@ public class AuthentificationView extends Container implements ActionListener{
     		{
     			// La connexion a réussi
     			auth_controller.Authentifier(tlogin.getText(), tpwd.getText());
-    			annonce.setEditable(false);
     			
     			//Aller aux menu clavardages
     			
@@ -94,17 +75,31 @@ public class AuthentificationView extends Container implements ActionListener{
     			try  {
     				final DatagramSocket datagramSocket = new DatagramSocket();
                 	datagramSocket.connect(InetAddress.getByName("8.8.8.8"), 12345);
-                	Random random = new Random();
-                	int id = random.nextInt(2147483646);
-                	String id_string = new String("" + id + "");
+                	
+                	//Sélection du pseudo
+                	String pseudoString;
+                	if(tpseudo.getText().isEmpty())
+                	{
+
+                    	Random random = new Random();
+                    	int id = random.nextInt(2147483646);
+                    	pseudoString = new String("" + id + "");
+                	}
+                	else
+                	{
+                		pseudoString = tpseudo.getText();
+                	}
                 	
                 	// On initialise le nouvel utilisateur avec son @IP et un pseudo random
-        			Utilisateur u = new Utilisateur(datagramSocket.getLocalAddress().getHostAddress().toString(), id_string);
+        			Utilisateur u = new Utilisateur(datagramSocket.getLocalAddress().getHostAddress().toString(), pseudoString);
         			model.Utilisateur.SetUtilisateurActuel(u);
+    				System.out.println(Utilisateur.GetUtilisateurActuel().GetPseudo());
+        			BroadcastController.GetInstance().Connexion(pseudoString);
         			
         			// Cas 1 : Utilisateur admin
         			if (tlogin.getText().equals("admin")) {
         				model.Utilisateur.GetUtilisateurActuel().SetAdmin(1);
+        				System.out.println(Utilisateur.GetUtilisateurActuel().GetPseudo());
         				MainView.AfficherParametresDuCompte(model.Utilisateur.GetUtilisateurActuel());
         			}
         			// Cas 2 : Utilisateur normal
@@ -123,14 +118,41 @@ public class AuthentificationView extends Container implements ActionListener{
     			tlogin.setText(def);
     			tpwd.setText(def);
     			exc.printStackTrace();
-    			annonce.setText("Le login et/ou le mot de passe est incorrect. Veuillez réeesayer.");
+    			JOptionPane.showMessageDialog(this,"Le login et/ou le mot de passe est incorrect. Veuillez réeesayer.");
     		}
     		catch(SQLException exc)
     		{
     			// Erreur de la BDD
     			exc.printStackTrace();
-    			annonce.setText("Il y a eu une erreur lors de la connexion avec la base de donnée. Veuillez réessayer.");
+    			JOptionPane.showMessageDialog(this,"Il y a eu une erreur lors de la connexion avec la base de donnée. Veuillez réessayer.");
     		}
     	}
     }
+    
+    
+	
+	private void AjouterLabelAvecFormat(JLabel label, int tailleText, int posX, int posY, int longueur, int hauteur) {
+
+        label.setFont(new Font("Arial", Font.PLAIN, tailleText));
+        label.setSize(longueur, hauteur);
+        label.setLocation(posX, posY);
+        add(label);
+	}
+	
+	private void AjouterBoutonAvecFormat(JButton bouton, int posX, int posY, int longueur, int hauteur) {
+
+        bouton.setFont(new Font("Arial", Font.PLAIN, 15));
+        bouton.setSize(longueur, hauteur);
+        bouton.setLocation(posX, posY);
+        bouton.addActionListener(this);
+        add(bouton);
+	}
+	
+	private void AjouterChampsDeSaisieAvecFormat(JTextField champsSaisie, int tailleText, int posX, int posY, int longueur, int hauteur) {
+
+		champsSaisie.setFont(new Font("Arial", Font.PLAIN, tailleText));
+		champsSaisie.setSize(longueur, hauteur);
+		champsSaisie.setLocation(posX, posY);
+        add(champsSaisie);
+	}
 }

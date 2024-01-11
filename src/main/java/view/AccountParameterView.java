@@ -66,7 +66,7 @@ public class AccountParameterView extends Container implements ActionListener{
 	    this.add(buttonChangerPseudo);
 	    
 	    //this.pseudo_controller = new PseudoController(TableUtilisateurs.GetInstance(), utilisateur, new SignalEnvoiBroadcastController());
-		this.broadcast_controller = new BroadcastController();
+		this.broadcast_controller = BroadcastController.GetInstance();
 	}
 	
 	private void AddJLabelWithFormat(String FieldName, String FieldString, int positionY)

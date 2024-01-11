@@ -3,6 +3,8 @@ package controller;
 import java.sql.SQLException;
 import controller.BDDAuthentificationController;
 import exceptions.ErreurConnexionException;
+import model.SignalConnexion;
+import model.Utilisateur;
 
 public class AuthentificationController {
 	

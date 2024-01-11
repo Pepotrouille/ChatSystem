@@ -7,7 +7,17 @@ public class Utilisateur{
 	
 	public static Utilisateur utilisateurActuel;
 	
-	public static void SetUtilisateurActuel(Utilisateur newUser) {utilisateurActuel = newUser;};
+	public static void SetUtilisateurActuel(Utilisateur newUser) 
+	{
+		if(utilisateurActuel != null)
+		{
+			utilisateurActuel = newUser;
+		}
+		else
+		{
+			utilisateurActuel = new Utilisateur(newUser);
+		}
+	}
 	
 	public static Utilisateur GetUtilisateurActuel() {return utilisateurActuel;};
 	
@@ -25,6 +35,13 @@ public class Utilisateur{
 		
 		this.ip = ip;
 		this.pseudo = pseudo;
+		this.admin = 0;
+	}
+	public Utilisateur(Utilisateur utilisateur) { 				
+		
+		this.ip = utilisateur.GetIP();
+		this.pseudo = utilisateur.GetPseudo();
+		System.out.println("Ajout du pseudo à l'utilisateur : " + this.pseudo);
 		this.admin = 0;
 	}
 

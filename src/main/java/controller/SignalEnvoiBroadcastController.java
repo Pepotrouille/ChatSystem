@@ -38,7 +38,7 @@ public class SignalEnvoiBroadcastController { // Singleton
 			this.generalPortReception = BroadcastController.generalPortReception;
 		}
 		
-		public static SignalEnvoiBroadcastController GetInstance()
+		static SignalEnvoiBroadcastController GetInstance()
 		{
 			if(SignalEnvoiBroadcastController.self == null)
 	    	{

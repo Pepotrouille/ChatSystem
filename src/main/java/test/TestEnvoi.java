@@ -1,9 +1,5 @@
 package test;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
-import java.net.DatagramSocket;
 
 import controller.BroadcastController;
 //import controller.SignalEnvoiBroadcastController;
@@ -14,7 +10,7 @@ public class TestEnvoi {
 	
     public static void main(String[] args){
     	
-    	BroadcastController broadcastController = new BroadcastController();
+    	BroadcastController broadcastController = BroadcastController.GetInstance();
 
     	
     	broadcastController.Connexion("PseudoZero");

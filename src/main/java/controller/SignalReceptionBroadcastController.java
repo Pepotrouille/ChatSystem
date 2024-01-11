@@ -60,6 +60,8 @@ public class SignalReceptionBroadcastController  extends Thread{
 		this.pseudoController = pseudoController;
 		
 		this.running = true;
+		
+		this.seuc = SignalEnvoiUnicastController.GetInstance();
 	}
 
 	//----------Getters
@@ -103,22 +105,21 @@ public class SignalReceptionBroadcastController  extends Thread{
             {
             	String adresseSource = inPacket.getAddress().toString().substring(1);
             	String messageRecu = receivedMessage.substring(1);
-            	
-            	if (receivedMessage.charAt(0) == 'C') { //Si connexion de l'utilisateur envoyant le message
-                
-
+            	switch(receivedMessage.charAt(0))
+            	{
+            	case 'C' : //Si connexion de l'utilisateur envoyant le message
             		tableUtilisateurs.AjouterUtilisateur(adresseSource, messageRecu);
             		
             		System.out.println("Reception de connexion de " + adresseSource + " en " + messageRecu);
                     
-                    //Renvoi d'un signal pour remplir table d'utilisateurs !!! Si SignakEnvoi en Unicast, supprimer celui-ci
-                    SignalEnvoiUnicastController seuc = SignalEnvoiUnicastController.GetInstance();
-                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(Utilisateur.GetUtilisateurActuel().GetPseudo()), inPacket.getAddress().toString(), generalPortReception);
+                    //Renvoi d'un signal pour remplir table d'utilisateurs !!! Si SignalEnvoi en Unicast, supprimer celui-ci
+                    seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(Utilisateur.GetUtilisateurActuel().GetPseudo()), adresseSource, generalPortReception);
 
             		System.out.println("Reponse de connexion envoyée");
+            		break;
             	
-            	}
-            	else if (receivedMessage.charAt(0) == 'P') { //Si changement de pseudo reçu
+            		
+            	case 'P': //Si changement de pseudo reçu
                 	//Ajouter cas pseudo est le sien
             		if(messageRecu.equals(Utilisateur.GetUtilisateurActuel().GetPseudo()))
             		{
@@ -134,23 +135,30 @@ public class SignalReceptionBroadcastController  extends Thread{
             			System.out.println("Ajout de " + adresseSource + " ; " + messageRecu + " à la table utilisateur");
             		}
                 	System.out.println("Reception du changement de pseudo de " + adresseSource + " en " + messageRecu);
-            	}
-            	else if (receivedMessage.charAt(0) == 'D') { //Si déconnexion de l'utilisateur envoyant le message
-
+                	break;
+                	
+                	
+            	case 'D': //Si déconnexion de l'utilisateur envoyant le message
                 	tableUtilisateurs.SupprimerUtilisateur(adresseSource);
                 	System.out.println("Reception de la déconnexion de " + adresseSource + " sur le réseau");
-            	}
-            	else if (receivedMessage.charAt(0) == 'R') { //Si réception d'un acquittement de connexion avec pseudo
+                	break;
+                	
+                	
+            	case 'R': //Si réception d'un acquittement de connexion avec pseudo
 
                 	tableUtilisateurs.AjouterUtilisateur(adresseSource, messageRecu);
                 	System.out.println("Reception de la présence de " + messageRecu + " sur le réseau");
-            	}
-            	else if (receivedMessage.charAt(0) == 'A') { //Si déconnexion d'un autre utilisateur envoyé
+                	break;
+            	
+                	
+            	case 'A':  //Si déconnexion d'un autre utilisateur envoyé
 
                 	tableUtilisateurs.SupprimerUtilisateur(messageRecu);
                 	System.out.println("Reception de la déconnexion de " + messageRecu + " sur le réseau");
-            	}
-            	else if (receivedMessage.charAt(0) == 'O') { //Si conflit de pseudo détecté
+                	break;
+                	
+                	
+            	case 'O': //Si conflit de pseudo détecté
             		Random rand = new Random();
             		String newPseudo = "Utilisateur" + rand.nextInt(5000);
             		System.out.println("Conflit sur le pseudo " + Utilisateur.GetUtilisateurActuel().GetPseudo() + ". Nouveau pseudo réassigné : " + newPseudo + ". Veuillez changer de pseudo.");
@@ -160,9 +168,10 @@ public class SignalReceptionBroadcastController  extends Thread{
             			tableUtilisateurs.AjouterUtilisateur(adresseSource, messageRecu);
             			System.out.println("Ajout de " + adresseSource + " ; " + messageRecu + " à la table utilisateur");
             		}
-                	
-            	}
-            	else if (receivedMessage.charAt(0) == 'N') { //Si clavardage créé
+            		break;
+            		
+            		
+            	case 'N': //Si clavardage créé
             		//Recuperation d'un port d'envoi valide
             		ClavardageController clavardageController = ClavardageController.GetInstance();
             		int newPortEnvoi = clavardageController.GetProchainPortValide();
@@ -170,7 +179,6 @@ public class SignalReceptionBroadcastController  extends Thread{
                     System.out.println("Reception du nouveau clavardage de " + adresseSource);
                     
             		//Envoi d'un message de création de clavardage
-            		SignalEnvoiUnicastController seuc = SignalEnvoiUnicastController.GetInstance();
                     seuc.EnvoyerSignalUnicast(new model.SignalValiderNouveauClavardage(newPortEnvoi), adresseSource, generalPortReception);//Gestion Port
 
                     System.out.println("Envoi du message d'acquittement à " + adresseSource);
@@ -191,21 +199,12 @@ public class SignalReceptionBroadcastController  extends Thread{
                     newClavardage.ValiderClavardage(Integer.parseInt(messageRecu));
 
                     System.out.println("Création de la boîte de clavardage avec " + adresseSource);
+                	break;
                 	
-            	}
-            	else if (receivedMessage.charAt(0) == 'V') { //Si confirmation de clavardage créé
-            		//Créer boîte clavardage avec adresseSource
-            		ClavardageController clavardageController = ClavardageController.GetInstance();
-            		Clavardage clavardage = clavardageController.GetClavardage(adresseSource);
-            		clavardage.ValiderClavardage(Integer.parseInt(messageRecu));
-
-                    System.out.println("Validation de la création du clavardage avec " + adresseSource);
                 	
-            	}
-            	else{
-
+                default:
                 	System.out.println("Message reçu: " + receivedMessage);
-                	System.out.println("@IP source = " + adresseSource);
+                    System.out.println("@IP source = " + adresseSource);
             	}
             	//--DEBUG
             	this.tableUtilisateurs.AfficherListe();

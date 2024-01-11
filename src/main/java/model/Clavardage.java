@@ -22,10 +22,10 @@ public class Clavardage {
 	SignalReceptionUnicastController sruc;
 	
 	
-	public Clavardage(Utilisateur utilisateur, int portEnvoi) throws SQLException, MessageInvalideException, DateInvalideException
+	public Clavardage(Utilisateur utilisateur, int portReception) throws SQLException, MessageInvalideException, DateInvalideException
 	{
 		this.utilisateur = utilisateur;
-		this.portEnvoi = portEnvoi;
+		this.portReception = portReception;
 		this.sruc = null;
 		this.historique = new Historique(Utilisateur.GetUtilisateurActuel().GetIP(), utilisateur.GetIP());
 	}
@@ -60,9 +60,9 @@ public class Clavardage {
 		return sruc != null;
 	}
 	
-	public void ValiderClavardage(int portReception)
+	public void ValiderClavardage(int portEnvoi)
 	{
-		this.portReception = portReception; 
+		this.portEnvoi = portEnvoi; 
 		sruc = new SignalReceptionUnicastController(this);
 	}
 	

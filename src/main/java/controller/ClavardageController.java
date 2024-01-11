@@ -57,10 +57,9 @@ public class ClavardageController {
 		Clavardage newClavardage = null;
 		try
 		{
-			GetClavardage(utilisateur.GetIP());
-			
-			//Cas discussion avec soi-même
+			newClavardage = GetClavardage(utilisateur.GetIP());
 			throw new ClavardageDejaCree();
+			
 			
 		}
 		catch(ClavardageNonExistantException e)

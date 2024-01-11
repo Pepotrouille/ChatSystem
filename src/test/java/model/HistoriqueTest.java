@@ -23,8 +23,8 @@ public class HistoriqueTest {
 	static Message message4;
 	static Message message5;
 	
-	String ipSrc = "10.11.12.13/";
-	String ipDst = "192.138.67.76/";
+	String ipSrc = "10.11.12.13";
+	String ipDst = "192.138.67.76";
 	
 	
 	@BeforeAll

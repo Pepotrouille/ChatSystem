@@ -30,6 +30,7 @@ public class ClavardageView extends Container implements ActionListener{
 		AjouterBoutonAvecFormat(boutonClore, 700,30,180,20);
 		this.clavardage = clavardage;
 		
+		System.out.println(this.clavardage.GetHistorique().GetMessages()); // Pour tester
 	}
 
 	@Override

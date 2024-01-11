@@ -54,8 +54,8 @@ public class MaDate implements Comparable<MaDate> {
 	
 	public MaDate() { 				
 		Date date = new Date();;
-		this.SetAnnee(date.getYear());
-		this.SetMois(date.getMonth());
+		this.SetAnnee(date.getYear() + 1900);
+		this.SetMois(date.getMonth() + 1);
 		this.SetJour(date.getDay());
 		this.SetHeure(date.getHours());
 		this.SetMinute(date.getMinutes());

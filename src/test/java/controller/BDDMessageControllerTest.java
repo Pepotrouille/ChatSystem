@@ -32,10 +32,12 @@ public class BDDMessageControllerTest {
 	{
 		try {
 			Historique hist = new Historique("10.1.12.14", "10.1.12.18");
-			Message m1 = new Message("Hello", new MaDate(), false);
-			Message m2 = new Message("Nice to meet you!", new MaDate(), false);
+			Message m1 = new Message("Hello", new MaDate(), true);
+			Message m2 = new Message("Nice to meet you!", new MaDate(), true);
 			bdd_message_controller.AjouterMessage(m1, hist);
 			bdd_message_controller.AjouterMessage(m2, hist);
+			
+			assertEquals(2, bdd_message_controller.GetMessageHistorique("10.1.12.14", "10.1.12.18").size());
 			assertEquals(m1.GetContenu(), bdd_message_controller.GetMessageHistorique("10.1.12.14", "10.1.12.18").get(0).GetContenu());
 		}
 		catch (SQLException e1) {

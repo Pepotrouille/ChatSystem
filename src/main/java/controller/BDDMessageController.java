@@ -39,7 +39,7 @@ public class BDDMessageController extends AbstractTableManager {
 				" message VARCHAR(25555) not NULL, " +
 				" ipsrc VARCHAR(255) not NULL, " +
 				" ipdst VARCHAR(255) not NULL, " +
-				" date DATE not NULL, " +
+				" date VARCHAR(20) not NULL, " +
 				" PRIMARY KEY ( id ))"; 
 		stmt.executeUpdate(sql);
 		
@@ -80,7 +80,7 @@ public class BDDMessageController extends AbstractTableManager {
 			
 		rs = stmt.executeQuery(query);
 
-			
+		
 		while(rs.next()){
 			Message message = new Message(rs.getString("message"), MaDate.StringToMaDate(rs.getString("date")),true);
 			messages.add(message);
@@ -94,7 +94,7 @@ public class BDDMessageController extends AbstractTableManager {
 
 		
 		while(rs.next()){
-			Message message = new Message(rs.getString("message"), MaDate.DateToMaDate(rs.getDate("date")),false);
+			Message message = new Message(rs.getString("message"), MaDate.StringToMaDate(rs.getString("date")),false);
 			messages.add(message);
 		}
 			
@@ -112,6 +112,7 @@ public class BDDMessageController extends AbstractTableManager {
 
 		Random random = new Random();
 		int id = random.nextInt(2147483646) + 1;
+		
 				
 		String sql;
 		sql = "INSERT INTO BaseMessage VALUES (" + id +",'" + message.GetContenu() +"', '" + historique.GetIPSource() +"', '" + historique.GetIPDestination() +"', '" + MaDate.MaDateToString(message.GetDate())  +"')";

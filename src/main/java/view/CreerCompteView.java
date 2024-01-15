@@ -4,12 +4,14 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import controller.AuthentificationController;
+import exceptions.EchecManipulationBDDException;
 
 
 
@@ -93,7 +95,12 @@ public class CreerCompteView extends Container implements ActionListener{
 	        			informationBox.setText("Le nouveau compte a bien été créé ! L'utilisateur peut désormais s'authentifier");
 	        			ResetFields();
 	        		}
-	        		catch(Exception exc)
+	        		catch(EchecManipulationBDDException exc)
+	        		{
+	        			exc.printStackTrace();
+	        			informationBox.setText("Il y a eu une erreur lors de l'ajout à la base de donnée. Un des champs peut contenir des caractères problématiques, comme des guillemets.");
+	        		}
+	        		catch(SQLException exc)
 	        		{
 	        			exc.printStackTrace();
 	        			informationBox.setText("Il y a eu une erreur lors de la connexion avec la base de donnée. Veuillez réessayer.");

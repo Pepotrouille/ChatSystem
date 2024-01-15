@@ -1,10 +1,11 @@
 package controller;
 
 import org.junit.jupiter.api.Test;
-import controller.PseudoController;
-import controller.SignalEnvoiBroadcastController;
+import exceptions.PseudoDejaPrisException;
 import model.TableUtilisateurs;
 import model.Utilisateur;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -32,7 +33,7 @@ public class PseudoControllerTest {
 		}
 		
 		TableUtilisateurs table_user = TableUtilisateurs.GetInstance();
-		PseudoController pseudo_controller = new PseudoController(table_user, user_test, SignalEnvoiBroadcastController.GetInstance());
+		PseudoController pseudo_controller = new PseudoController(user_test);
 		
 		// Créer quelques utilisateurs pour tester
 		Utilisateur user_1 = new Utilisateur("ip_user_1", "charlie");
@@ -44,11 +45,27 @@ public class PseudoControllerTest {
 		table_user.AjouterUtilisateur(user_3);
 		
 		// Cas 1 : Aucun utilisateur utilise ce pseudo
-		pseudo_controller.changePseudo("tango");
-		pseudo_controller.changePseudo("zulu");
+		try {
+			pseudo_controller.changePseudo("tango");
+		} catch (PseudoDejaPrisException e) {
+			fail("Pseudo libre déclaré pris");
+		}
+		try {
+			pseudo_controller.changePseudo("zulu");
+		} catch (PseudoDejaPrisException e) {
+			fail("Pseudo libre déclaré pris");
+		}
 		
 		// Cas 2 : Un utilisateur utilise ce pseudo
-		pseudo_controller.changePseudo("charlie");
-		pseudo_controller.changePseudo("delta");
+		try {
+			pseudo_controller.changePseudo("charlie");
+			fail("Pseudo pris déclaré libre");
+		} catch (PseudoDejaPrisException e) {
+		}
+		try {
+			pseudo_controller.changePseudo("delta");
+			fail("Pseudo pris déclaré libre");
+		} catch (PseudoDejaPrisException e) {
+		}
 	}
 }

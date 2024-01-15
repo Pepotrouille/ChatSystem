@@ -2,20 +2,32 @@ package controller;
 
 
 public class AbstractTableManager{
-	
+
+	//---------------------------Attributs-------------------------
 	
 	static final String DB_URL = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/projet_gei_010";
 	static final String USER = "projet_gei_010";
 	static final String PASS = "eeP9nuha";
 	
-	/*
-	public static void setDatabase(String newDB_URL, String newUSER, String newPASS)
+
+	//---------------------------Méthodes-------------------------
+
+	//----------Constructeur
+	
+	protected AbstractTableManager()
 	{
-		DB_URL = newDB_URL;
-		USER = newUSER;
-		PASS = newPASS;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
-	*/
+	
+	//----------Getters
+	
+	//----------Setters
+	
+	//----------Autres Méthodes
 
 	//---------------------------------------INIT TABLE------------------
 	protected boolean InitializeTable() {return false;};

@@ -35,30 +35,11 @@ public class AccountParameterViewAdmin extends AccountParameterView
 	// method actionPerformed()
 	// to get the action performed
 	// by the user and act accordingly
+	@Override
 	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
 		
-		if (e.getSource() == buttonChangerPseudo) {
-			
-			//Utilisateur utilisateur = pseudo_controller.getUtilisateur();
-			Utilisateur utilisateur = Utilisateur.GetUtilisateurActuel();
-			
-			JFrame jFrame = new JFrame();
-		    String NouveauPseudo = JOptionPane.showInputDialog(jFrame, "Entrez votre nouveau pseudo");
-		    
-		    
-		    // Mettre à jour le pseudo 
-		    //this.pseudo_controller.changePseudo(NouveauPseudo);
-		    this.broadcast_controller.ChangerPseudo(NouveauPseudo);
-		    utilisateur.SetPseudo(NouveauPseudo);
-		    
-		    // Reset le label
-		    this.getTfield().setText(NouveauPseudo);
-		    
-		    JOptionPane.showMessageDialog(jFrame, "Votre nouveau pseudo est : " + NouveauPseudo);
-		    
-		}
-		
-		else if (e.getSource() == buttonCreerCompte) {
+		if (e.getSource() == buttonCreerCompte) {
 			MainView.AfficherCreerCompte();
 		}
 	}

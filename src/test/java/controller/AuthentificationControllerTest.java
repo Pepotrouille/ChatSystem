@@ -1,50 +1,114 @@
 package controller;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.sql.SQLException;
+
+import exceptions.EchecManipulationBDDException;
 import exceptions.ErreurConnexionException;
-import controller.AuthentificationController;
 
 public class AuthentificationControllerTest {
 
 	//---TEST D'AUTHENTIFICATION---//
 	
-	AuthentificationController auth_controller = AuthentificationController.GetInstance();
+	static AuthentificationController authController = AuthentificationController.GetInstance();
 	
-	@Test
-	public void TestCreerCompte()
+	@BeforeAll
+	public static void TestCreerCompte()
 	{
 		// Test CreerCompte
 		try {
-			auth_controller.GetBDDAuthentificationController().CreerBaseAuthentification();
-			auth_controller.CreerCompte("adam", "adam1234");   // login "adam", mdp "adam1234"
-			auth_controller.CreerCompte("anthony", "ant6789"); // login "anthony", mdp "ant6789"
+			authController.GetBDDAuthentificationController().CreerBaseAuthentification();
+			authController.CreerCompte("adam", "adam1234");   // login "adam", mdp "adam1234"
+			authController.CreerCompte("anthony", "ant6789"); // login "anthony", mdp "ant6789"
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
+			fail("Problème lors de la connexion à la base de donnée");
+		}
+		catch (EchecManipulationBDDException e) {
+			e.printStackTrace();
+			fail("Problème lors de l'ajout de compte à la base de donnée");
 		}
 	}
 	
 	@Test
 	public void TestAuthentifier()
 	{
-		// Test Authentifier
+		//--------------- Test Authentification réussie ---------------
+		//--------------- Test 1
 		try {
-			auth_controller.Authentifier("admin", "admin");
-			auth_controller.Authentifier("adam", "adam1234");   // login "adam", mdp "adam1234"
-			// auth_controller.Authentifier("adam", "abc"); 
-			auth_controller.Authentifier("anthony", "ant6789"); // login "anthony", mdp "ant6789"
-			
-			// Supprimer la BDD après les tests
-			auth_controller.GetBDDAuthentificationController().SupprimerBaseAuthentification(); 
+			authController.Authentifier("adam", "adam1234");   // login "adam", mdp "adam1234"
 		}
 		catch (SQLException e) {
-			System.out.println("Il y a eu une erreur lors de la connexion avec la base de donnée. Veuillez réessayer.");
+			fail("Problème lors de la connexion à la base de donnée");
 			e.printStackTrace();
 		}	
 		catch (ErreurConnexionException ex) {
-			System.out.println("Problème de connexion : Le login et/ou le mot de passe est incorrect. Veuillez réeesayer.");
+			fail("Validation réussite déclarée comme échouée");
 			ex.printStackTrace();
 		}
-	} 
+
+		//--------------- Test 2
+		try {
+			authController.Authentifier("anthony", "ant6789");   // login "adam", mdp "adam1234"
+		}
+		catch (SQLException e) {
+			fail("Problème lors de la connexion à la base de donnée");
+			e.printStackTrace();
+		}	
+		catch (ErreurConnexionException ex) {
+			fail("Validation réussite déclarée comme échouée");
+			ex.printStackTrace();
+		}
+	
+		//--------------- Test Authentification échouée ---------------
+		//--------------- Test 1
+	
+		try {
+			authController.Authentifier("anthony", "mauvaismotdepasse");   // login "adam", mdp "adam1234"
+			fail("Validation échouée déclarée comme réussite");
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			fail("Problème lors de la connexion à la base de donnée");
+		}	
+		catch (ErreurConnexionException ex) {
+		}
+		
+	
+	
+		try {
+			authController.Authentifier("mauvaislogin", "ant6789");   // login "adam", mdp "adam1234"
+			fail("Validation échouée déclarée comme réussite");
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			fail("Problème lors de la connexion à la base de donnée");
+		}	
+		catch (ErreurConnexionException ex) {
+		}
+	}
+	
+	@AfterAll
+	public static void AfterAllTests()
+	{
+
+		try {
+			authController.GetBDDAuthentificationController().SupprimerBaseAuthentification();
+			authController.GetBDDAuthentificationController().CreerBaseAuthentification();
+		} 
+		catch (SQLException e) {
+			fail("Problème lors de la connexion à la base de donnée");
+			e.printStackTrace();
+		}
+		catch (EchecManipulationBDDException e) {
+			e.printStackTrace();
+			fail("Problème lors de l'ajout de compte à la base de donnée");
+		}
+	}
 }

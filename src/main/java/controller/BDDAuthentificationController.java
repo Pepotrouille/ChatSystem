@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import exceptions.EchecManipulationBDDException;
 import exceptions.ErreurConnexionException;
-import model.Utilisateur;
 
 public class BDDAuthentificationController extends AbstractTableManager {
 	
@@ -29,7 +29,7 @@ public class BDDAuthentificationController extends AbstractTableManager {
 	}
 	
 	/* Créer une base d'authentification */
-	public boolean CreerBaseAuthentification() throws SQLException
+	public boolean CreerBaseAuthentification() throws SQLException, EchecManipulationBDDException
 	{
 		boolean baseIsCreated = true;
 		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -62,35 +62,28 @@ public class BDDAuthentificationController extends AbstractTableManager {
 	}
 	
 	/* Ajouter une authentification */
-	public boolean AjouterAuthentification(String login, String password) throws SQLException 
+	public void AjouterAuthentification(String login, String password) throws SQLException, EchecManipulationBDDException 
 	{
-		Utilisateur user;
 		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		Statement stmt = conn.createStatement();
 					
 				
 		String sql;
-		//Add the ' around the String in argument !!
 		sql = "INSERT INTO BaseAuthentification VALUES ('" + login +"', '" + password + "')";
-		// sql = "INSERT INTO UserTable VALUES ('" + login +"', '" + password +"', '" + foreName +"', '" + lastName + "', '" + localisation + "', '" + phone + "', " + accountType + ")";
-		//user = new Utilisateur(login,password,foreName,lastName,localisation,phone, accountType);
 				
 				
 		int i = stmt.executeUpdate(sql);
 		if (i > 0) {
 			System.out.println("Add a new authentification successfully! New login : " + login + ", new password : " + password);
-			return true;
 		}
 		else {
-			System.out.println("Failed to add a new authentification");
-			return false;
+			throw new EchecManipulationBDDException();
 		}
 	}
 	
 	/* Supprimer une authentification */
-	public boolean SupprimerAuthentification(String login) throws SQLException
+	public void SupprimerAuthentification(String login) throws SQLException, EchecManipulationBDDException
 	{
-		Utilisateur user;
 		Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		Statement stmt = conn.createStatement();
 					
@@ -102,11 +95,10 @@ public class BDDAuthentificationController extends AbstractTableManager {
 		int i = stmt.executeUpdate(sql);
 		if (i > 0) {
 			System.out.println("Delete the authentification " + login + " successfully!");
-			return true;
 		}
 		else {
 			System.out.println("Failed to delete an authentification");
-			return false;
+			throw new EchecManipulationBDDException();
 		}		
 		
 	}

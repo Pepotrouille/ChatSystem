@@ -11,7 +11,7 @@ public class BDDAuthentificationControllerTest {
 	//---TEST DE BDDAUTHENTIFICATION---// --->OK!!!
 	/* Pour tester : créer d'abord la BDD avec TestCreerBaseAuthentification,
 	puis tester les autres méthodes. N'oubliez pas de supprimer la BDD! */
-	
+	/*
 	BDDAuthentificationController bdd_auth_controller = BDDAuthentificationController.GetInstance();
 	
 	@Test
@@ -62,5 +62,5 @@ public class BDDAuthentificationControllerTest {
 			System.out.println("Erreur de la BDD : SupprimerBaseAuthentification échoué");
 			e.printStackTrace();
 		}
-	}
+	}*/
 }

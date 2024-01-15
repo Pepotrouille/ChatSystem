@@ -6,7 +6,9 @@ import model.Utilisateur;
 import javax.swing.*;
 
 import controller.BroadcastController;
+import controller.PseudoController;
 import controller.SignalEnvoiBroadcastController;
+import exceptions.PseudoDejaPrisException;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +20,6 @@ public class AccountParameterView extends Container implements ActionListener{
 	
 	protected JButton buttonChangerPseudo;
 	
-	protected BroadcastController broadcast_controller;
 	
 	private JLabel field, tfield;
 	
@@ -65,8 +66,6 @@ public class AccountParameterView extends Container implements ActionListener{
 	    buttonChangerPseudo.addActionListener(this);
 	    this.add(buttonChangerPseudo);
 	    
-	    //this.pseudo_controller = new PseudoController(TableUtilisateurs.GetInstance(), utilisateur, new SignalEnvoiBroadcastController());
-		this.broadcast_controller = BroadcastController.GetInstance();
 	}
 	
 	private void AddJLabelWithFormat(String FieldName, String FieldString, int positionY)
@@ -94,26 +93,29 @@ public class AccountParameterView extends Container implements ActionListener{
 	// method actionPerformed()
 	// to get the action performed
 	// by the user and act accordingly
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent actionEvent) {
 		
-		if (e.getSource() == buttonChangerPseudo) {
-			
-			//Utilisateur utilisateur = pseudo_controller.getUtilisateur();
+		if (actionEvent.getSource() == buttonChangerPseudo) {
+		
 			Utilisateur utilisateur = Utilisateur.GetUtilisateurActuel();
-			
-			JFrame jFrame = new JFrame();
-		    String NouveauPseudo = JOptionPane.showInputDialog(jFrame, "Entrez votre nouveau pseudo");
+		    String NouveauPseudo = JOptionPane.showInputDialog(this, "Entrez votre nouveau pseudo");
+		    
+		    // Mise à jour du pseudo 
+		    try{
+		    	BroadcastController.GetInstance().ChangerPseudo(NouveauPseudo);
+			    utilisateur.SetPseudo(NouveauPseudo);
+			    
+			    // Reset le label
+			    tfield.setText(NouveauPseudo);
+			    JOptionPane.showMessageDialog(this, "Votre nouveau pseudo est : " + NouveauPseudo);
+		    }
+		    catch(PseudoDejaPrisException exception)
+		    {
+		    	JOptionPane.showMessageDialog(this, "Le pseudo " + NouveauPseudo +" est déjà pris. Conservation de l'ancien pseudo : " + utilisateur.GetPseudo());
+		    }
 		    
 		    
-		    // Mettre à jour le pseudo 
-		    //this.pseudo_controller.changePseudo(NouveauPseudo);
-		    this.broadcast_controller.ChangerPseudo(NouveauPseudo);
-		    utilisateur.SetPseudo(NouveauPseudo);
 		    
-		    // Reset le label
-		    tfield.setText(NouveauPseudo);
-		    
-		    JOptionPane.showMessageDialog(jFrame, "Votre nouveau pseudo est : " + NouveauPseudo);
 			
 		}
 	}

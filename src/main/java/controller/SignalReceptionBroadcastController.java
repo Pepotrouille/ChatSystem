@@ -2,10 +2,8 @@ package controller;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.util.Random;
 
-import model.Clavardage;
 import model.TableUtilisateurs;
 import model.Utilisateur;
 
@@ -194,7 +192,7 @@ public class SignalReceptionBroadcastController  extends Thread{
                     	utilisateurInterlocuteur = tableUtilisateurs.GetUtilisateur(adresseSource);
                     }
                     
-                    Clavardage newClavardage = clavardageController.NouveauClavardageValide(utilisateurInterlocuteur, newPortReception, Integer.parseInt(messageRecu));
+                    clavardageController.NouveauClavardageValide(utilisateurInterlocuteur, newPortReception, Integer.parseInt(messageRecu));
                     
 
                     System.out.println("Création de la boîte de clavardage avec " + adresseSource);

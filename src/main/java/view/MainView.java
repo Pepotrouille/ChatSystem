@@ -113,4 +113,9 @@ public class MainView {
 		}
 		
 	}
+	
+	public static JFrame GetFrame() //MainView étant toujours actif, pas de problème où frame non définie.
+	{
+		return frame;
+	}
 }

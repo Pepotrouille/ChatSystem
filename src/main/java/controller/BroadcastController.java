@@ -2,8 +2,8 @@ package controller;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
+import exceptions.PseudoDejaPrisException;
 import model.TableUtilisateurs;
 import model.Utilisateur;
 
@@ -37,9 +37,8 @@ public class BroadcastController{ //---------Tout passer en statique
 
 		tableUtilisateurs = TableUtilisateurs.GetInstance();
 		
-        try {
+        try (DatagramSocket datagramSocket = new DatagramSocket()) {
 
-        	final DatagramSocket datagramSocket = new DatagramSocket();
         	datagramSocket.connect(InetAddress.getByName("8.8.8.8"), 12345);
         	System.out.println(datagramSocket.getLocalAddress().getHostAddress().toString());
         	
@@ -55,7 +54,7 @@ public class BroadcastController{ //---------Tout passer en statique
         System.out.println("Lancement du Thread de réception");
         
         
-        pseudoController = new PseudoController(tableUtilisateurs, Utilisateur.GetUtilisateurActuel(), sebc);//Utilisateur temporaire
+        pseudoController = new PseudoController(Utilisateur.GetUtilisateurActuel());//Utilisateur temporaire
 
         //this.pseudoController = pseudoController;
 		
@@ -79,7 +78,7 @@ public class BroadcastController{ //---------Tout passer en statique
 	}
 
 
-	public void ChangerPseudo(String pseudo) 
+	public void ChangerPseudo(String pseudo) throws PseudoDejaPrisException 
 	{
 		pseudoController.changePseudo(pseudo);
 	}

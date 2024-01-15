@@ -14,7 +14,7 @@ public class DataTable {
 	private String[] nomsColonnes;
 	private Object[][] contenu;
 	
-	public enum TypeDataTable {Utilisateur, Clavardage};
+	public enum TypeDataTable {Utilisateur, Clavardage, Message};
 
 	//---------------------------Méthodes-------------------------
 		
@@ -73,8 +73,6 @@ public class DataTable {
 				i++;
 			}
 			break;
-			
-			
 		}
 		//------------------Fin Switch
 	}

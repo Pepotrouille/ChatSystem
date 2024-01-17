@@ -7,23 +7,23 @@ import model.Message;
 
 public class MessageTable {
 	
-	private Object[] contenu;
+	private Message[] contenu;
 
 	//----------Constructeur
 	
-	public MessageTable(ArrayList<Object> listeMessages)
+	public MessageTable(ArrayList<Message> listeMessages)
 	{
 		int i = 0;
-		for (Object objet : listeMessages)
+		for (Message msg : listeMessages)
 		{
-			contenu[i] = (Message)objet;	
+			contenu[i] = msg;	
 			i++;
 		}
 	}
 	
 	//----------Getters
 	
-	public Object[] GetContenu(){
+	public Message[] GetContenu(){
 		return contenu;
 	}
 }

@@ -1,8 +1,10 @@
 package view;
 
 import java.util.ArrayList;
+
 import model.Clavardage;
 import model.Utilisateur;
+
 
 public class DataTable {
 
@@ -14,7 +16,7 @@ public class DataTable {
 	private String[] nomsColonnes;
 	private Object[][] contenu;
 	
-	public enum TypeDataTable {Utilisateur, Clavardage, Message};
+	public enum TypeDataTable {Utilisateur, Clavardage};
 
 	//---------------------------Méthodes-------------------------
 		
@@ -72,7 +74,7 @@ public class DataTable {
 				
 				i++;
 			}
-			break;
+			break;	
 		}
 		//------------------Fin Switch
 	}

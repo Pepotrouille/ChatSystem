@@ -48,20 +48,6 @@ public class TableToContainer {
 		return mainContainer;
 	}
 	
-	public Container MessageTableToContainer(MessageTable messageTable)
-	{
-		mainContainer = new Container();
-
-		Object[] rows = messageTable.GetContenu();
-		for(int i =0; i < rows.length; i++)
-		{
-			GetContainerRow(rows, heightCell*(i+1));
-		}
-		
-		return mainContainer;
-	}
-	
-	
 	private void GetContainerRow(Object[] row, int positionY)
 	{
 		int tailleTab = row.length;

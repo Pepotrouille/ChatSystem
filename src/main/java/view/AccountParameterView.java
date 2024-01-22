@@ -60,11 +60,7 @@ public class AccountParameterView extends Container implements ActionListener{
         
 		//Button permet de changer le pseudo
         buttonChangerPseudo = new JButton("Changer mon pseudo");
-	    buttonChangerPseudo.setFont(new Font("Arial", Font.PLAIN, 15));
-	    buttonChangerPseudo.setSize(250, 20);
-	    buttonChangerPseudo.setLocation(30, 300);
-	    buttonChangerPseudo.addActionListener(this);
-	    this.add(buttonChangerPseudo);
+        AjouterBoutonAvecFormat(buttonChangerPseudo, 30, 300, 250, 20);
 	    
 	}
 	
@@ -123,5 +119,15 @@ public class AccountParameterView extends Container implements ActionListener{
 	public JLabel getTfield()
 	{
 		return this.tfield;
+	}
+	
+
+	protected void AjouterBoutonAvecFormat(JButton bouton, int posX, int posY, int longueur, int hauteur) {
+
+	    bouton.setFont(new Font("Arial", Font.PLAIN, 15));
+	    bouton.setSize(longueur, hauteur);
+	    bouton.setLocation(posX, posY);
+	    bouton.addActionListener(this);
+	    this.add(bouton);
 	}
 }

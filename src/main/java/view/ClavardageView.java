@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -35,22 +36,37 @@ public class ClavardageView extends Container implements ActionListener{
     private JPanel chat_area;
     
     Clavardage clavardage;
+    
+    HistoriqueContainer historiqueContainer;
 	
 	public ClavardageView(Clavardage clavardage)
 	{
+		//Ajout de la barre pour écrire message à envoyer 
 		messageAEnvoyer = new JTextField();
 		AjouterChampsDeSaisieAvecFormat(messageAEnvoyer, 50 ,450, 600, 20);
+		//Ajout du bouton pour envoyer message 
         boutonEnvoyer = new JButton("Envoyer");
 		AjouterBoutonAvecFormat(boutonEnvoyer, 700,450,180,20);
+		//Ajout du bouton pour clore clavardage
         boutonClore = new JButton("Clore Clavardage");
 		AjouterBoutonAvecFormat(boutonClore, 700,480,180,20);
-		chat_area = new JPanel(new BorderLayout());
-		AjouterChatArea(chat_area, 50, 30, 800, 400);
+		
+		//Ajout de l'affichage des messages
+		
+		/*chat_area = new JPanel(new BorderLayout());
+		AjouterChatArea(chat_area, 50, 30, 800, 400);*/
+		historiqueContainer = new HistoriqueContainer(clavardage.GetHistorique());
+		
+		historiqueContainer.setSize(800, 400);
+		historiqueContainer.setLocation(50, 30);
+		this.add(historiqueContainer, BorderLayout.CENTER);
+		
 		this.clavardage = clavardage;
 		
 		System.out.println(this.clavardage.GetHistorique().GetMessages()); // Pour tester
 	}
 
+	//---------Action Listener pour les boutons
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == boutonEnvoyer)
@@ -62,12 +78,16 @@ public class ClavardageView extends Container implements ActionListener{
 				clavardage.EnvoyerMessage(msg);
 				
 				try {
+					Message newMessage = new Message(msg, new MaDate(), true);
 					// Ajouter le message dans l'histoire des messages
-					clavardage.GetHistorique().AjouterMessage(new Message(msg, new MaDate(), true));
+					clavardage.GetHistorique().AjouterMessage(newMessage);
 					
 					// Afficher les messages dans la fenetre
-					// ArrayList<Object> listeMessages = new ArrayList<Object>(clavardage.GetHistorique().GetMessages());
-					addMessage(clavardage.GetHistorique().GetIPSource(), msg);
+					historiqueContainer.AjouterMessage(newMessage);
+					
+					JFrame mainFrame = MainView.GetFrame();
+					mainFrame.revalidate();
+					mainFrame.repaint();
 					
 				}
 				catch (SQLException e1) {
@@ -123,31 +143,5 @@ public class ClavardageView extends Container implements ActionListener{
         add(champsSaisie);
 	}
 	
-	private void AjouterChatArea(JPanel chat, int posX, int posY, int longueur, int hauteur) {
-		
-		/* chat_area = new JPanel();
-        chat_area.setLayout(new BoxLayout(chat_area,BoxLayout.Y_AXIS));
-        chat_area.setPreferredSize(new Dimension(100, 50)); */
-		
-		chat_area.setFont(new Font("Arial", Font.PLAIN, 15));
-        chat_area.setSize(longueur, hauteur);
-        chat_area.setLocation(posX, posY);
-        //chat_area.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        //chat_area.setLayout(new BoxLayout(chat_area, BoxLayout.Y_AXIS));
-        add(chat_area);
-	}
 	
-	private void addMessage(String sender, String message) {
-        JPanel message_panel = new JPanel();
-        JLabel senderLabel = new JLabel(sender);
-        //sent?senderLabel=new JLabel("You"):new JLabel("Server");
-        JTextArea messageArea = new JTextArea(message);
-        messageArea.setLineWrap(true);
-        messageArea.setWrapStyleWord(true);
-        messageArea.setEditable(false);
-        message_panel.add(senderLabel);
-        message_panel.add(messageArea);
-        chat_area.add(message_panel, BorderLayout.EAST);
-        MainView.GetFrame().revalidate(); // Revalidate the frame to reflect the changes
-    }
 }

@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 
@@ -55,7 +55,7 @@ public class TableToContainer {
 		for(int i = 0; i<tailleTab-1; i++)
 		{
 	        JLabel label = MakeFormattedJLabel((String)row[i],lengthCell, heightCell, i*lengthCell, positionY);
-			label.setBackground(Color.getHSBColor(0, 0, 0.90f - 0.05f*(i%2)));
+			//label.setBackground(Color.getHSBColor(0, 0, 0.90f - 0.05f*(i%2)));
 	        label.setOpaque(true);
 	        mainContainer.add(label);
 		}
@@ -80,7 +80,7 @@ public class TableToContainer {
 		for(int i = 0; i<tailleTab; i++)
 		{
 			JLabel label = MakeFormattedJLabel(titleRow[i],lengthCell, heightCell, i*lengthCell, 0);
-			label.setBackground(Color.getHSBColor(0, 0, 0.80f - 0.05f*(i%2)));
+			//label.setBackground(Color.getHSBColor(0, 0, 0.80f - 0.05f*(i%2)));
 	        label.setOpaque(true);
 	        mainContainer.add(label);
 		}

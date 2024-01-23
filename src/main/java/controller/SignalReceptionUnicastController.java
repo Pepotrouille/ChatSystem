@@ -3,7 +3,9 @@ package controller;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
+import controller.SignalReceptionBroadcastController.UtilisateurObserver;
 import exceptions.ClavardageNonExistantException;
 import model.Clavardage;
 import model.Message;
@@ -17,11 +19,14 @@ public class SignalReceptionUnicastController  extends Thread{
 	
 	private DatagramSocket socket;
 	
+	@SuppressWarnings("unused")
 	private boolean running;
 	
 	private Clavardage clavardage;
 	
 	private int noSequenceAttendu;
+	
+	private ArrayList<MessageObserver> messageObservers;
 	
 	
 	//---------------------------Méthodes-------------------------
@@ -37,7 +42,25 @@ public class SignalReceptionUnicastController  extends Thread{
 		this.noSequenceAttendu = 10;
 		
         System.out.println("Création du SignalReceptionUnicastController avec " + clavardage.GetUserPseudo());
+        
+        this.messageObservers = new ArrayList<MessageObserver>();
 
+	}
+	
+	//----------Observateurs
+	//--Utilisateurs
+	public interface MessageObserver
+	{
+		public void handle(Message message);
+	}
+	
+	public void AddMessageObserver(MessageObserver messageObserver)
+	{
+		synchronized( this.messageObservers)
+		{
+			messageObservers.add(messageObserver);
+		}
+		
 	}
 
 	//----------Getters
@@ -76,7 +99,15 @@ public class SignalReceptionUnicastController  extends Thread{
                 	Message newMessage = new Message(messageRecu.substring(2), false);
                 	BDDMessageController.GetInstance().AjouterMessage(newMessage, clavardage.GetHistorique());
                 	clavardage.GetHistorique().AjouterMessage(newMessage);
-                	
+                	synchronized( this.messageObservers)
+                	{
+                		System.out.println("---PREVIENT LES OBSERVEURS");
+                		for(MessageObserver messageObserver : messageObservers)
+            			{
+                			System.out.println("---EN BOUCLE");
+                			messageObserver.handle(newMessage);
+            			}
+                	}
                 	//Incrémente noSequence
                 	if(noSequenceAttendu >99 || noSequenceAttendu<10)
                 	{
@@ -89,6 +120,7 @@ public class SignalReceptionUnicastController  extends Thread{
             	}
         		//Else noDeSequence Invalide, rejet du paquet
             	//Envoi de la validation de réception
+            	
             	seuc.EnvoyerSignalUnicast(new SignalMessageRecu(noSequenceRecu, messageRecu.substring(2)), clavardage.GetIPDestination(), clavardage.GetPortEnvoi());
             	System.out.println("Envoi de la validation de réception");
             	break;

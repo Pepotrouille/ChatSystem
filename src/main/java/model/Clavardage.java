@@ -57,6 +57,11 @@ public class Clavardage {
 	{
 		return historique;
 	}
+
+	public SignalReceptionUnicastController GetSignalReceptionUnicastController()
+	{
+		return sruc;
+	}
 	
 	public boolean EstValide()
 	{

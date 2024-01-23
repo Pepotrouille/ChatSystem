@@ -16,6 +16,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import controller.SignalReceptionBroadcastController;
+import controller.SignalReceptionUnicastController;
+
 import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -26,6 +30,7 @@ import exceptions.MessageInvalideException;
 import model.Clavardage;
 import model.Message;
 import model.TableUtilisateurs;
+import view.MainView.AffichageActuel;
 import model.MaDate;
 
 public class ClavardageView extends Container implements ActionListener{
@@ -55,15 +60,28 @@ public class ClavardageView extends Container implements ActionListener{
 		
 		/*chat_area = new JPanel(new BorderLayout());
 		AjouterChatArea(chat_area, 50, 30, 800, 400);*/
-		historiqueContainer = new HistoriqueContainer(clavardage.GetHistorique());
+		historiqueContainer = new HistoriqueContainer(clavardage.GetHistorique(), new JPanel());
 		
 		historiqueContainer.setSize(800, 400);
 		historiqueContainer.setLocation(50, 30);
 		this.add(historiqueContainer, BorderLayout.CENTER);
 		
 		this.clavardage = clavardage;
+
+		System.out.println("-------Ajout de l'observeur ");
+		clavardage.GetSignalReceptionUnicastController().AddMessageObserver(
+				new SignalReceptionUnicastController.MessageObserver() {
+
+					//En cas de réception de changement dans table d'adresse, refresh
+					@Override
+					public void handle(Message message) {
+						historiqueContainer.AjouterMessage(message);
+						System.out.println("-X-X-X-Actualisation avec Message : " + message.GetContenu());
+					}
+				}
+		);
 		
-		System.out.println(this.clavardage.GetHistorique().GetMessages()); // Pour tester
+		
 	}
 
 	//---------Action Listener pour les boutons

@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import javax.swing.JScrollPane;
 import model.Historique;
 import model.Message;
 
-public class HistoriqueContainer extends JPanel{
+public class HistoriqueContainer extends JScrollPane{
 
 	/**
 	 * 
@@ -26,22 +27,25 @@ public class HistoriqueContainer extends JPanel{
 	
 	Historique historique;
 	
-	public HistoriqueContainer(Historique historique) {
-		
+	JPanel layoutPanel;
+	
+	public HistoriqueContainer(Historique historique, JPanel panel) {
 
-        JScrollPane scrollPane = new JScrollPane(this);
+		super(panel);
+		layoutPanel = panel;
+		layoutPanel.setBackground(Color.lightGray);
+        this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
         
-        this.setBackground(Color.gray);
         int longueurListe = historique.GetMessages().size();
         for(int i = 0; i <longueurListe; i++)
         {
         	
         	AjouterMessage(historique.GetMessages().get(i));
         }
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        layoutPanel.setLayout(new GridLayout(0,1,0,10));
 	}
 	
 	public void AjouterMessage(Message message)
@@ -72,7 +76,7 @@ public class HistoriqueContainer extends JPanel{
         panel.add(label);
 
         panel.setAlignmentX(CENTER_ALIGNMENT);
-        this.add(panel);
-        
+        layoutPanel.add(panel);
+        this.getVerticalScrollBar().setValue(getVerticalScrollBar().getMaximum());
 	}
 }

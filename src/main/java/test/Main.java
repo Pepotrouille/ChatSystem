@@ -81,12 +81,12 @@ class PaneTemp extends JScrollPane{
 		label1.setFont(new Font("Arial", Font.PLAIN, 25));
         label1.setForeground(Color.BLUE);
         //label1.setBackground(Color.GREEN);
-        sp1.add(label1);
+        panel.add(label1);
         JLabel label2 = new JLabel("Message2");
-        sp2.add(label2);
+        panel.add(label2);
         JLabel label3 = new JLabel("Message3");
         label3.setBackground(Color.BLUE);
-        sp3.add(label3);
+        panel.add(label3);
         
         
         panel.add(sp1);
@@ -95,7 +95,7 @@ class PaneTemp extends JScrollPane{
         
         
         
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(new GridLayout(0,1,0,10));
 	}
 	
 	

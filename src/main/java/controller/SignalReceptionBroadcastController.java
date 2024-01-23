@@ -69,6 +69,8 @@ public class SignalReceptionBroadcastController  extends Thread{
 
 	//----------Observers
 	
+	
+	//--Utilisateurs
 	public interface UtilisateurObserver
 	{
 		public void handle(String ip, String nouveauPseudo);

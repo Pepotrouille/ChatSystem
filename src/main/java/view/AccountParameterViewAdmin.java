@@ -31,11 +31,11 @@ public class AccountParameterViewAdmin extends AccountParameterView
 
 		//Bouton permettant de réinitialiser la BDD Utilisateurs
         buttonResetBDDUtilisateurs = new JButton("Réinitialiser Base de Données Utilisateurs");
-        AjouterBoutonAvecFormat(buttonResetBDDUtilisateurs, 30, 350, 520, 20);
+        AjouterBoutonAvecFormat(buttonResetBDDUtilisateurs, 30, 350, 620, 20);
 
         //Bouton permettant de réinitialiser la BDD de messages
         buttonResetBDDMessages = new JButton("Réinitialiser Base de Données Messages");
-        AjouterBoutonAvecFormat(buttonResetBDDMessages, 30, 400, 520, 20);
+        AjouterBoutonAvecFormat(buttonResetBDDMessages, 30, 400, 620, 20);
 	}
 	
 	// method actionPerformed()

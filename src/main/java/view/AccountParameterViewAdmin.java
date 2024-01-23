@@ -27,7 +27,7 @@ public class AccountParameterViewAdmin extends AccountParameterView
 		
 		//Bouton permettant de créer un nouveau compte
         buttonCreerCompte = new JButton("Créer un compte");
-        AjouterBoutonAvecFormat(buttonChangerPseudo, 350, 300, 250, 20);
+        AjouterBoutonAvecFormat(buttonCreerCompte, 350, 300, 250, 20);
 
 		//Bouton permettant de réinitialiser la BDD Utilisateurs
         buttonResetBDDUtilisateurs = new JButton("Réinitialiser Base de Données Utilisateurs");

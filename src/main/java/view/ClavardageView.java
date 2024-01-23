@@ -91,15 +91,15 @@ public class ClavardageView extends Container implements ActionListener{
 					
 				}
 				catch (SQLException e1) {
-					System.out.println("SQLException");
+					JOptionPane.showMessageDialog(this,"Problème de connexion à la base de donnée");
 					e1.printStackTrace();
 				}
 				catch (MessageInvalideException e2) {
-					System.out.println("MessageInvalideException");
+					JOptionPane.showMessageDialog(this,"Message invalide. Veillez à ce que le champs de saisie ne soit pas vide");
 					e2.printStackTrace();
 				}
 				catch (DateInvalideException e3) {
-					System.out.println("DateInvalideException");
+					JOptionPane.showMessageDialog(this,"Date invalide");
 					e3.printStackTrace();
 				}
 				

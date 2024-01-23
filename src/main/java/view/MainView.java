@@ -6,6 +6,7 @@ import javax.swing.table.*;
 import java.awt.event.*; 
 import controller.BroadcastController;
 import controller.ClavardageController;
+import controller.SignalReceptionBroadcastController;
 import model.Clavardage;
 import model.Utilisateur;
 import view.AccountParameterViewAdmin;
@@ -16,9 +17,43 @@ public class MainView {
 
 	private static JFrame frame;
 	
+	enum AffichageActuel {CLAVARDAGE, PARAMETRES_COMPTE, CLAVARDAGES_EN_COURS, UTILISATEURS_EN_LIGNE, CREER_COMPTE, AUTHENTIFICATION};
+	
+	private static AffichageActuel affichageActuel;
+	
+	
+	
+	
+	public MainView() {
+		affichageActuel = AffichageActuel.AUTHENTIFICATION;
+		SignalReceptionBroadcastController.GetInstance().AddUtilisateurObserver(
+				new SignalReceptionBroadcastController.UtilisateurObserver() {
+
+					//En cas de réception de changement dans table d'adresse, refresh
+					@Override
+					public void handle(String ip, String nouveauPseudo) {
+						if (affichageActuel == AffichageActuel.CLAVARDAGES_EN_COURS)
+						{
+							AfficherClavardagesEnCours();
+						}
+						else if (affichageActuel == AffichageActuel.UTILISATEURS_EN_LIGNE)
+						{
+							AfficherUtilisateursEnLigne();
+						}
+						
+					}
+				}
+		);
+	}
+	
+	
+	
+	
+	
 	public static void AfficherClavardage(Clavardage clavardage)
 	{
 		UpdateGUI(new ClavardageView(clavardage), true);
+		affichageActuel = AffichageActuel.CLAVARDAGE;
 	}
 
 	public static void AfficherParametresDuCompte(Utilisateur utilisateur)
@@ -31,12 +66,15 @@ public class MainView {
 		{
 			UpdateGUI(new AccountParameterView(utilisateur), true);
 		}
+		affichageActuel = AffichageActuel.PARAMETRES_COMPTE;
 	}
 
 	public static void AfficherClavardagesEnCours()
 	{
 		ArrayList<Object> listeGenerique = new ArrayList<Object>(ClavardageController.GetInstance().GetClavardageEnCours());
 		UpdateGUITable(new DataTable(listeGenerique, DataTable.TypeDataTable.Clavardage), true);
+		affichageActuel = AffichageActuel.CLAVARDAGES_EN_COURS;
+		
 	}
 	
 	public static void AfficherUtilisateursEnLigne()
@@ -44,18 +82,22 @@ public class MainView {
 		ArrayList<Object> listeGenerique = new ArrayList<Object>(TableUtilisateurs.GetInstance().GetListeUtilisateurs());
 		TableUtilisateurs.GetInstance().AfficherListe();
 		UpdateGUITable(new DataTable(listeGenerique, DataTable.TypeDataTable.Utilisateur), true);
+		affichageActuel = AffichageActuel.UTILISATEURS_EN_LIGNE;
 	}
 
 	public static void AfficherCreerCompte()
 	{
 		
 		UpdateGUI(new CreerCompteView(), true);
+
+		affichageActuel = AffichageActuel.CREER_COMPTE;
 	}
 	
 	
 	public static void AfficherAuthentification()
 	{
 		UpdateGUI(new AuthentificationView(), false);
+		affichageActuel = AffichageActuel.AUTHENTIFICATION;
 	}
 	
 	

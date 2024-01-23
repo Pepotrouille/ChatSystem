@@ -2,6 +2,7 @@ package controller;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.ArrayList;
 import java.util.Random;
 
 import model.TableUtilisateurs;
@@ -29,39 +30,60 @@ public class SignalReceptionBroadcastController  extends Thread{
 	public static DatagramSocket socket ;
 	
     private boolean running;
+
+	private ArrayList<UtilisateurObserver> utilisateurObservers;
 	
 	//---------------------------Méthodes-------------------------
-	
-    public static SignalReceptionBroadcastController GetInstance(TableUtilisateurs tableUtilisateurs, String adresseLocale, PseudoController pseudoController)
+
+	//----------Constructeur
+    
+    public static SignalReceptionBroadcastController GetInstance()
     {
     	if(SignalReceptionBroadcastController.self == null)
     	{
-        	SignalReceptionBroadcastController.self = new SignalReceptionBroadcastController(tableUtilisateurs, adresseLocale, pseudoController);
+        	SignalReceptionBroadcastController.self = new SignalReceptionBroadcastController();
         	SignalReceptionBroadcastController.self.start();
     	}
     	return SignalReceptionBroadcastController.self;
     }
     
     
-	//----------Constructeur
 	
-	private SignalReceptionBroadcastController(TableUtilisateurs tableUtilisateurs, String adresseLocale, PseudoController pseudoController) { 				
+	private SignalReceptionBroadcastController() { 				
 
 		this.generalPortEnvoi = BroadcastController.generalPortEnvoi;
 		
 		this.generalPortReception = BroadcastController.generalPortReception;
 		
-		this.tableUtilisateurs = tableUtilisateurs;
+		this.tableUtilisateurs = TableUtilisateurs.GetInstance();
 		
-		this.adresseLocale = adresseLocale;
-		
-		this.pseudoController = pseudoController;
+		this.adresseLocale = Utilisateur.GetUtilisateurActuel().GetIP();
 		
 		this.running = true;
 		
 		this.seuc = SignalEnvoiUnicastController.GetInstance();
+		
+		this.utilisateurObservers = new ArrayList<UtilisateurObserver>();
+		
 	}
 
+	//----------Observers
+	
+	public interface UtilisateurObserver
+	{
+		public void handle(String ip, String nouveauPseudo);
+	}
+	
+	public void AddUtilisateurObserver(UtilisateurObserver utilisateurObserver)
+	{
+		synchronized( this.utilisateurObservers)
+		{
+			utilisateurObservers.add(utilisateurObserver);
+		}
+		
+	}
+	
+	
 	//----------Getters
 
 	public int GetGeneralPortEnvoi() {
@@ -110,6 +132,7 @@ public class SignalReceptionBroadcastController  extends Thread{
             		
             		System.out.println("Reception de connexion de " + adresseSource + " en " + messageRecu);
                     
+
                     //Renvoi d'un signal pour remplir table d'utilisateurs !!! Si SignalEnvoi en Unicast, supprimer celui-ci
                     seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(Utilisateur.GetUtilisateurActuel().GetPseudo()), adresseSource, generalPortReception);
 
@@ -118,13 +141,9 @@ public class SignalReceptionBroadcastController  extends Thread{
             	
             		
             	case 'P': //Si changement de pseudo reçu
-                	//Ajouter cas pseudo est le sien
+                	//Cas pseudo est le sien
             		if(messageRecu.equals(Utilisateur.GetUtilisateurActuel().GetPseudo()))
             		{
-            			//Faire la gestion de conflit de pseudo
-            			//SignalEnvoiUnicastController seuc = new SignalEnvoiUnicastController();
-                        //seuc.EnvoyerSignalUnicast(new model.SignalReponseConnexion(this.adresseLocale), inPacket.getAddress().toString(), generalPortReception);
-            			
             			System.out.println("Pseudo " + messageRecu + " déja utilisé, notification envoyée.");
             		}
             		else if(!tableUtilisateurs.SetPseudo(adresseSource, messageRecu))
@@ -132,6 +151,7 @@ public class SignalReceptionBroadcastController  extends Thread{
             			tableUtilisateurs.AjouterUtilisateur(adresseSource, messageRecu);
             			System.out.println("Ajout de " + adresseSource + " ; " + messageRecu + " à la table utilisateur");
             		}
+            		
                 	System.out.println("Reception du changement de pseudo de " + adresseSource + " en " + messageRecu);
                 	break;
                 	
@@ -206,7 +226,16 @@ public class SignalReceptionBroadcastController  extends Thread{
             	//--DEBUG
             	this.tableUtilisateurs.AfficherListe();
             	//--
-            	
+
+        		//Mise à jour par l'observer
+            	synchronized( this.utilisateurObservers)
+            	{
+            		for(UtilisateurObserver utilisateurObserver : utilisateurObservers)
+        			{
+            			utilisateurObserver.handle(adresseSource, messageRecu);
+        			}
+            	}
+        		
             }
             
         }

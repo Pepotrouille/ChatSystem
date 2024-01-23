@@ -28,26 +28,81 @@ public class Main {
         JFrame frame = new JFrame("Scroll Bars");
         JTextArea textArea = new JTextArea(5, 5);
 
-        JScrollPane scrollPane = new JScrollPane(textArea);
 
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JPanel panel = new JPanel();
+        JScrollPane scrollPane = new PaneTemp(panel);
+        
 
-
-        JButton bouton = new JButton("Réinitialiser la Base de Données Utilisateurs");
-        bouton.setFont(new Font("Arial", Font.PLAIN, 15));
-	    bouton.setSize(500,80);
+        //JButton bouton = new JButton("Réinitialiser la Base de Données Utilisateurs");
+        //bouton.setFont(new Font("Arial", Font.PLAIN, 15));
+	    //bouton.setSize(500,80);
 	    //bouton.setLocation(posX, posY);
-	    frame.add(bouton);
+        frame.getContentPane().add(scrollPane);
         
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 200);
 
-        frame.getContentPane().add(scrollPane);
         frame.setVisible(true);
     }
 }
+
+
+class PaneTemp extends JScrollPane{
+
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2272624422378978304L;
+
+	public PaneTemp(JPanel panel) {
+
+		super(panel);
+		panel.setBackground(Color.lightGray);
+        this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+
+        JPanel sp1 = new JPanel();
+        sp1.setBackground(Color.BLUE);
+        sp1.setSize(20,20);
+        JPanel sp2 = new JPanel();
+        sp2.setBackground(Color.GREEN);
+        sp2.setSize(20,20);
+        JPanel sp3 = new JPanel();
+        sp3.setBackground(Color.MAGENTA);
+        sp3.setSize(20,20);
+        
+        
+        JLabel label1 = new JLabel("Message1");
+        label1.setSize(25,25);
+		label1.setFont(new Font("Arial", Font.PLAIN, 25));
+        label1.setForeground(Color.BLUE);
+        //label1.setBackground(Color.GREEN);
+        sp1.add(label1);
+        JLabel label2 = new JLabel("Message2");
+        sp2.add(label2);
+        JLabel label3 = new JLabel("Message3");
+        label3.setBackground(Color.BLUE);
+        sp3.add(label3);
+        
+        
+        panel.add(sp1);
+        panel.add(sp2);
+        panel.add(sp3);
+        
+        
+        
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+	}
+	
+	
+}
+
+
+
 
 
 class MyAdjustmentListener implements AdjustmentListener {

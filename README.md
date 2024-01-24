@@ -2,17 +2,17 @@
 
 ## Notre objectif
 
-L'objectif de cette application est de proposer une application de conversation en milieu professionel, avec l'utilisation d'une base de données centralisées pour l'accès au messages. Il vous sera donc possible de vous connecter, connaître les personnes en lignes, et discuter avec celles-ci.
+L'objectif de cette application est de proposer une application de conversation en milieu professionel, avec l'utilisation d'une base de données centralisée pour l'accès au messages. Il vous sera donc possible de vous connecter, connaître les personnes en lignes, et discuter avec celles-ci.
 
 ## Utilisation
 
 Avant toute utilisation de notre application, il faut s'assurer que 
 
-- Vous possédez la bonne version java,
+- Vous possédez la bonne version Java,
 - Vous êtes connectés sur le réseau INSA, en local ou à travers un VPN, afin d'avoir accès à la base de données.
 
 
-Pour télécharger notre application, la première étape est de la récupérer depuis le notre GitHub, en rentrant la commande suivante dans un terminal :
+Pour télécharger notre application, la première étape est de la récupérer depuis notre GitHub, en rentrant la commande suivante dans un terminal :
 
 ```bash
 git@github.com:insa-4ir-chatsystem/chatsystem-brunetto-nguyen.git
@@ -36,4 +36,4 @@ Vous devriez maintenant avoir accès à notre application. A partir d'ici, vous 
 
 Projet réalisé en 2023/2024 dans le cadre des cours de Programmation avancée en Java, Conception Orientée Objet et Processus de Développement de Logiciel Automatisé / Conduite de Projet au sein de l'INSA Toulouse par 
 - Brunetto Marie
-- NGuyen Le Tuong Lan
+- Nguyen Le Tuong Lan

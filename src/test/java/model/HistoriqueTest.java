@@ -96,14 +96,19 @@ public class HistoriqueTest {
 		assertEquals(true, historique.GetMessages().get(4).EstDeLUtilisateurActuel());	//Message4
 		assertEquals(false, historique.GetMessages().get(3).EstDeLUtilisateurActuel());	//Message5
 		
+		historique.PrintHistorique();
+		
 	}
 	
-	
+
+	@Test
 	public void TestHistoriqueDepuisBDD() {
 
 		//-----Test Création de l'historique. La base de donnée est remplie par le test précédent.
 		TestCreationHistorique();
 
+		historique.PrintHistorique();
+		
 		//Test de la récupération ordonnancée
 		//Ordre attendu des messages : 2, 3, 1 ,5 ,4
 		assertEquals(message2.GetContenu(), historique.GetMessages().get(0).GetContenu());
@@ -118,7 +123,7 @@ public class HistoriqueTest {
 		assertEquals(false, historique.GetMessages().get(1).EstDeLUtilisateurActuel());	//Message3
 		assertEquals(true, historique.GetMessages().get(4).EstDeLUtilisateurActuel());	//Message4
 		assertEquals(false, historique.GetMessages().get(3).EstDeLUtilisateurActuel());	//Message5
-				
+
 	}
 	
 	public void TestCreationHistorique()

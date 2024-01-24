@@ -12,7 +12,7 @@ public class Historique {
 
 	private String ipsrc;
 	private String ipdst;
-	private ArrayList<Message> messages;
+	private ArrayList<Message> messages; //Index bas = message récent. Index haut = message ancien
 	
 	public Historique(String ipsrc, String ipdst) throws SQLException, MessageInvalideException, DateInvalideException {
 		this.ipsrc = ipsrc;
@@ -57,6 +57,18 @@ public class Historique {
 
 	private void TrierMessages() 
 	{
-		Collections.sort(messages);
+		Collections.sort(messages, Collections.reverseOrder());
+	}
+	
+	public void PrintHistorique() 
+	{
+		System.out.println("=========Historique==========");
+		int i =0 ;
+		for(Message message : this.messages)
+		{
+			i++;
+			System.out.println("message n°" + i + " : " + message.GetContenu());
+		}
+		System.out.println("=============================");
 	}
 }

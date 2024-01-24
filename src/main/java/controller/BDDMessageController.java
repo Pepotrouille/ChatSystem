@@ -112,10 +112,19 @@ public class BDDMessageController extends AbstractTableManager {
 
 		Random random = new Random();
 		int id = random.nextInt(2147483646) + 1;
-		
+
+		String sql = "";
+		if(message.EstDeLUtilisateurActuel())
+		{
+			sql = "INSERT INTO BaseMessage VALUES (" + id +",'" + message.GetContenu() +"', '" + historique.GetIPSource() +"', '" + historique.GetIPDestination() +"', '" + MaDate.MaDateToString(message.GetDate())  +"')";
+			
+		}
+		else
+		{
+			sql = "INSERT INTO BaseMessage VALUES (" + id +",'" + message.GetContenu() +"', '" + historique.GetIPDestination() +"', '" + historique.GetIPSource() +"', '" + MaDate.MaDateToString(message.GetDate())  +"')";
+			
+		}
 				
-		String sql;
-		sql = "INSERT INTO BaseMessage VALUES (" + id +",'" + message.GetContenu() +"', '" + historique.GetIPSource() +"', '" + historique.GetIPDestination() +"', '" + MaDate.MaDateToString(message.GetDate())  +"')";
 		
 		stmt.executeUpdate(sql);
 		

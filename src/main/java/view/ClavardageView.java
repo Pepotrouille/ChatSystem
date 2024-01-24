@@ -67,6 +67,8 @@ public class ClavardageView extends Container implements ActionListener{
 		this.add(historiqueContainer, BorderLayout.CENTER);
 		
 		this.clavardage = clavardage;
+		
+		clavardage.GetHistorique().PrintHistorique();
 
 		System.out.println("-------Ajout de l'observeur ");
 		clavardage.GetSignalReceptionUnicastController().AddMessageObserver(

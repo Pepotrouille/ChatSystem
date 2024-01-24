@@ -97,8 +97,9 @@ public class SignalReceptionUnicastController  extends Thread{
             	{
                 	//Ajout du message à la base de données et à l'historique local
                 	Message newMessage = new Message(messageRecu.substring(2), false);
-                	BDDMessageController.GetInstance().AjouterMessage(newMessage, clavardage.GetHistorique());
                 	clavardage.GetHistorique().AjouterMessage(newMessage);
+                	
+                	//Observer prévenant abonnés
                 	synchronized( this.messageObservers)
                 	{
                 		System.out.println("---PREVIENT LES OBSERVEURS");

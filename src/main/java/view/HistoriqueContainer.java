@@ -40,9 +40,9 @@ public class HistoriqueContainer extends JScrollPane{
 
         
         int longueurListe = historique.GetMessages().size();
-        for(int i = 0; i <longueurListe; i++)
+        for(int i = longueurListe; i >0; )
         {
-        	
+        	i--;
         	AjouterMessage(historique.GetMessages().get(i));
         }
         layoutPanel.setLayout(new GridLayout(0,1,0,10));

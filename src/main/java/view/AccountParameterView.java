@@ -1,13 +1,10 @@
  package view;
 
-import model.TableUtilisateurs;
 import model.Utilisateur;
 
 import javax.swing.*;
 
 import controller.BroadcastController;
-import controller.PseudoController;
-import controller.SignalEnvoiBroadcastController;
 import exceptions.PseudoDejaPrisException;
 
 import java.awt.*;

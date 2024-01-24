@@ -4,8 +4,6 @@ import java.util.Date;
 
 import exceptions.DateInvalideException;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class MaDate implements Comparable<MaDate> {
 
@@ -52,6 +50,7 @@ public class MaDate implements Comparable<MaDate> {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	public MaDate() { 				
 		Date date = new Date();;
 		this.SetAnnee(date.getYear() + 1900);

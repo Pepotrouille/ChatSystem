@@ -17,7 +17,7 @@ public class Historique {
 	public Historique(String ipsrc, String ipdst) throws SQLException, MessageInvalideException, DateInvalideException {
 		this.ipsrc = ipsrc;
 		this.ipdst = ipdst;
-		this.messages = BDDMessageController.GetInstance().GetMessageHistorique(ipsrc, ipdst);
+		this.messages = new ArrayList<Message>(BDDMessageController.GetInstance().GetMessageHistorique(ipsrc, ipdst));
 		TrierMessages() ;
 	}
 	

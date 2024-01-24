@@ -16,7 +16,7 @@ public class Message implements Comparable<Message>{
 	//----------Constructeur
 		
 	public Message(String contenu, MaDate date, boolean deLUtilisateurActuel) throws MessageInvalideException{ 		
-			if(contenu == null || contenu.equals("") || date == null )
+			if(contenu == null || contenu.equals("") || date == null || contenu.length() > 240)
 			{
 				throw new MessageInvalideException();
 			}

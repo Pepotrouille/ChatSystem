@@ -1,44 +1,32 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import controller.SignalReceptionBroadcastController;
 import controller.SignalReceptionUnicastController;
 
-import javax.swing.JTextArea;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 
 import exceptions.ClavardageNonExistantException;
-import exceptions.DateInvalideException;
 import exceptions.MessageInvalideException;
 import model.Clavardage;
 import model.Message;
-import model.TableUtilisateurs;
-import view.MainView.AffichageActuel;
 import model.MaDate;
 
 public class ClavardageView extends Container implements ActionListener{
 	
+	private static final long serialVersionUID = 8608720199147102957L;
 	private JButton boutonEnvoyer;
 	private JButton boutonClore;
     private JTextField messageAEnvoyer;
-    private JPanel chat_area;
     
     Clavardage clavardage;
     
@@ -100,27 +88,16 @@ public class ClavardageView extends Container implements ActionListener{
 				try {
 					Message newMessage = new Message(msg, new MaDate(), true);
 					// Ajouter le message dans l'histoire des messages
-					clavardage.GetHistorique().AjouterMessage(newMessage);
-					
-					// Afficher les messages dans la fenetre
 					historiqueContainer.AjouterMessage(newMessage);
 					
+					// Afficher les messages dans la fenetr
 					JFrame mainFrame = MainView.GetFrame();
 					mainFrame.revalidate();
 					mainFrame.repaint();
-					
-				}
-				catch (SQLException e1) {
-					JOptionPane.showMessageDialog(this,"Problème de connexion à la base de donnée");
-					e1.printStackTrace();
 				}
 				catch (MessageInvalideException e2) {
-					JOptionPane.showMessageDialog(this,"Message invalide. Veillez à ce que le champs de saisie ne soit pas vide");
+					JOptionPane.showMessageDialog(this,"Message invalide. Veillez à ce que le champs de saisie ne soit pas vide et pas trop long");
 					e2.printStackTrace();
-				}
-				catch (DateInvalideException e3) {
-					JOptionPane.showMessageDialog(this,"Date invalide");
-					e3.printStackTrace();
 				}
 				
 				messageAEnvoyer.setText("");

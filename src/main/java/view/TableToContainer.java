@@ -7,7 +7,6 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import model.Clavardage;
 
 public class TableToContainer {
 	

@@ -8,11 +8,9 @@ import java.util.Random;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import model.SignalConnexion;
 import model.Utilisateur;
 import controller.AuthentificationController;
 import controller.BroadcastController;
-import controller.SignalEnvoiBroadcastController;
 import exceptions.ErreurConnexionException;
 
 public class AuthentificationView extends Container implements ActionListener{
@@ -72,8 +70,8 @@ public class AuthentificationView extends Container implements ActionListener{
     			//Aller aux menu clavardages
     			
     			//Pour l'instant : aller aux paramètres du compte
-    			try  {
-    				final DatagramSocket datagramSocket = new DatagramSocket();
+    			try (final DatagramSocket datagramSocket = new DatagramSocket()) {
+    				
                 	datagramSocket.connect(InetAddress.getByName("8.8.8.8"), 12345);
                 	
                 	//Sélection du pseudo

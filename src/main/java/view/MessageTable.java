@@ -2,7 +2,6 @@ package view;
 
 import java.util.ArrayList;
 
-import model.Clavardage;
 import model.Message;
 
 public class MessageTable {

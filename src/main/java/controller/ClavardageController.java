@@ -9,7 +9,6 @@ import exceptions.DateInvalideException;
 import exceptions.MessageInvalideException;
 import model.Clavardage;
 import model.SignalNouveauClavardage;
-import model.TableUtilisateurs;
 import model.Utilisateur;
 
 public class ClavardageController {

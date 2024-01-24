@@ -10,7 +10,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
 import controller.BroadcastController;
-import model.Utilisateur;
 
 public class BarMenuView extends JMenuBar implements ActionListener {
 	

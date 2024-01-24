@@ -2,14 +2,10 @@ package view;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.table.*;
-import java.awt.event.*; 
-import controller.BroadcastController;
 import controller.ClavardageController;
 import controller.SignalReceptionBroadcastController;
 import model.Clavardage;
 import model.Utilisateur;
-import view.AccountParameterViewAdmin;
 import model.TableUtilisateurs;
 import java.util.ArrayList;
 

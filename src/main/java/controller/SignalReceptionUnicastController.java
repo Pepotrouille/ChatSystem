@@ -2,15 +2,14 @@ package controller;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.util.ArrayList;
 
-import controller.SignalReceptionBroadcastController.UtilisateurObserver;
 import exceptions.ClavardageNonExistantException;
 import model.Clavardage;
 import model.Message;
 import model.SignalMessage;
 import model.SignalMessageRecu;
+import view.MainView;
 
 
 public class SignalReceptionUnicastController  extends Thread{
@@ -109,6 +108,8 @@ public class SignalReceptionUnicastController  extends Thread{
                 			System.out.println("---EN BOUCLE");
                 			messageObserver.handle(newMessage);
             			}
+                    	MainView.GetFrame().repaint();
+                    	MainView.GetFrame().revalidate();
                 	}
                 	//Incrémente noSequence
             		noSequenceAttendu++;
@@ -133,7 +134,7 @@ public class SignalReceptionUnicastController  extends Thread{
             	if(SignalMessage.GetNumeroSequenceActuel()-1 == Integer.parseInt(messageRecu.substring(0,2)))
             	{
                 	System.out.println("Numéro de séquence valide : " + Integer.parseInt(messageRecu.substring(0,2)));
-                	Message newMessage = new Message(messageRecu.substring(2), false);
+                	Message newMessage = new Message(messageRecu.substring(2), true);
                 	clavardage.GetHistorique().AjouterMessage(newMessage);
             	}
             	else

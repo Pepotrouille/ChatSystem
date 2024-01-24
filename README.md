@@ -34,6 +34,6 @@ Vous devriez maintenant avoir accès à notre application. A partir d'ici, vous 
 
 ## Credits
 
-Projet réalisé en 2023 dans le cadre des cours de Programmation avancée en Java, Conception Orientée Objet et Processus de Développement de Logiciel Automatisé / Conduite de Projet au sein de l'INSA Toulouse par 
+Projet réalisé en 2023/2024 dans le cadre des cours de Programmation avancée en Java, Conception Orientée Objet et Processus de Développement de Logiciel Automatisé / Conduite de Projet au sein de l'INSA Toulouse par 
 - Brunetto Marie
 - NGuyen Le Tuong Lan

@@ -7,6 +7,7 @@ import java.util.Random;
 
 import model.TableUtilisateurs;
 import model.Utilisateur;
+import view.MainView;
 
 
 public class SignalReceptionBroadcastController  extends Thread{
@@ -236,6 +237,8 @@ public class SignalReceptionBroadcastController  extends Thread{
         			{
             			utilisateurObserver.handle(adresseSource, messageRecu);
         			}
+            		//Observer non fonctionel, rafraichissement autre
+            		MainView.Rafraichir();
             	}
         		
             }

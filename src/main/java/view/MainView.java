@@ -42,6 +42,21 @@ public class MainView {
 		);
 	}
 	
+	//Observer ne fonctionnant pas :
+	public static void Rafraichir()
+	{
+    	
+		if (affichageActuel == AffichageActuel.CLAVARDAGES_EN_COURS)
+		{
+			AfficherClavardagesEnCours();
+		}
+		else if (affichageActuel == AffichageActuel.UTILISATEURS_EN_LIGNE)
+		{
+			AfficherUtilisateursEnLigne();
+		}
+    	
+			
+	}
 	
 	
 	

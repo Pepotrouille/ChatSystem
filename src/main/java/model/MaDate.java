@@ -155,6 +155,7 @@ public class MaDate implements Comparable<MaDate> {
 		return new MaDate(annee, mois, jour, heure, minute, seconde);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static MaDate DateToMaDate(Date date) throws DateInvalideException
 	{
 		return new MaDate(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes(), date.getSeconds());

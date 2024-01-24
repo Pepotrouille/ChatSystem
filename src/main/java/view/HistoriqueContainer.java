@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -59,12 +60,15 @@ public class HistoriqueContainer extends JScrollPane{
 		JPanel panel = new JPanel();
 		panel.setSize(300, 50);
 		
+		
 		if(message.EstDeLUtilisateurActuel())	//Message provenant de l'utilisateur actuel (MOI)
 		{
+			panel.setLayout(new FlowLayout(FlowLayout.LEFT));   
 			panel.setBackground(Color.lightGray);
 		}
 		else 									//Message provenant de l'interlocuteur (LUI)
 		{
+			panel.setLayout(new FlowLayout(FlowLayout.RIGHT));   
 			panel.setBackground(Color.cyan);
 		}
 		

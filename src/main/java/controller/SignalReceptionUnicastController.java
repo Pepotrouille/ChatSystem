@@ -91,13 +91,14 @@ public class SignalReceptionUnicastController  extends Thread{
         	case 'M': //Reception d'un message
             	SignalEnvoiUnicastController seuc = SignalEnvoiUnicastController.GetInstance();
             	int noSequenceRecu = Integer.parseInt(messageRecu.substring(0,2));
-            	System.out.println("Reception du message '" + messageRecu.substring(2) + "' par " + clavardage.GetUserPseudo());
+
             	//Verification numero de séquence pour éviter doublons
             	if(noSequenceRecu == noSequenceAttendu)
             	{
                 	//Ajout du message à la base de données et à l'historique local
                 	Message newMessage = new Message(messageRecu.substring(2), false);
                 	clavardage.GetHistorique().AjouterMessage(newMessage);
+            		BDDMessageController.GetInstance().AjouterMessage(newMessage, clavardage.GetHistorique());
                 	
                 	//Observer prévenant abonnés
                 	synchronized( this.messageObservers)
@@ -110,6 +111,7 @@ public class SignalReceptionUnicastController  extends Thread{
             			}
                 	}
                 	//Incrémente noSequence
+            		noSequenceAttendu++;
                 	if(noSequenceAttendu >99 || noSequenceAttendu<10)
                 	{
                 		noSequenceAttendu = 10;
@@ -119,16 +121,15 @@ public class SignalReceptionUnicastController  extends Thread{
             	else {
             		System.out.println("Numéro de séquence invalide. Recu : " + noSequenceRecu +", attendu : " + noSequenceAttendu);
             	}
-        		//Else noDeSequence Invalide, rejet du paquet
+
             	//Envoi de la validation de réception
             	
             	seuc.EnvoyerSignalUnicast(new SignalMessageRecu(noSequenceRecu, messageRecu.substring(2)), clavardage.GetIPDestination(), clavardage.GetPortEnvoi());
-            	System.out.println("Envoi de la validation de réception");
             	break;
             
         	case 'W': //Reception Validation message Reçu
             	//Ajout du message à l'historique local
-            	System.out.println("Réception de la validation de réception");
+
             	if(SignalMessage.GetNumeroSequenceActuel()-1 == Integer.parseInt(messageRecu.substring(0,2)))
             	{
                 	System.out.println("Numéro de séquence valide : " + Integer.parseInt(messageRecu.substring(0,2)));

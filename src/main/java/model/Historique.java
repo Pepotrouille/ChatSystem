@@ -52,7 +52,6 @@ public class Historique {
 			}
 		}
 		this.messages.add(i, message);
-		BDDMessageController.GetInstance().AjouterMessage(message, this);
 	}
 
 	private void TrierMessages() 
